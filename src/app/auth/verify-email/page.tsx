@@ -104,7 +104,7 @@ function VerifyEmailForm() {
 
               <div className="text-center">
                 <p className="text-sm text-muted-foreground mb-2">
-                  Didn't receive the code?
+                  Didn&apos;t receive the code?
                 </p>
                 <Button
                   type="button"

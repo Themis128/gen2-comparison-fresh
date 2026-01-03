@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
-import { signInWithRedirect, signUp } from 'aws-amplify/auth';
+import { signUpWithAttributes } from '@/lib/useAuth';
+import { signInWithRedirect } from 'aws-amplify/auth';
 import { Lock, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -17,7 +18,6 @@ export default function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,14 +32,8 @@ export default function SignUpPage() {
     }
 
     try {
-      await signUp({
-        username: email,
-        password,
-        options: {
-          userAttributes: {
-            email,
-          },
-        },
+      await signUpWithAttributes(email, password, {
+        email,
       });
       router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`);
     } catch (err) {
@@ -61,89 +55,12 @@ export default function SignUpPage() {
       });
       // Note: This will redirect to Google, so we don't set loading to false
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to sign up with Google';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to sign up with Google';
       setError(errorMessage);
       setLoading(false);
     }
   };
-
-  if (success) {
-    return (
-      <div className="grid min-h-screen lg:grid-cols-2">
-        <div className="flex flex-col gap-4 p-6 md:p-10">
-          <div className="flex justify-center gap-2 md:justify-start">
-            <Link
-              href="/"
-              aria-label="home"
-              className="flex gap-2 items-center"
-            >
-              <div className="h-10 w-10 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xl">
-                A
-              </div>
-            </Link>
-          </div>
-
-          <div className="flex flex-1 w-full items-center justify-center">
-            <div className="w-full max-w-sm text-center">
-              <div className="flex flex-col items-center gap-2 mb-6">
-                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4">
-                  <svg
-                    className="w-8 h-8 text-green-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <h1 className="text-3xl font-bold tracking-tight">
-                  Check your email
-                </h1>
-                <p className="text-muted-foreground text-sm text-balance">
-                  We&apos;ve sent you a confirmation link. Please check your
-                  email and click the link to verify your account.
-                </p>
-              </div>
-
-              <Button asChild className="w-full">
-                <Link href="/auth/signin">Back to sign in</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-muted relative hidden lg:block">
-          <GradientMesh
-            colors={['#10b981', '#3b82f6', '#8b5cf6']}
-            distortion={6}
-            swirl={0.4}
-            speed={0.8}
-            rotation={30}
-            waveAmp={0.12}
-            waveFreq={12}
-            waveSpeed={0.25}
-            grain={0.06}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
-          <div className="relative z-10 flex h-full flex-col items-center justify-end p-8 pb-12">
-            <blockquote className="space-y-4 text-center">
-              <p className="text-2xl font-semibold text-foreground">
-                &ldquo;Welcome to our platform&rdquo;
-              </p>
-              <cite className="block text-sm text-muted-foreground not-italic">
-                Your journey starts here
-              </cite>
-            </blockquote>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">

@@ -47,13 +47,13 @@ export const createMockClient = () => {
     models: {
       Todo: {
         list: async () => ({ data: [] }),
-        create: async (data: any) => ({ data }),
-        update: async (data: any) => ({ data }),
+        create: async (data: Record<string, unknown>) => ({ data }),
+        update: async (data: Record<string, unknown>) => ({ data }),
         delete: async (id: string) => ({ id }),
         observeQuery: () => ({
-          subscribe: ({ next }: any) => {
+          subscribe: ({ next }: { next: (data: { items: unknown[] }) => void }) => {
             next({ items: [] });
-            return { unsubscribe: () => {} };
+            return { unsubscribe: () => { } };
           }
         })
       }

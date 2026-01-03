@@ -1,57 +1,368 @@
-'use client';
+"use client";
 
-import { GradientMesh } from '@/components/gradient-mesh';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { PasswordInput } from '@/components/ui/password-input';
-import { signIn, signInWithRedirect } from 'aws-amplify/auth';
-import { Lock, Mail } from 'lucide-react';
+import * as React from "react";
+import { useState } from "react";
+import { Slot } from "@radix-ui/react-slot";
+import * as LabelPrimitive from "@radix-ui/react-label";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Eye, EyeOff, Mail, Lock, Github } from "lucide-react";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
+import { signInWithFlow, checkAuthStatus } from '@/lib/useAuth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
-export default function SignInPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+// Gradient Mesh Component
+const vert = `
+attribute vec2 uv;
+attribute vec2 position;
+varying vec2 vUv;
+void main() {
+    vUv = uv;
+    gl_Position = vec4(position, 0, 1);
+}
+`;
+
+const frag = (distortion: number) => `
+precision highp float;
+uniform float uTime;
+uniform float uSwirl;
+uniform float uSpeed;
+uniform float uScale;
+uniform float uOffsetX;
+uniform float uOffsetY;
+uniform float uRotation;
+uniform float uWaveAmp;
+uniform float uWaveFreq;
+uniform float uWaveSpeed;
+uniform float uGrain;
+uniform vec3 uColorA;
+uniform vec3 uColorB;
+uniform vec3 uColorC;
+uniform vec3 uResolution;
+varying vec2 vUv;
+
+float wave(vec2 uv, float freq, float speed, float time) {
+    return sin(uv.x * freq + time * speed) * cos(uv.y * freq + time * speed);
+}
+
+float random(vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+}
+
+vec3 colorDodge(vec3 base, vec3 blend) {
+    return min(base / (1.0 - blend + 0.0001), 1.0);
+}
+
+void main() {
+    float mr = min(uResolution.x, uResolution.y);
+    vec2 uv = (vUv.xy * 2.0 - 1.0) * uResolution.xy / mr;
+    uv = uv * uScale + vec2(uOffsetX, uOffsetY);
+    float cosR = cos(uRotation);
+    float sinR = sin(uRotation);
+    uv = vec2(uv.x * cosR - uv.y * sinR, uv.x * sinR + uv.y * cosR);
+    uv.x += wave(uv, uWaveFreq, uWaveSpeed, uTime) * uWaveAmp;
+    uv.y += wave(uv + 10.0, uWaveFreq * 1.5, uWaveSpeed * 0.8, uTime) * uWaveAmp * 0.5;
+    float angle = atan(uv.y, uv.x);
+    float radius = length(uv);
+    angle += uSwirl * radius;
+    uv = vec2(cos(angle), sin(angle)) * radius;
+    float d = -uTime * 0.5 * uSpeed;
+    float a = 0.0;
+    for (float i = 0.0; i < ${distortion.toFixed(1)}; ++i) {
+        a += cos(i - d - a * uv.x);
+        d += sin(uv.y * i + a);
+    }
+    d += uTime * 0.5 * uSpeed;
+    float mix1 = (sin(d) + 1.0) * 0.5;
+    float mix2 = (cos(a) + 1.0) * 0.5;
+    vec3 col = mix(uColorA, uColorB, mix1);
+    col = mix(col, uColorC, mix2);
+    float grain = (random(gl_FragCoord.xy + uTime) - 0.5) * uGrain;
+    vec3 grainCol = vec3(0.5 + grain);
+    col = colorDodge(col, grainCol);
+    gl_FragColor = vec4(col, 1.0);
+}
+`;
+
+interface GradientMeshProps {
+  colors?: string[];
+  distortion?: number;
+  swirl?: number;
+  speed?: number;
+  scale?: number;
+  offsetX?: number;
+  offsetY?: number;
+  rotation?: number;
+  waveAmp?: number;
+  waveFreq?: number;
+  waveSpeed?: number;
+  grain?: number;
+}
+
+const hexToRgb = (hex: string): [number, number, number] => {
+  const cleanHex = hex.replace("#", "");
+  const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
+  const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
+  const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
+  return [r, g, b];
+};
+
+function GradientMesh({
+  colors = ["#3b2a8d", "#aaa7d7", "#f75092"],
+  distortion = 5,
+  swirl = 0.5,
+  speed = 1.0,
+  scale = 1,
+  offsetX = 0.0,
+  offsetY = 0.0,
+  rotation = 90,
+  waveAmp = 0.1,
+  waveFreq = 10.0,
+  waveSpeed = 0.2,
+  grain = 0.06,
+}: GradientMeshProps) {
+  const ctnDom = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!ctnDom.current) return;
+
+    const ctn = ctnDom.current;
+    const renderer = new Renderer();
+    const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 1);
+
+    function resize() {
+      renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
+    }
+    window.addEventListener("resize", resize, false);
+    resize();
+
+    const geometry = new Triangle(gl);
+    const rgbColors = colors.slice(0, 3).map(hexToRgb);
+    const uniforms: Record<string, { value: number | Color }> = {
+      uTime: { value: 0 },
+      uSwirl: { value: swirl },
+      uSpeed: { value: speed },
+      uScale: { value: scale },
+      uOffsetX: { value: offsetX },
+      uOffsetY: { value: offsetY },
+      uRotation: { value: rotation },
+      uWaveAmp: { value: waveAmp },
+      uWaveFreq: { value: waveFreq },
+      uWaveSpeed: { value: waveSpeed },
+      uResolution: {
+        value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height),
+      },
+      uGrain: { value: grain },
+    };
+
+    const labels = ["A", "B", "C"];
+    rgbColors.forEach((c, i) => {
+      uniforms[`uColor${labels[i]}`] = { value: new Color(...c) };
+    });
+
+    const program = new Program(gl, {
+      vertex: vert,
+      fragment: frag(distortion),
+      uniforms,
+    });
+
+    const mesh = new Mesh(gl, { geometry, program });
+
+    let animateId: number;
+    function update(t: number) {
+      animateId = requestAnimationFrame(update);
+      program.uniforms.uTime.value = t * 0.001;
+      renderer.render({ scene: mesh });
+    }
+    animateId = requestAnimationFrame(update);
+
+    ctn.appendChild(gl.canvas);
+
+    return () => {
+      cancelAnimationFrame(animateId);
+      window.removeEventListener("resize", resize);
+      ctn.removeChild(gl.canvas);
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+    };
+  }, [colors, distortion, swirl, speed, scale, offsetX, offsetY, rotation, waveAmp, waveFreq, waveSpeed, grain]);
+
+  return (
+    <div
+      ref={ctnDom}
+      style={{ width: "100%", height: "100%", position: "absolute", overflow: "hidden" }}
+    />
+  );
+}
+
+// Label Component
+const labelVariants = cva(
+  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+);
+
+const Label = React.forwardRef<
+  React.ElementRef<typeof LabelPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
+    VariantProps<typeof labelVariants>
+>(({ className, ...props }, ref) => (
+  <LabelPrimitive.Root ref={ref} className={cn(labelVariants(), className)} {...props} />
+));
+Label.displayName = LabelPrimitive.Root.displayName;
+
+// Button Component
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground shadow-sm shadow-black/5 hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground shadow-sm shadow-black/5 hover:bg-destructive/90",
+        outline: "border border-input bg-background shadow-sm shadow-black/5 hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm shadow-black/5 hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-8 rounded-lg px-3 text-xs",
+        lg: "h-11 rounded-lg px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
+
+interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+  }
+);
+Button.displayName = "Button";
+
+// Input Component
+const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={cn(
+          "flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm shadow-xs shadow-black/5 transition-shadow placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+Input.displayName = "Input";
+
+// Password Input Component
+interface PasswordInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+}
+
+const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
+  ({ className, label, ...props }, ref) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+
+    return (
+      <div className="grid w-full items-center gap-2">
+        {label && <Label>{label}</Label>}
+        <div className="relative">
+          <Input
+            type={showPassword ? "text" : "password"}
+            className={cn("pe-10", className)}
+            ref={ref}
+            {...props}
+          />
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute inset-y-0 end-0 flex h-full w-10 items-center justify-center text-muted-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? (
+              <EyeOff className="size-4" aria-hidden="true" />
+            ) : (
+              <Eye className="size-4" aria-hidden="true" />
+            )}
+          </button>
+        </div>
+      </div>
+    );
+  }
+);
+PasswordInput.displayName = "PasswordInput";
+
+// Main Sign In Component
+function SignInPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
 
     try {
-      await signIn({
-        username: email,
-        password,
+      // Use USER_SRP_AUTH flow for secure password authentication
+      const result = await signInWithFlow(email, password, {
+        authFlowType: 'USER_SRP_AUTH',
       });
-      router.push('/');
+
+      if (result.nextStep.signInStep === 'DONE') {
+        await checkAuthStatus();
+        router.push('/');
+      }
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : 'Failed to sign in';
-      setError(errorMessage);
+      console.error('Sign in error:', err);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
-    setLoading(true);
-    setError('');
+    setIsLoading(true);
 
-    try {
-      await signInWithRedirect({
-        provider: { custom: 'google' },
-      });
-      // Note: This will redirect to Google, so we don't set loading to false
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to sign in with Google';
-      setError(errorMessage);
-      setLoading(false);
-    }
+    // AWS Amplify Social Sign In would go here
+    // Example: await signInWithRedirect({ provider: 'Google' });
+    console.log("Sign in with Google");
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  const handleGithubSignIn = async () => {
+    setIsLoading(true);
+
+    // AWS Amplify Social Sign In would go here
+    // Example: await signInWithRedirect({ provider: 'Github' });
+    console.log("Sign in with Github");
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
@@ -60,7 +371,7 @@ export default function SignInPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <Link href="/" aria-label="home" className="flex gap-2 items-center">
-            <div className="h-10 w-10 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xl">
+            <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl">
               A
             </div>
           </Link>
@@ -68,21 +379,13 @@ export default function SignInPage() {
 
         <div className="flex flex-1 w-full items-center justify-center">
           <div className="w-full max-w-sm">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <form onSubmit={handleSignIn} className="flex flex-col gap-6">
               <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-3xl font-bold tracking-tight">
-                  Welcome back
-                </h1>
+                <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
                 <p className="text-muted-foreground text-sm text-balance">
                   Sign in to your account to continue
                 </p>
               </div>
-
-              {error && (
-                <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg text-sm">
-                  {error}
-                </div>
-              )}
 
               <div className="grid gap-4">
                 <div className="grid gap-2">
@@ -126,8 +429,8 @@ export default function SignInPage() {
                   </div>
                 </div>
 
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Signing in...' : 'Sign in'}
+                <Button type="submit" disabled={isLoading} className="w-full">
+                  {isLoading ? "Signing in..." : "Sign in"}
                 </Button>
               </div>
 
@@ -147,7 +450,7 @@ export default function SignInPage() {
                   type="button"
                   variant="outline"
                   onClick={handleGoogleSignIn}
-                  disabled={loading}
+                  disabled={isLoading}
                   className="w-full"
                 >
                   <svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -170,10 +473,22 @@ export default function SignInPage() {
                   </svg>
                   Continue with Google
                 </Button>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleGithubSignIn}
+                  disabled={isLoading}
+                  className="w-full"
+                >
+                  <Github className="h-4 w-4" />
+                  Continue with GitHub
+                </Button>
               </div>
 
               <p className="text-center text-sm text-muted-foreground">
-                Don&apos;t have an account?{' '}
+                {/* eslint-disable-next-line react/no-unescaped-entities */}
+                Don't have an account?{" "}
                 <Link
                   href="/auth/signup"
                   className="text-primary hover:underline underline-offset-4 font-medium"
@@ -189,7 +504,7 @@ export default function SignInPage() {
       {/* Right side - Gradient Background */}
       <div className="bg-muted relative hidden lg:block">
         <GradientMesh
-          colors={['#6366f1', '#8b5cf6', '#ec4899']}
+          colors={["#6366f1", "#8b5cf6", "#ec4899"]}
           distortion={8}
           swirl={0.3}
           speed={1.2}
@@ -199,7 +514,7 @@ export default function SignInPage() {
           waveSpeed={0.3}
           grain={0.08}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-background/80 via-background/20 to-transparent" />
         <div className="relative z-10 flex h-full flex-col items-center justify-end p-8 pb-12">
           <blockquote className="space-y-4 text-center">
             <p className="text-2xl font-semibold text-foreground">
@@ -214,3 +529,5 @@ export default function SignInPage() {
     </div>
   );
 }
+
+export default SignInPage;

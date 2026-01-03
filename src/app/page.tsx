@@ -1,73 +1,56 @@
-'use client';
-
-import { AuthWrapper } from '@/components/AuthWrapper';
-import { TodoList } from '@/components/TodoList';
-import { getCurrentUser, signOut } from 'aws-amplify/auth';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-
-// Force dynamic rendering for authenticated pages
-export const dynamic = 'force-dynamic';
-
-function Dashboard() {
-  const [user, setUser] = useState<{
-    username?: string;
-    signInDetails?: { loginId?: string };
-  } | null>(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const currentUser = await getCurrentUser();
-        setUser(currentUser);
-      } catch (error) {
-        console.error('Error getting current user:', error);
-      }
-    };
-    getUser();
-  }, []);
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      router.push('/auth/signin');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
-
-  return (
-    <main className="min-h-screen p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Fresh Gen2 Amplify App</h1>
-          <div className="flex items-center gap-4">
-            <span className="text-lg">
-              Welcome, {user?.username || user?.signInDetails?.loginId}!
-            </span>
-            <button
-              onClick={handleSignOut}
-              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-            >
-              Sign Out
-            </button>
-          </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-          <h3 className="text-xl font-semibold mb-4">Your Todos</h3>
-          <TodoList />
-        </div>
-      </div>
-    </main>
-  );
-}
+import Link from 'next/link';
+import { AuthWrapper } from '../components/AuthWrapper';
+import { Button } from '../components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 
 export default function Home() {
   return (
     <AuthWrapper>
-      <Dashboard />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
+        <div className="max-w-md w-full space-y-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              Welcome
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+              AWS Amplify Gen2 Authentication Demo
+            </p>
+          </div>
+
+          <Card className="shadow-lg">
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl">Get Started</CardTitle>
+              <CardDescription>
+                Sign in or create an account to explore the authentication features
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Link href="/auth/signin" className="w-full">
+                <Button className="w-full" size="lg">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/auth/signup" className="w-full">
+                <Button variant="outline" className="w-full" size="lg">
+                  Create Account
+                </Button>
+              </Link>
+              <div className="pt-4 border-t">
+                <Link href="/test-page" className="w-full">
+                  <Button variant="ghost" className="w-full text-sm" size="sm">
+                    View Demo Features →
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="text-center text-sm text-gray-500 dark:text-gray-400">
+            <p>Built with AWS Amplify Gen2, Next.js, and TypeScript</p>
+            <p className="mt-1">Featuring Google & GitHub OAuth authentication</p>
+          </div>
+        </div>
+      </div>
     </AuthWrapper>
   );
 }
