@@ -1,0 +1,37 @@
+{
+  "name": "gen2-comparison-fresh",
+  "version": "1.0.0",
+  "description": "Fresh Next.js Gen2 Amplify App",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@aws-amplify/ui-react": "^6.7.3",
+    "autoprefixer": "^10.4.16",
+    "aws-amplify": "^6.15.9",
+    "next": "^14.2.35",
+    "postcss": "^8.4.32",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.0"
+  },
+  "devDependencies": {
+    "@aws-amplify/backend": "^1.19.0",
+    "@aws-amplify/backend-cli": "^1.8.1",
+    "@types/node": "^20.17.15",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "aws-cdk-lib": "^2.216.0",
+    "constructs": "^10.4.4",
+    "esbuild": "^0.27.2",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^16.1.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
