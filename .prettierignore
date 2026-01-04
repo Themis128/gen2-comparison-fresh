@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# AWS Amplify
+.amplify/
+amplify/
+amplify_outputs.json
+
+# Test outputs
+coverage/
+playwright-report/
+test-results/
+
+# Package files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Generated
+*.min.js
+*.min.css
+*.d.ts
+
+# Misc
+.git/
+.vscode/
+*.zip

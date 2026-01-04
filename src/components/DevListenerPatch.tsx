@@ -42,7 +42,6 @@ export default function DevListenerPatch(): null {
     const original = EventTarget.prototype.addEventListener;
     let patched = false;
 
-    // eslint-disable-next-line react-hooks/unsupported-syntax
     function patchedAddEventListener(this: EventTarget, type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) {
       // Only patch in development and for the known noisy event types
       if (type === 'wheel' || type === 'touchmove') {

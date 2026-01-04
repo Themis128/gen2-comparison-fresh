@@ -13,8 +13,6 @@ if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
     const origConsoleInfo = console.info;
 
     const suppressedPatterns: Array<string | RegExp> = [
-      /Max reconnection attempts reached/,
-      /Attempting to reconnect/i,
       /Download the React DevTools/i,
       /\[HMR\] connected/i,
       /Added non-passive event listener to a scroll-blocking 'wheel' event/i,
@@ -93,8 +91,6 @@ export default function DevConsoleFilter() {
     const origConsoleInfo = console.info;
 
     const suppressedPatterns: Array<string | RegExp> = [
-      /Max reconnection attempts reached/,
-      /Attempting to reconnect/i,
       /Download the React DevTools/i,
       /\[HMR\] connected/i,
       /Added non-passive event listener to a scroll-blocking 'wheel' event/i,

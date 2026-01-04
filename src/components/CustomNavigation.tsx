@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Menu } from "lucide-react";
-import Image from "next/image";
-import React from "react";
-import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
-import ThemeSwitcher from "./ThemeSwitcher";
-import UserSession from "./UserSession";
+import { Menu } from 'lucide-react';
+import Image from 'next/image';
+import React from 'react';
+import ThemeSwitcher from './ThemeSwitcher';
+import { Button } from './ui/button';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from './ui/sheet';
+import UserSession from './UserSession';
 
 interface NavigationProps {
   logoSrc?: string;
@@ -14,8 +14,8 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({
-  logoSrc = "/cloudless-logo.svg",
-  logoAlt = "Themis Baltzakis Logo",
+  logoSrc = '/cloudless-logo.svg',
+  logoAlt = 'Themis Baltzakis Logo',
 }) => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -27,21 +27,21 @@ const Navigation: React.FC<NavigationProps> = ({
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   };
 
   const navItems = [
-    { label: "Home", href: "#about" },
-    { label: "About", href: "#about" },
-    { label: "Skills", href: "#skills" },
-    { label: "Experience", href: "#experience" },
-    { label: "Certifications", href: "#certifications" },
-    { label: "Languages", href: "#languages" },
-    { label: "Achievements", href: "#achievements" },
-    { label: "Projects", href: "#projects" },
-    { label: "Contact", href: "#contact" },
+    { label: 'Home', href: '#about' },
+    { label: 'About', href: '#about' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Certifications', href: '#certifications' },
+    { label: 'Languages', href: '#languages' },
+    { label: 'Achievements', href: '#achievements' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Contact', href: '#contact' },
   ];
 
   return (
@@ -54,7 +54,7 @@ const Navigation: React.FC<NavigationProps> = ({
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <button
-            onClick={() => scrollToSection("about")}
+            onClick={() => scrollToSection('about')}
             className="flex items-center gap-3 group"
             aria-label="Home"
           >

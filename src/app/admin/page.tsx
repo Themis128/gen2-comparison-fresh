@@ -78,7 +78,7 @@ import {
 } from 'lucide-react';
 
 // Define TypeScript interfaces for dashboard data
-interface User {
+interface UserData {
   id: string;
   name: string;
   email: string;
@@ -128,7 +128,7 @@ interface DashboardData {
     message: string;
     timestamp: string;
   }>;
-  users?: User[];
+  users?: UserData[];
   alerts?: Alert[];
   auditLogs?: AuditLog[];
 }
@@ -195,7 +195,7 @@ export default function AdminPage() {
   const [userFormLoading, setUserFormLoading] = useState(false);
 
   // State for user editing
-  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [editingUser, setEditingUser] = useState<UserData | null>(null);
   const [editUserFormOpen, setEditUserFormOpen] = useState(false);
   const [editUserFormData, setEditUserFormData] = useState({
     name: '',
@@ -289,7 +289,7 @@ export default function AdminPage() {
     }
   };
 
-  const handleEditUser = (user: User) => {
+  const handleEditUser = (user: UserData) => {
     setEditingUser(user);
     setEditUserFormData({
       name: user.name,

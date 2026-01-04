@@ -18,7 +18,12 @@ export default defineConfig({
   /* Test match patterns */
   testMatch: ['**/*.spec.ts', '**/*.test.ts'],
   /* Test ignore patterns - exclude Jest tests and other non-e2e files */
-  testIgnore: ['**/__tests__/**', '**/*.test.tsx', '**/*.spec.tsx', '**/node_modules/**'],
+  testIgnore: [
+    '**/__tests__/**',
+    '**/*.test.tsx',
+    '**/*.spec.tsx',
+    '**/node_modules/**',
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -32,7 +37,9 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+      },
     },
 
     // Uncomment to run tests in other browsers
@@ -52,5 +59,9 @@ export default defineConfig({
     command: 'npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
+    /* Pass test mode environment variable to dev server */
+    env: {
+      NEXT_PUBLIC_TEST_MODE: 'true',
+    },
   },
 });

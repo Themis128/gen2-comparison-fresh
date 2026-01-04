@@ -15,6 +15,7 @@ if (typeof window !== 'undefined') {
       function (this: Element, s: string) {
         const matches = ((this as any).document || (this as any).ownerDocument).querySelectorAll(s);
         let i = matches.length;
+        // eslint-disable-next-line no-empty
         while (--i >= 0 && matches.item(i) !== this) { }
         return i > -1;
       };

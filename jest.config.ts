@@ -1,10 +1,11 @@
-const config = {
-  preset: undefined,
+import type { Config } from 'jest';
+
+const config: Config = {
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   collectCoverageFrom: [
     'app/**/*.{js,jsx,ts,tsx}',
@@ -26,7 +27,7 @@ const config = {
     '<rootDir>/.next/',
     '<rootDir>/node_modules/',
     '<rootDir>/assets/',
-    '<rootDir>/tests/',
+    '<rootDir>/tests/e2e/', // Keep e2e tests separate
     '<rootDir>/scripts/',
   ],
   modulePathIgnorePatterns: [
@@ -38,6 +39,15 @@ const config = {
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
   },
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 70,
+      lines: 70,
+      statements: 70,
+    },
+  },
+  coverageReporters: ['text', 'lcov', 'html'],
 };
 
 export default config;

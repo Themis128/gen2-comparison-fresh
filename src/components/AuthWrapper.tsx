@@ -6,13 +6,23 @@ import { useEffect, useState } from 'react';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
+  testMode?: boolean;
 }
 
-export function AuthWrapper({ children }: AuthWrapperProps) {
+export function AuthWrapper({ children, testMode }: AuthWrapperProps) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const router = useRouter();
 
   useEffect(() => {
+    // Skip authentication check in test environment only if explicitly requested
+    if (
+      testMode ||
+      process.env.NEXT_PUBLIC_TEST_MODE === 'true'
+    ) {
+      setIsAuthenticated(true);
+      return;
+    }
+
     const checkAuth = async () => {
       try {
         await getCurrentUser();
@@ -24,7 +34,7 @@ export function AuthWrapper({ children }: AuthWrapperProps) {
     };
 
     checkAuth();
-  }, [router]);
+  }, [router, testMode]);
 
   if (isAuthenticated === null) {
     return (

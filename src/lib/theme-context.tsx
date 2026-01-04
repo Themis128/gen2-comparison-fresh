@@ -22,7 +22,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setThemeState(initialTheme);
     // Set mounted after theme is initialized to prevent hydration mismatch
     setMounted(true);

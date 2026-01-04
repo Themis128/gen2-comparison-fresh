@@ -487,8 +487,7 @@ function SignInPage() {
               </div>
 
               <p className="text-center text-sm text-muted-foreground">
-                {/* eslint-disable-next-line react/no-unescaped-entities */}
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link
                   href="/auth/signup"
                   className="text-primary hover:underline underline-offset-4 font-medium"

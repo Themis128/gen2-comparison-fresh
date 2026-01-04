@@ -66,7 +66,6 @@ export function TodoList() {
         priority,
         category: category.trim() || undefined,
         dueDate: dueDate ? new Date(dueDate).toISOString() : undefined,
-        createdAt: new Date().toISOString(),
       });
       setNewTodoContent('');
       setCategory('');
@@ -82,7 +81,6 @@ export function TodoList() {
       await client.models.Todo.update({
         id,
         isDone: !currentStatus,
-        updatedAt: new Date().toISOString(),
       });
     } catch (error) {
       console.error('Error updating todo:', error);
@@ -147,7 +145,6 @@ export function TodoList() {
           client.models.Todo.update({
             id,
             priority: bulkPriority,
-            updatedAt: new Date().toISOString(),
           })
         )
       );
@@ -170,7 +167,6 @@ export function TodoList() {
           client.models.Todo.update({
             id,
             category: categoryValue,
-            updatedAt: new Date().toISOString(),
           })
         )
       );

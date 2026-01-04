@@ -1,0 +1,82 @@
+<svg viewBox="0 0 360 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Photorealistic cloud gradients -->
+    <linearGradient id="cloudMainLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#fafeff"/>
+      <stop offset="70%" stop-color="#e8f4fc"/>
+      <stop offset="100%" stop-color="#d0e8f5"/>
+    </linearGradient>
+    <linearGradient id="cloudTopHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f0f9ff"/>
+    </linearGradient>
+    <linearGradient id="cloudMidTone" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f8fcff"/>
+      <stop offset="100%" stop-color="#dbeafe"/>
+    </linearGradient>
+    <linearGradient id="cloudBottomShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#bfdbfe" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#93c5fd" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="cloudDeepShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#64748b" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#475569" stop-opacity="0.25"/>
+    </linearGradient>
+    <!-- Realistic soft shadow -->
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+      <feOffset dx="0" dy="4" result="offsetBlur"/>
+      <feFlood flood-color="#475569" flood-opacity="0.15"/>
+      <feComposite in2="offsetBlur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Inner glow for depth -->
+    <filter id="innerGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  
+  <!-- Photorealistic Cloud -->
+  <g filter="url(#softShadow)" transform="translate(8, 12)">
+    <!-- Bottom shadow layer -->
+    <ellipse cx="42" cy="58" rx="36" ry="10" fill="url(#cloudDeepShadow)"/>
+    
+    <!-- Base cloud body - large billowy forms -->
+    <ellipse cx="42" cy="48" rx="32" ry="16" fill="url(#cloudMainLight)"/>
+    <ellipse cx="22" cy="42" rx="20" ry="18" fill="url(#cloudMainLight)"/>
+    <ellipse cx="62" cy="44" rx="22" ry="16" fill="url(#cloudMainLight)"/>
+    
+    <!-- Middle layer - volume and depth -->
+    <ellipse cx="35" cy="36" rx="24" ry="20" fill="url(#cloudMidTone)"/>
+    <ellipse cx="55" cy="34" rx="22" ry="18" fill="url(#cloudMidTone)"/>
+    <ellipse cx="72" cy="42" rx="14" ry="12" fill="url(#cloudMidTone)"/>
+    
+    <!-- Upper billows - bright lit areas -->
+    <ellipse cx="28" cy="30" rx="16" ry="14" fill="url(#cloudTopHighlight)"/>
+    <ellipse cx="48" cy="26" rx="18" ry="16" fill="url(#cloudTopHighlight)"/>
+    <ellipse cx="65" cy="30" rx="12" ry="11" fill="url(#cloudTopHighlight)"/>
+    
+    <!-- Top highlights - sunlit peaks -->
+    <ellipse cx="38" cy="22" rx="14" ry="10" fill="#ffffff"/>
+    <ellipse cx="54" cy="20" rx="10" ry="8" fill="#ffffff"/>
+    <ellipse cx="26" cy="26" rx="8" ry="6" fill="#ffffff"/>
+    
+    <!-- Bright white caps -->
+    <ellipse cx="42" cy="18" rx="8" ry="5" fill="#ffffff"/>
+    <ellipse cx="56" cy="17" rx="5" ry="4" fill="#ffffff"/>
+    <ellipse cx="32" cy="21" rx="4" ry="3" fill="#ffffff"/>
+    
+    <!-- Subtle bottom shading -->
+    <ellipse cx="42" cy="54" rx="34" ry="8" fill="url(#cloudBottomShadow)"/>
+  </g>
+  
+  <!-- Text: cloudless.gr with proper spacing -->
+  <text x="100" y="58" font-family="'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif" font-size="34" font-weight="700" fill="#1e293b" letter-spacing="-0.5">cloudless<tspan fill="#0284c7" font-weight="600">.gr</tspan></text>
+</svg>

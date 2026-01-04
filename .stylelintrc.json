@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json.schemastore.org/stylelintrc",
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-tailwindcss"
+  ],
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "tailwind",
+          "apply",
+          "variants",
+          "responsive",
+          "screen",
+          "layer",
+          "custom-variant",
+          "config",
+          "theme"
+        ]
+      }
+    ],
+    "function-no-unknown": [
+      true,
+      {
+        "ignoreFunctions": [
+          "theme",
+          "screen"
+        ]
+      }
+    ],
+    "declaration-block-trailing-semicolon": null,
+    "no-descending-specificity": null,
+    "selector-class-pattern": null,
+    "keyframes-name-pattern": null,
+    "custom-property-pattern": null,
+    "media-feature-name-value-no-unknown": [
+      true,
+      {
+        "ignoreMediaFeatureNames": ["prefers-contrast"]
+      }
+    ],
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": [
+          "/^--/",
+          "composes"
+        ]
+      }
+    ],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global", "local", "export"]
+      }
+    ],
+    "order/properties-alphabetical-order": true,
+    "color-function-notation": "modern",
+    "alpha-value-notation": "percentage",
+    "length-zero-no-unit": true,
+    "shorthand-property-no-redundant-values": true,
+    "declaration-block-no-redundant-longhand-properties": true,
+    "declaration-block-single-line-max-declarations": 1,
+    "rule-empty-line-before": ["always", {
+      "except": ["first-nested"],
+      "ignore": ["after-comment"]
+    }],
+    "import-notation": "string",
+    "value-keyword-case": ["lower", {
+      "ignoreFunctions": ["theme"],
+      "ignoreKeywords": ["currentColor"]
+    }]
+  },
+  "ignoreFiles": [
+    "node_modules/**",
+    ".next/**",
+    "dist/**",
+    "coverage/**",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.jsx"
+  ]
+}

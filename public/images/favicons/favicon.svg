@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="350" height="100" viewBox="0 0 350 100">
+  <defs>
+    <!-- Modern realistic sky gradient -->
+    <linearGradient id="modernBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E2E8F0;stop-opacity:1" />
+      <stop offset="10%" style="stop-color:#E0F6FF;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#B7E3FF;stop-opacity:1" />
+      <stop offset="45%" style="stop-color:#E2E8F0;stop-opacity:1" />
+      <stop offset="65%" style="stop-color:#CBD5E1;stop-opacity:1" />
+      <stop offset="85%" style="stop-color:#94A3B8;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#64748B;stop-opacity:0.4" />
+    </linearGradient>
+
+    <!-- Subtle atmospheric haze -->
+    <radialGradient id="haze" cx="70%" cy="30%" r="50%">
+      <stop offset="0%" style="stop-color:#E0F6FF;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#B7E3FF;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#CBD5E1;stop-opacity:0" />
+    </radialGradient>
+
+    <!-- Cloud with modern styling -->
+    <linearGradient id="cloudModern" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E2E8F0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#CBD5E1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#94A3B8;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Accent gradient -->
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Clean white background with realistic sky transition -->
+  <rect width="350" height="100" fill="url(#modernBg)"/>
+  <!-- Subtle atmospheric haze for depth -->
+  <rect width="350" height="100" fill="url(#haze)"/>
+
+  <!-- Modern cloud icon -->
+  <g transform="translate(45, 30)">
+    <!-- Cloud outline -->
+    <path d="M20 30 Q20 20 30 20 Q50 20 50 30 Q50 40 40 40 L30 40 Q20 40 20 30 Z"
+          fill="none" stroke="url(#accentGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 27 Q10 17 20 17 Q30 17 30 27 Q30 37 20 37 L15 37 Q10 37 10 27 Z"
+          fill="none" stroke="url(#accentGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M30 23 Q30 13 40 13 Q60 13 60 23 Q60 33 50 33 L40 33 Q30 33 30 23 Z"
+          fill="none" stroke="url(#accentGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Inner cloud fill -->
+    <path d="M22 28 Q22 22 28 22 Q46 22 46 28 Q46 34 40 34 L30 34 Q22 34 22 28 Z"
+          fill="url(#cloudModern)" opacity="0.3"/>
+  </g>
+
+  <!-- Modern typography -->
+  <g transform="translate(125, 50)">
+    <!-- Main brand name -->
+    <text x="0" y="0" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="32" font-weight="700" fill="#0F172A" letter-spacing="-0.5px">
+      cloudless
+    </text>
+
+    <!-- Sleek accent bar -->
+    <rect x="0" y="8" width="115" height="3" fill="url(#accentGrad)" rx="1.5"/>
+
+    <!-- Domain in modern style -->
+    <text x="135" y="0" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="url(#accentGrad)">
+      .gr
+    </text>
+  </g>
+
+  <!-- Minimal tagline -->
+  <text x="125" y="75" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="500" fill="#64748B" letter-spacing="1px" text-transform="uppercase">
+    Computing Solutions
+  </text>
+</svg>

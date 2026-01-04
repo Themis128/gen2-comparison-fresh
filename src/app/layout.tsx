@@ -1,24 +1,24 @@
 import '@aws-amplify/ui-react/styles.css';
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import AmplifyInitializer from '../components/AmplifyInitializer';
-import CustomNavigation from '../components/CustomNavigation';
 import DevConsoleFilter from '../components/DevConsoleFilter';
 import DevListenerPatch from '../components/DevListenerPatch';
 import InstallPrompt from '../components/InstallPrompt';
+import NavigationWrapper from '../components/NavigationWrapper';
 // import ToolbarMountController from '../components/ToolbarMountController';
-import './globals.css';
 import '../lib/amplify-client-config'; // Configure Amplify early
 import { ThemeProvider } from '../lib/theme-context';
 import '../styles/app.css'; // Custom styles
+import './globals.css';
 // import '@aws-amplify/ui-react-ai/styles.css'; // AI UI styles - removed as package may not have styles
 
-const geistSans = Geist({
+const geistSans = Inter({
   variable: '--font-geist-sans',
   subsets: ['latin'],
 });
 
-const geistMono = Geist_Mono({
+const geistMono = JetBrains_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
 });
@@ -165,8 +165,6 @@ export default function RootLayout({
                   const origConsoleInfo = console.info;
 
                   const suppressedPatterns = [
-                    /Max reconnection attempts reached/,
-                    /Attempting to reconnect/i,
                     /Download the React DevTools/i,
                     /\\[HMR\\] connected/i,
                     /Added non-passive event listener to a scroll-blocking 'wheel' event/i,
@@ -226,7 +224,7 @@ export default function RootLayout({
             className="site-tech-overlay pointer-events-none fixed inset-0 z-0"
             aria-hidden="true"
           />
-          <CustomNavigation />
+          <NavigationWrapper />
           {children}
           <InstallPrompt />
         </ThemeProvider>
