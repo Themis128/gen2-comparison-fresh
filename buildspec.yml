@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - corepack enable
+      - corepack prepare pnpm@latest --activate
+  pre_build:
+    commands:
+      - pnpm install --frozen-lockfile
+  build:
+    commands:
+      - export NODE_OPTIONS="--max-old-space-size=14336"
+      - pnpm run build
+  post_build:
+    commands:
+      - echo "Build completed"
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: out
