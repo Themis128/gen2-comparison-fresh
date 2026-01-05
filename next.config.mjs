@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // === CRITICAL: Standalone output for Amplify SSR ===
-  output: 'standalone',
-
   // === TURBOPACK OPTIMIZATIONS ===
   // === TURBOPACK CONFIG (moved from experimental.turbo) ===
   turbopack: {
@@ -24,11 +21,25 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
-    // Reduce trace size for faster builds
-    outputFileTracingRoot: process.cwd(),
-    outputFileTracingIncludes: {
-      '/': ['./amplify_outputs.json'],
-    },
+  },
+
+  // === FILE TRACING OPTIMIZATIONS (moved from experimental) ===
+  outputFileTracingRoot: process.cwd(),
+  outputFileTracingIncludes: {
+    '/': ['./amplify_outputs.json'],
+  },
+  outputFileTracingExcludes: {
+    '*': [
+      'node_modules/@swc/core-linux-x64-gnu',
+      'node_modules/@swc/core-linux-x64-musl',
+      'node_modules/@esbuild/linux-x64',
+      'node_modules/playwright',
+      'node_modules/@playwright',
+      '.git',
+      '.amplify',
+      'test-results',
+      'playwright-report',
+    ],
   },
 
   // Transpile packages
@@ -51,9 +62,6 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
 
-  // Optimize build speed
-  swcMinify: true,
-
   // Faster builds - skip type checking (do it separately)
   typescript: {
     ignoreBuildErrors: false,
@@ -64,11 +72,6 @@ const nextConfig = {
 
   // Reduce bundle size
   poweredByHeader: false,
-  generateEtags: false,
-
-  // === WEBPACK OPTIMIZATIONS (for non-turbo builds) ===
-  webpack: (config, { dev, isServer }) => {
-    // Faster rebuilds in development
     if (dev) {
       config.watchOptions = {
         poll: 1000,
