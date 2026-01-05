@@ -1,4 +1,6 @@
 version: 1
+compute:
+  type: BUILD_GENERAL1_LARGE
 backend:
   phases:
     preBuild:
@@ -15,11 +17,10 @@ frontend:
       commands:
         - corepack enable
         - corepack prepare pnpm@latest --activate
-        - cp package.minimal.json package.json
-        - pnpm install
+        - pnpm install --frozen-lockfile
     build:
       commands:
-        - export NODE_OPTIONS="--max-old-space-size=6144"
+        - export NODE_OPTIONS="--max-old-space-size=12288"
         - pnpm run build
   artifacts:
     baseDirectory: out
