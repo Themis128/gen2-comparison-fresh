@@ -65,3 +65,4 @@ updated-deployment.zip
 deployment.zip
 *.tar.gz
 *.log
+.env.local
