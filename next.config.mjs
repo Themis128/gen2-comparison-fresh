@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // === TURBOPACK OPTIMIZATIONS ===
-  // === TURBOPACK CONFIG (moved from experimental.turbo) ===
   turbopack: {
     resolveAlias: {
       '@': './src',
@@ -15,31 +14,10 @@ const nextConfig = {
   experimental: {
     // Faster CSS processing
     optimizeCss: true,
-    // Optimistic client cache
-    optimisticClientCache: true,
     // Server actions optimization
     serverActions: {
       bodySizeLimit: '2mb',
     },
-  },
-
-  // === FILE TRACING OPTIMIZATIONS (moved from experimental) ===
-  outputFileTracingRoot: process.cwd(),
-  outputFileTracingIncludes: {
-    '/': ['./amplify_outputs.json'],
-  },
-  outputFileTracingExcludes: {
-    '*': [
-      'node_modules/@swc/core-linux-x64-gnu',
-      'node_modules/@swc/core-linux-x64-musl',
-      'node_modules/@esbuild/linux-x64',
-      'node_modules/playwright',
-      'node_modules/@playwright',
-      '.git',
-      '.amplify',
-      'test-results',
-      'playwright-report',
-    ],
   },
 
   // Transpile packages
