@@ -17,7 +17,7 @@ test-results/
 
 # AWS Amplify
 .amplify/
-amplify_outputs.json
+# amplify_outputs.json - committed for Amplify Hosting deployment
 amplify-deployment.zip
 updated-deployment.zip
 
