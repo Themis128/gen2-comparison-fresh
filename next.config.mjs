@@ -1,11 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Static site generation
-  output: 'export',
-
-  // Disable features that don't work with static export
-  trailingSlash: true,
-
+  // CRITICAL: Standalone output drastically reduces file tracing time
+  output: 'standalone',
+  
   // Transpile packages
   transpilePackages: ['ogl', '@aws-amplify/ui-react'],
 
@@ -14,12 +11,13 @@ const nextConfig = {
 
   // === IMAGE OPTIMIZATION ===
   images: {
-    unoptimized: true, // Required for static export
+    formats: ['image/webp'],
   },
 
   // === BUILD OPTIMIZATIONS ===
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
+  swcMinify: true,
 
   // Skip linting and type checking during build
   typescript: {
@@ -31,6 +29,12 @@ const nextConfig = {
 
   // Reduce bundle size
   poweredByHeader: false,
+  
+  // Experimental optimizations for faster builds
+  experimental: {
+    optimizePackageImports: ['@radix-ui/react-icons', '@radix-ui/react-dialog', 'framer-motion', 'lucide-react'],
+    serverMinification: true,
+  },
 };
 
 export default nextConfig;

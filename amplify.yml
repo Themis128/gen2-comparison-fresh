@@ -18,14 +18,15 @@ frontend:
         - pnpm install --frozen-lockfile
     build:
       commands:
-        - export NEXT_BUILD_FILE_TRACING_ENABLED=false
         - pnpm run build
   artifacts:
-    baseDirectory: out
+    baseDirectory: .next
     files:
       - '**/*'
   cache:
     paths:
+      - .next/cache/**/*
       - node_modules/**/*
+      - .pnpm-store/**/*
       - .pnpm-store/**/*
       - .next/cache/**/*
