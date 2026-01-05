@@ -15,7 +15,8 @@ frontend:
       commands:
         - corepack enable
         - corepack prepare pnpm@latest --activate
-        - pnpm install --frozen-lockfile
+        - cp package.minimal.json package.json
+        - pnpm install
     build:
       commands:
         - export NODE_OPTIONS="--max-old-space-size=6144"
