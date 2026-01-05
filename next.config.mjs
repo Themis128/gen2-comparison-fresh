@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // CRITICAL: Standalone output drastically reduces file tracing time
-  output: 'standalone',
-  
+  // Static export for Amplify hosting
+  output: 'export',
+  trailingSlash: true,
+
   // Transpile packages
   transpilePackages: ['ogl', '@aws-amplify/ui-react'],
 
@@ -29,7 +30,7 @@ const nextConfig = {
 
   // Reduce bundle size
   poweredByHeader: false,
-  
+
   // Experimental optimizations for faster builds
   experimental: {
     optimizePackageImports: ['@radix-ui/react-icons', '@radix-ui/react-dialog', 'framer-motion', 'lucide-react'],
