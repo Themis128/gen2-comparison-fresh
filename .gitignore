@@ -65,4 +65,18 @@ updated-deployment.zip
 deployment.zip
 *.tar.gz
 *.log
-.env.local
+
+# Additional common ignores
+.vercel/
+storybook-static/
+.cache/
+.turbo/
+*.pem
+.sentryclirc
+
+# Generated AWS configs
+current-config.json
+updated-config.json
+disable-config.json
+s3-bucket-policy.json
+s3-config.json
