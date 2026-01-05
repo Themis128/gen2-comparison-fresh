@@ -198,6 +198,18 @@ importers:
       eslint-config-next:
         specifier: ^15.0.0
         version: 15.5.9(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3)
+      eslint-plugin-import:
+        specifier: ^2.32.0
+        version: 2.32.0(@typescript-eslint/parser@8.51.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.2(jiti@1.21.7))
+      eslint-plugin-jsx-a11y:
+        specifier: ^6.10.2
+        version: 6.10.2(eslint@9.39.2(jiti@1.21.7))
+      eslint-plugin-react:
+        specifier: ^7.37.5
+        version: 7.37.5(eslint@9.39.2(jiti@1.21.7))
+      eslint-plugin-react-hooks:
+        specifier: ^7.0.1
+        version: 7.0.1(eslint@9.39.2(jiti@1.21.7))
       jest:
         specifier: ^29.0.0
         version: 29.7.0(@types/node@20.19.27)(ts-node@10.9.2(@types/node@20.19.27)(typescript@5.9.3))
@@ -5023,6 +5035,12 @@ packages:
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
 
+  eslint-plugin-react-hooks@7.0.1:
+    resolution: {integrity: sha512-O0d0m04evaNzEPoSW+59Mezf8Qt0InfgGIBJnpC0h3NH/WjUAR7BIKUfysC6todmtiZ/A0oUVS8Gce0WhBrHsA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
+
   eslint-plugin-react@7.37.5:
     resolution: {integrity: sha512-Qteup0SqU15kdocexFNAJMvCJEfa2xUKNV4CC1xsVMrIIqEy3SQ/rqyxCWNzfrd3/ldy6HMlD2e0JDVpDg2qIA==}
     engines: {node: '>=4'}
@@ -5431,6 +5449,12 @@ packages:
 
   header-case@2.0.4:
     resolution: {integrity: sha512-H/vuk5TEEVZwrR0lp2zed9OCo1uAILMlx0JEMgC26rzyJJ3N1v6XkwHHXJQdR2doSjcGPM6OKPYoJgf0plJ11Q==}
+
+  hermes-estree@0.25.1:
+    resolution: {integrity: sha512-0wUoCcLp+5Ev5pDW2OriHC2MJCbwLwuRx+gAqMTOkGKJJiBCLjtrvy4PWUGn6MIVefecRpzoOZ/UV6iGdOr+Cw==}
+
+  hermes-parser@0.25.1:
+    resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
 
   hjson@3.2.2:
     resolution: {integrity: sha512-MkUeB0cTIlppeSsndgESkfFD21T2nXPRaBStLtf3cAYA2bVEFdXlodZB0TukwZiobPD1Ksax5DK4RTZeaXCI3Q==}
@@ -7825,6 +7849,12 @@ packages:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
 
+  zod-validation-error@4.0.2:
+    resolution: {integrity: sha512-Q6/nZLe6jxuU80qb/4uJ4t5v2VEZ44lzQjPDhYJNztRQ4wyWc6VF3D3Kb/fAuPetZQnhS3hnajCf9CsWesghLQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      zod: ^3.25.0 || ^4.0.0
+
   zod@3.25.17:
     resolution: {integrity: sha512-8hQzQ/kMOIFbwOgPrm9Sf9rtFHpFUMy4HvN0yEB0spw14aYi0uT5xG5CE2DB9cd51GWNsz+DNO7se1kztHMKnw==}
 
@@ -9343,7 +9373,7 @@ snapshots:
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-sso-oidc': 3.621.0(@aws-sdk/client-sts@3.621.0)
+      '@aws-sdk/client-sso-oidc': 3.621.0(@aws-sdk/client-sts@3.962.0)
       '@aws-sdk/client-sts': 3.621.0
       '@aws-sdk/core': 3.621.0
       '@aws-sdk/credential-provider-node': 3.621.0(@aws-sdk/client-sso-oidc@3.621.0(@aws-sdk/client-sts@3.621.0))(@aws-sdk/client-sts@3.962.0)
@@ -9675,7 +9705,7 @@ snapshots:
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-sso-oidc': 3.621.0(@aws-sdk/client-sts@3.962.0)
+      '@aws-sdk/client-sso-oidc': 3.621.0(@aws-sdk/client-sts@3.621.0)
       '@aws-sdk/client-sts': 3.621.0
       '@aws-sdk/core': 3.621.0
       '@aws-sdk/credential-provider-node': 3.621.0(@aws-sdk/client-sso-oidc@3.621.0(@aws-sdk/client-sts@3.621.0))(@aws-sdk/client-sts@3.962.0)
@@ -15489,6 +15519,17 @@ snapshots:
     dependencies:
       eslint: 9.39.2(jiti@1.21.7)
 
+  eslint-plugin-react-hooks@7.0.1(eslint@9.39.2(jiti@1.21.7)):
+    dependencies:
+      '@babel/core': 7.28.5
+      '@babel/parser': 7.28.5
+      eslint: 9.39.2(jiti@1.21.7)
+      hermes-parser: 0.25.1
+      zod: 3.25.76
+      zod-validation-error: 4.0.2(zod@3.25.76)
+    transitivePeerDependencies:
+      - supports-color
+
   eslint-plugin-react@7.37.5(eslint@9.39.2(jiti@1.21.7)):
     dependencies:
       array-includes: 3.1.9
@@ -15976,6 +16017,12 @@ snapshots:
     dependencies:
       capital-case: 1.0.4
       tslib: 2.8.1
+
+  hermes-estree@0.25.1: {}
+
+  hermes-parser@0.25.1:
+    dependencies:
+      hermes-estree: 0.25.1
 
   hjson@3.2.2: {}
 
@@ -18586,6 +18633,10 @@ snapshots:
       archiver-utils: 5.0.2
       compress-commons: 6.0.2
       readable-stream: 4.7.0
+
+  zod-validation-error@4.0.2(zod@3.25.76):
+    dependencies:
+      zod: 3.25.76
 
   zod@3.25.17: {}
 
