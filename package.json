@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "build": "ESLINT_USE_FLAT_CONFIG=true next build",
+    "build": "ESLINT_USE_FLAT_CONFIG=true NEXT_TELEMETRY_DISABLED=1 next build",
     "start": "next start",
     "lint": "echo 'Linting disabled - use build for type checking'",
     "type-check": "tsc --noEmit",
