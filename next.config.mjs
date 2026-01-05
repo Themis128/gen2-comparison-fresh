@@ -50,6 +50,10 @@ const nextConfig = {
 
   // Reduce bundle size
   poweredByHeader: false,
+
+  // === WEBPACK OPTIMIZATIONS (for non-turbo builds) ===
+  webpack: (config, { dev, isServer }) => {
+    // Faster rebuilds in development
     if (dev) {
       config.watchOptions = {
         poll: 1000,
