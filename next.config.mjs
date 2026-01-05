@@ -34,7 +34,10 @@ const nextConfig = {
   // Experimental optimizations for faster builds
   experimental: {
     optimizePackageImports: ['@radix-ui/react-icons', '@radix-ui/react-dialog', 'framer-motion', 'lucide-react'],
-    serverMinification: true,
+    serverMinification: false,
+    turbo: {
+      memoryLimit: 4096
+    }
   },
 };
 

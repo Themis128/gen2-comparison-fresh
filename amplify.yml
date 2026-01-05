@@ -18,6 +18,7 @@ frontend:
         - pnpm install --frozen-lockfile
     build:
       commands:
+        - export NODE_OPTIONS="--max-old-space-size=4096"
         - pnpm run build
   artifacts:
     baseDirectory: out
