@@ -2,12 +2,17 @@
 node_modules/
 .pnp/
 .pnp.js
+.pnpm-store/
 
 # Build outputs
 .next/
 out/
 dist/
 build/
+
+# Backup folders (admin/API for SSR restoration)
+api.bak/
+admin.bak/
 
 # Testing
 coverage/
@@ -18,8 +23,6 @@ test-results/
 # AWS Amplify
 .amplify/
 # amplify_outputs.json - committed for Amplify Hosting deployment
-amplify-deployment.zip
-updated-deployment.zip
 
 # Environment
 .env
@@ -57,5 +60,8 @@ pnpm-debug.log*
 
 # Misc
 *.zip
+amplify-deployment.zip
+updated-deployment.zip
+deployment.zip
 *.tar.gz
 *.log

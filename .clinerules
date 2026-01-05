@@ -1,0 +1,36 @@
+# Cline Project Rules - Fresh Gen2 Amplify Todo App
+
+This file provides context for the Cline extension to work effectively with this project.
+
+## Project Overview
+- **Name**: Fresh Gen2 Amplify Todo App
+- **Root Directory**: `/home/tbaltzakis/gen2-comparison-fresh`
+- **Environment**: WSL2 (Linux/Ubuntu)
+- **Framework**: Next.js 15 (App Router)
+- **Backend**: AWS Amplify Gen2 (TypeScript-first)
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Package Manager**: pnpm
+
+## Directory Structure
+- `src/app/`: Next.js pages and API routes.
+- `amplify/`: Amplify Gen2 backend configuration (auth, data).
+- `src/components/`: Reusable React components.
+- `doc/`: Project documentation (including `WSL_GUIDE.md`).
+- `tests/`: Playwright E2E tests.
+
+## Development Workflow
+- **Start Dev Server**: `pnpm dev` (Runs on port 3001)
+- **Amplify Sandbox**: `npx ampx sandbox`
+- **WSL Check**: `pnpm wsl:check`
+- **Run Tests**: `npx playwright test`
+
+## WSL Specifics
+- Always use absolute paths within the Linux file system: `/home/tbaltzakis/gen2-comparison-fresh`.
+- Do not use `/mnt/c/` paths for development as it degrades performance.
+- The app is accessed via `localhost:3001` on the Windows host.
+
+## Coding Standards
+- Use TypeScript for all new files.
+- Follow the existing component structure in `src/components/`.
+- Use shadcn/ui components for UI elements.
+- Ensure all backend changes are made in the `amplify/` directory.

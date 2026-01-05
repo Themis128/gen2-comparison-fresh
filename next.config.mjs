@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Static site generation
+  output: 'export',
+
+  // Disable features that don't work with static export
+  trailingSlash: true,
+
   // Transpile packages
   transpilePackages: ['ogl', '@aws-amplify/ui-react'],
 
@@ -8,8 +14,7 @@ const nextConfig = {
 
   // === IMAGE OPTIMIZATION ===
   images: {
-    formats: ['image/webp'],
-    unoptimized: process.env.NODE_ENV === 'development',
+    unoptimized: true, // Required for static export
   },
 
   // === BUILD OPTIMIZATIONS ===
@@ -26,17 +31,6 @@ const nextConfig = {
 
   // Reduce bundle size
   poweredByHeader: false,
-
-  // Redirects
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/app',
-        permanent: false,
-      },
-    ];
-  },
 };
 
 export default nextConfig;
