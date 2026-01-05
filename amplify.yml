@@ -21,10 +21,9 @@ frontend:
         - pnpm install
     build:
       commands:
-        - export NODE_OPTIONS="--max-old-space-size=2048"
-        - pnpm run build
+        - echo "Using static files"
   artifacts:
-    baseDirectory: out
+    baseDirectory: static
     files:
       - '**/*'
   cache:
