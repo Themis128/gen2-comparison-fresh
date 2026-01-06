@@ -7,10 +7,10 @@ export default function ContactPage() {
   return (
     <>
       <MobileNavigation />
-      <main className="container mx-auto px-4 py-8 safe-area-bottom">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold tracking-tight mb-4">Get in Touch</h1>
+      <main className="safe-area-bottom container mx-auto px-4 py-8">
+        <div className="mx-auto max-w-2xl">
+          <div className="mb-8 text-center">
+            <h1 className="mb-4 text-3xl font-bold tracking-tight">Get in Touch</h1>
             <p className="text-muted-foreground">
               Have a question or want to work together? Send us a message.
             </p>

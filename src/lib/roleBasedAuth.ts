@@ -31,7 +31,7 @@ export const detectUserRole = (email: string, groups: string[] = []): UserRole =
     emailLower.includes('admin') ||
     emailLower.endsWith('@admin.com') ||
     emailLower.endsWith('@company.com') ||
-    emailLower.endsWith('@cloudless.com') ||
+    emailLower.endsWith('@cloudless.gr') ||
     emailLower === 'tbaltzakis@cloudless.com'
   ) {
     return 'admin';
@@ -55,8 +55,16 @@ export const detectUserRole = (email: string, groups: string[] = []): UserRole =
  */
 export const getCurrentAuthUser = async (): Promise<AuthUser | null> => {
   try {
-    const user = await getCurrentUser();
+    // First check if we have a valid session
     const session = await fetchAuthSession();
+
+    // If no tokens, user is not authenticated
+    if (!session.tokens) {
+      return null;
+    }
+
+    // Now safely get the user details
+    const user = await getCurrentUser();
 
     const groups = (session.tokens?.accessToken?.payload['cognito:groups'] as string[]) || [];
     const email = user.signInDetails?.loginId || '';
@@ -97,10 +105,10 @@ export const hasPermission = (userRole: UserRole, requiredRole: UserRole): boole
  * Route permissions configuration
  */
 export const routePermissions: Record<string, UserRole> = {
-  '/': 'guest',
+  '/': 'user', // Require authentication for home page
   '/auth/*': 'guest',
   '/contact': 'guest',
-  '/dashboard': 'user',
+  '/app': 'user',
   '/(protected)/*': 'user',
   '/admin': 'admin',
   '/admin/*': 'admin',
@@ -136,9 +144,8 @@ export const getRoleBasedRedirect = (role: UserRole): string => {
     case 'admin':
       return '/admin';
     case 'moderator':
-      return '/dashboard';
     case 'user':
-      return '/(protected)/app';
+      return '/app';
     default:
       return '/auth/signin';
   }
@@ -147,7 +154,9 @@ export const getRoleBasedRedirect = (role: UserRole): string => {
 /**
  * Enhanced middleware helper for role-based routing
  */
-export const checkRouteAccess = async (pathname: string): Promise<{
+export const checkRouteAccess = async (
+  pathname: string
+): Promise<{
   allowed: boolean;
   redirectTo?: string;
   role?: UserRole;

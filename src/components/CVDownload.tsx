@@ -1,7 +1,7 @@
-"use client";
+'use client';
 import jsPDF from 'jspdf';
 
-import { Button } from "./ui/button";
+import { Button } from './ui/button';
 
 import type { PersonalData } from '../lib/personal-data';
 
@@ -51,29 +51,29 @@ export default function CVDownload({ data }: CVDownloadProps) {
       'node-js': ['nodejs'],
       'socket-io': ['socketio'],
       'tailwind-css': ['tailwindcss', 'tailwind'],
-      's3': ['aws-s3'],
+      s3: ['aws-s3'],
       'mcp-sdk': ['mcp-protocol'],
-      'mcpsdk': ['mcp-protocol'],
-      'mcp_sdk': ['mcp-protocol'],
+      mcpsdk: ['mcp-protocol'],
+      mcp_sdk: ['mcp-protocol'],
       'cross-platform-development': ['microservices'],
-      'crossplatformdevelopment': ['microservices'],
-      'cross_platform_development': ['microservices'],
+      crossplatformdevelopment: ['microservices'],
+      cross_platform_development: ['microservices'],
       'wsl-integration': ['wsl-integration'],
       'path-resolution-algorithms': ['path-resolution-algorithms'],
       'error-handling': ['error-handling'],
       'aws-cdk': ['aws-cdk'],
-      'awscdk': ['aws-cdk'],
-      'aws_cdk': ['aws-cdk'],
+      awscdk: ['aws-cdk'],
+      aws_cdk: ['aws-cdk'],
       'github-actions': ['ci-cd'],
-      'prometheus': ['prometheus'],
-      'grafana': ['grafana'],
-      'kubernetes': ['kubernetes'],
-      'terraform': ['terraform'],
+      prometheus: ['prometheus'],
+      grafana: ['grafana'],
+      kubernetes: ['kubernetes'],
+      terraform: ['terraform'],
       'scikit-learn': ['python'],
-      'pandas': ['python'],
+      pandas: ['python'],
       'tcp-ip': ['network-security'],
       'dns-dhcp': ['network-security'],
-      'virtualization': ['docker'],
+      virtualization: ['docker'],
       'cloud-migration': ['serverless'],
       'project-management': ['devops'],
       'network-troubleshooting': ['network-security'],
@@ -88,7 +88,7 @@ export default function CVDownload({ data }: CVDownloadProps) {
       'aws-cloud-practitioner': ['aws'],
       'network-security': ['network-security'],
       'microsoft-intune': ['devops'], // fallback to devops
-      'servicenow': ['devops'], // fallback to devops
+      servicenow: ['devops'], // fallback to devops
       'cyberark-pam': ['network-security'],
       'windows-server': ['devops'], // fallback to devops
     };
@@ -342,7 +342,7 @@ export default function CVDownload({ data }: CVDownloadProps) {
     <Button
       onClick={handleDownload}
       size="lg"
-      className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 rounded-xl"
+      className="transform rounded-xl bg-gradient-to-r from-green-600 to-blue-600 px-10 py-5 text-lg font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-green-700 hover:to-blue-700 hover:shadow-2xl"
     >
       Download CV (PDF)
     </Button>

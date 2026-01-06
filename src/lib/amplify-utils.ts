@@ -17,9 +17,7 @@ export const createAmplifyClient = () => {
 };
 
 // Compatibility function for server-side context
-export const runWithAmplifyServerContext = async <T>(
-  operation: () => Promise<T>
-): Promise<T> => {
+export const runWithAmplifyServerContext = async <T>(operation: () => Promise<T>): Promise<T> => {
   // In Amplify v6, server-side operations can run directly
   // The configuration is already set globally
   return operation();

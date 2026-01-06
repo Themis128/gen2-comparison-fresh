@@ -10,7 +10,14 @@ import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Checkbox } from './ui/checkbox';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Progress } from './ui/progress';
@@ -23,11 +30,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Textarea } from './ui/textarea';
 
-
 export const UIComponentsDemo: React.FC = () => {
   const [sliderValue, setSliderValue] = useState([50]);
   const [progressValue, setProgressValue] = useState(33);
-  const [isChecked, setIsChecked] = useState<boolean | "indeterminate">(false);
+  const [isChecked, setIsChecked] = useState<boolean | 'indeterminate'>(false);
   const [radioValue, setRadioValue] = useState('option1');
   const [selectValue, setSelectValue] = useState('');
   const [switchValue, setSwitchValue] = useState(false);
@@ -56,9 +62,9 @@ export const UIComponentsDemo: React.FC = () => {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className="container mx-auto space-y-8 p-6">
       <div className="text-center">
-        <h1 className="text-3xl font-bold mb-2">UI Components Showcase</h1>
+        <h1 className="mb-2 text-3xl font-bold">UI Components Showcase</h1>
         <p className="text-muted-foreground">Demonstrating the new shadcn/ui components</p>
       </div>
 
@@ -86,7 +92,7 @@ export const UIComponentsDemo: React.FC = () => {
                 <Button variant="link">Link</Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Name</Label>
@@ -104,11 +110,7 @@ export const UIComponentsDemo: React.FC = () => {
 
                 <div className="space-y-4">
                   <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="terms"
-                      checked={isChecked}
-                      onCheckedChange={setIsChecked}
-                    />
+                    <Checkbox id="terms" checked={isChecked} onCheckedChange={setIsChecked} />
                     <Label htmlFor="terms">Accept terms and conditions</Label>
                   </div>
 
@@ -145,10 +147,7 @@ export const UIComponentsDemo: React.FC = () => {
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <Switch
-                      checked={switchValue}
-                      onCheckedChange={setSwitchValue}
-                    />
+                    <Switch checked={switchValue} onCheckedChange={setSwitchValue} />
                     <Label>Toggle switch</Label>
                   </div>
                 </div>
@@ -198,7 +197,7 @@ export const UIComponentsDemo: React.FC = () => {
               <Separator />
 
               <div>
-                <h3 className="text-lg font-semibold mb-4">User Data Table</h3>
+                <h3 className="mb-4 text-lg font-semibold">User Data Table</h3>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -255,9 +254,7 @@ export const UIComponentsDemo: React.FC = () => {
                 <Alert>
                   <CheckCircle className="h-4 w-4" />
                   <AlertTitle>Success</AlertTitle>
-                  <AlertDescription>
-                    Your action was completed successfully.
-                  </AlertDescription>
+                  <AlertDescription>Your action was completed successfully.</AlertDescription>
                 </Alert>
 
                 <Alert>
@@ -325,7 +322,7 @@ export const UIComponentsDemo: React.FC = () => {
                 <Button variant="destructive">Delete</Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-sm">Card 1</CardTitle>

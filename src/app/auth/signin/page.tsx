@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useState, useEffect } from "react";
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import * as LabelPrimitive from "@radix-ui/react-label";
-import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
-import { clsx, type ClassValue } from "clsx";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
-import { twMerge } from "tailwind-merge";
-
+import * as LabelPrimitive from '@radix-ui/react-label';
+import { Slot } from '@radix-ui/react-slot';
 import { signInWithRedirect } from 'aws-amplify/auth';
-import { signInWithFlow, checkAuthStatus } from '../../../lib/useAuth';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { clsx, type ClassValue } from 'clsx';
+import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
+import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
+import { twMerge } from 'tailwind-merge';
+
 import { AuthLogo } from '../../../components/Logo';
-import AdminAccountSetup from '../../../components/AdminAccountSetup';
+import { signInWithFlow, checkAuthStatus, signOutUser } from '../../../lib/useAuth';
+import { getCurrentAuthUser, getRoleBasedRedirect } from '../../../lib/roleBasedAuth';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -112,7 +112,7 @@ interface GradientMeshProps {
 }
 
 const hexToRgb = (hex: string): [number, number, number] => {
-  const cleanHex = hex.replace("#", "");
+  const cleanHex = hex.replace('#', '');
   const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
   const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
   const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
@@ -120,7 +120,7 @@ const hexToRgb = (hex: string): [number, number, number] => {
 };
 
 function GradientMesh({
-  colors = ["#3b2a8d", "#aaa7d7", "#f75092"],
+  colors = ['#3b2a8d', '#aaa7d7', '#f75092'],
   distortion = 5,
   swirl = 0.5,
   speed = 1.0,
@@ -146,7 +146,7 @@ function GradientMesh({
     function resize() {
       renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
     }
-    window.addEventListener("resize", resize, false);
+    window.addEventListener('resize', resize, false);
     resize();
 
     const geometry = new Triangle(gl);
@@ -168,7 +168,7 @@ function GradientMesh({
       uGrain: { value: grain },
     };
 
-    const labels = ["A", "B", "C"];
+    const labels = ['A', 'B', 'C'];
     rgbColors.forEach((c, i) => {
       uniforms[`uColor${labels[i]}`] = { value: new Color(...c) };
     });
@@ -193,29 +193,41 @@ function GradientMesh({
 
     return () => {
       cancelAnimationFrame(animateId);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener('resize', resize);
       ctn.removeChild(gl.canvas);
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [colors, distortion, swirl, speed, scale, offsetX, offsetY, rotation, waveAmp, waveFreq, waveSpeed, grain]);
+  }, [
+    colors,
+    distortion,
+    swirl,
+    speed,
+    scale,
+    offsetX,
+    offsetY,
+    rotation,
+    waveAmp,
+    waveFreq,
+    waveSpeed,
+    grain,
+  ]);
 
   return (
     <div
       ref={ctnDom}
-      style={{ width: "100%", height: "100%", position: "absolute", overflow: "hidden" }}
+      style={{ width: '100%', height: '100%', position: 'absolute', overflow: 'hidden' }}
     />
   );
 }
 
 // Label Component
 const labelVariants = cva(
-  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+  'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
 );
 
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
-    VariantProps<typeof labelVariants>
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>
 >(({ className, ...props }, ref) => (
   <LabelPrimitive.Root ref={ref} className={cn(labelVariants(), className)} {...props} />
 ));
@@ -223,53 +235,57 @@ Label.displayName = LabelPrimitive.Root.displayName;
 
 // Button Component
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium outline-offset-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-sm shadow-black/5 hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground shadow-sm shadow-black/5 hover:bg-destructive/90",
-        outline: "border border-input bg-background shadow-sm shadow-black/5 hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm shadow-black/5 hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: 'bg-primary text-primary-foreground shadow-sm shadow-black/5 hover:bg-primary/90',
+        destructive:
+          'bg-destructive text-destructive-foreground shadow-sm shadow-black/5 hover:bg-destructive/90',
+        outline:
+          'border border-input bg-background shadow-sm shadow-black/5 hover:bg-accent hover:text-accent-foreground',
+        secondary:
+          'bg-secondary text-secondary-foreground shadow-sm shadow-black/5 hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-8 rounded-lg px-3 text-xs",
-        lg: "h-11 rounded-lg px-8",
-        icon: "h-10 w-10",
+        default: 'h-10 px-4 py-2',
+        sm: 'h-8 rounded-lg px-3 text-xs',
+        lg: 'h-11 rounded-lg px-8',
+        icon: 'h-10 w-10',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
 
 interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+    const Comp = asChild ? Slot : 'button';
+    return (
+      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+    );
   }
 );
-Button.displayName = "Button";
+Button.displayName = 'Button';
 
 // Input Component
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
+const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
   ({ className, type, ...props }, ref) => {
     return (
       <input
         type={type}
         className={cn(
-          "flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm shadow-xs shadow-black/5 transition-shadow placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50",
+          'shadow-xs flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm shadow-black/5 transition-shadow placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50',
           className
         )}
         ref={ref}
@@ -278,7 +294,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
     );
   }
 );
-Input.displayName = "Input";
+Input.displayName = 'Input';
 
 // Password Input Component
 interface PasswordInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -295,8 +311,8 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
         {label && <Label>{label}</Label>}
         <div className="relative">
           <Input
-            type={showPassword ? "text" : "password"}
-            className={cn("pe-10", className)}
+            type={showPassword ? 'text' : 'password'}
+            className={cn('pe-10', className)}
             ref={ref}
             {...props}
           />
@@ -304,7 +320,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
             type="button"
             onClick={togglePasswordVisibility}
             className="absolute inset-y-0 end-0 flex h-full w-10 items-center justify-center text-muted-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
-            aria-label={showPassword ? "Hide password" : "Show password"}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             {showPassword ? (
               <EyeOff className="size-4" aria-hidden="true" />
@@ -317,20 +333,21 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
     );
   }
 );
-PasswordInput.displayName = "PasswordInput";
+PasswordInput.displayName = 'PasswordInput';
 
 // Main Sign In Component
 function SignInPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const checkIfAlreadySignedIn = async () => {
-      const user = await checkAuthStatus();
-      if (user) {
-        router.replace('/');
+      const authUser = await getCurrentAuthUser();
+      if (authUser) {
+        const redirectPath = getRoleBasedRedirect(authUser.role);
+        router.replace(redirectPath);
       }
     };
     checkIfAlreadySignedIn();
@@ -341,17 +358,44 @@ function SignInPage() {
     setIsLoading(true);
 
     try {
+      // Check if user is already authenticated before attempting sign in
+      const authUser = await getCurrentAuthUser();
+      if (authUser) {
+        console.log('User is already authenticated, redirecting...');
+        const redirectPath = getRoleBasedRedirect(authUser.role);
+        router.replace(redirectPath);
+        return;
+      }
+
       // Use USER_SRP_AUTH flow for secure password authentication
       const result = await signInWithFlow(email, password, {
         authFlowType: 'USER_SRP_AUTH',
       });
 
       if (result.nextStep.signInStep === 'DONE') {
-        await checkAuthStatus();
-        router.replace('/');
+        const authUser = await getCurrentAuthUser();
+        const redirectPath = authUser ? getRoleBasedRedirect(authUser.role) : '/dashboard';
+        router.replace(redirectPath);
       }
-    } catch (err) {
+    } catch (err: any) {
+      // Handle case where user is already authenticated (fallback)
+      const errorMessage = err.message || '';
+      const errorName = err.name || '';
+      if (
+        errorName.includes('UserAlreadyAuthenticatedException') ||
+        errorMessage.includes('already a signed in user') ||
+        errorMessage.includes('already signed in') ||
+        errorName.includes('AlreadyAuthenticated')
+      ) {
+        console.log('User is already authenticated, redirecting...');
+        const authUser = await getCurrentAuthUser();
+        const redirectPath = authUser ? getRoleBasedRedirect(authUser.role) : '/dashboard';
+        router.replace(redirectPath);
+        return;
+      }
+
       console.error('Sign in error:', err);
+      // You might want to show an error message to the user here
     } finally {
       setIsLoading(false);
     }
@@ -360,6 +404,12 @@ function SignInPage() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
+      // Check if user is already authenticated
+      const currentUser = await checkAuthStatus();
+      if (currentUser) {
+        // Sign out the current user before signing in with Google
+        await signOutUser();
+      }
       await signInWithRedirect({ provider: { custom: 'Google' } });
     } catch (error) {
       console.error('Google sign in error:', error);
@@ -371,16 +421,16 @@ function SignInPage() {
     <div className="grid min-h-screen lg:grid-cols-2">
       {/* Left side - Form */}
       <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
+        <div className="flex justify-center">
           <AuthLogo href="/" />
         </div>
 
-        <div className="flex flex-1 w-full items-center justify-center">
+        <div className="flex w-full flex-1 items-center justify-center">
           <div className="w-full max-w-sm">
             <form onSubmit={handleSignIn} className="flex flex-col gap-6">
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
-                <p className="text-muted-foreground text-sm text-balance">
+                <p className="text-balance text-sm text-muted-foreground">
                   Sign in to your account to continue
                 </p>
               </div>
@@ -389,7 +439,7 @@ function SignInPage() {
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
                       id="email"
                       name="email"
@@ -409,14 +459,14 @@ function SignInPage() {
                     <Label htmlFor="password">Password</Label>
                     <Link
                       href="/auth/forgot-password"
-                      className="text-sm text-primary hover:underline underline-offset-4"
+                      className="text-sm text-primary underline-offset-4 hover:underline"
                       data-testid="forgot-password-link"
                     >
                       Forgot password?
                     </Link>
                   </div>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+                    <Lock className="absolute left-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <PasswordInput
                       id="password"
                       name="password"
@@ -431,7 +481,7 @@ function SignInPage() {
                 </div>
 
                 <Button type="submit" disabled={isLoading} className="w-full">
-                  {isLoading ? "Signing in..." : "Sign in"}
+                  {isLoading ? 'Signing in...' : 'Sign in'}
                 </Button>
               </div>
 
@@ -440,9 +490,7 @@ function SignInPage() {
                   <span className="w-full border-t border-border" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
+                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
                 </div>
               </div>
 
@@ -477,29 +525,22 @@ function SignInPage() {
               </div>
 
               <p className="text-center text-sm text-muted-foreground">
-                Don&apos;t have an account?{" "}
+                Don&apos;t have an account?{' '}
                 <Link
                   href="/auth/signup"
-                  className="text-primary hover:underline underline-offset-4 font-medium"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
                   data-testid="sign-up-link"
                 >
                   Sign up
                 </Link>
               </p>
-
-              {/* Temporary Admin Account Setup */}
-              <div className="mt-6 pt-6 border-t border-border">
-                <AdminAccountSetup />
-              </div>
             </form>
           </div>
         </div>
       </div>
-
-      {/* Right side - Gradient Background */}
-      <div className="bg-muted relative hidden lg:block">
+      <div className="relative hidden bg-muted lg:block">
         <GradientMesh
-          colors={["#6366f1", "#8b5cf6", "#ec4899"]}
+          colors={['#6366f1', '#8b5cf6', '#ec4899']}
           distortion={8}
           swirl={0.3}
           speed={1.2}
@@ -509,13 +550,13 @@ function SignInPage() {
           waveSpeed={0.3}
           grain={0.08}
         />
-        <div className="absolute inset-0 bg-linear-to-t from-background/80 via-background/20 to-transparent" />
+        <div className="bg-linear-to-t absolute inset-0 from-background/80 via-background/20 to-transparent" />
         <div className="relative z-10 flex h-full flex-col items-center justify-end p-8 pb-12">
           <blockquote className="space-y-4 text-center">
             <p className="text-2xl font-semibold text-foreground">
               &ldquo;Secure authentication powered by AWS Amplify&rdquo;
             </p>
-            <cite className="block text-sm text-muted-foreground not-italic">
+            <cite className="block text-sm not-italic text-muted-foreground">
               Enterprise-grade security for your applications
             </cite>
           </blockquote>

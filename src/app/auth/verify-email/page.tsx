@@ -10,7 +10,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 
-
 import { GradientMesh } from '@/components/gradient-mesh';
 import { AuthLogo } from '@/components/Logo';
 import { Button } from '@/components/ui/button';
@@ -66,18 +65,18 @@ function VerifyEmailForm() {
           <AuthLogo href="/" />
         </div>
 
-        <div className="flex flex-1 w-full items-center justify-center">
+        <div className="flex w-full flex-1 items-center justify-center">
           <div className="w-full max-w-sm">
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-3xl font-bold tracking-tight">Verify your email</h1>
-                <p className="text-muted-foreground text-sm text-balance">
+                <p className="text-balance text-sm text-muted-foreground">
                   We sent a verification code to <strong>{email}</strong>
                 </p>
               </div>
 
               {error && (
-                <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg text-sm">
+                <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
                   {error}
                 </div>
               )}
@@ -104,9 +103,7 @@ function VerifyEmailForm() {
               </div>
 
               <div className="text-center">
-                <p className="text-sm text-muted-foreground mb-2">
-                  Didn&apos;t receive the code?
-                </p>
+                <p className="mb-2 text-sm text-muted-foreground">Didn&apos;t receive the code?</p>
                 <Button
                   type="button"
                   variant="outline"
@@ -119,7 +116,10 @@ function VerifyEmailForm() {
               </div>
 
               <p className="text-center text-sm text-muted-foreground">
-                <Link href="/auth/signin" className="text-primary hover:underline underline-offset-4 font-medium">
+                <Link
+                  href="/auth/signin"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
+                >
                   Back to sign in
                 </Link>
               </p>
@@ -128,7 +128,7 @@ function VerifyEmailForm() {
         </div>
       </div>
 
-      <div className="bg-muted relative hidden lg:block">
+      <div className="relative hidden bg-muted lg:block">
         <GradientMesh
           colors={['#10b981', '#3b82f6', '#8b5cf6']}
           distortion={6}
@@ -146,7 +146,7 @@ function VerifyEmailForm() {
             <p className="text-2xl font-semibold text-foreground">
               &ldquo;One step closer to your account&rdquo;
             </p>
-            <cite className="block text-sm text-muted-foreground not-italic">
+            <cite className="block text-sm not-italic text-muted-foreground">
               Verify your email to complete registration
             </cite>
           </blockquote>
@@ -158,31 +158,33 @@ function VerifyEmailForm() {
 
 export default function VerifyEmailPage() {
   return (
-    <Suspense fallback={
-      <div className="grid min-h-screen lg:grid-cols-2">
-        <div className="flex flex-col gap-4 p-6 md:p-10">
-          <div className="flex justify-center gap-2 md:justify-start">
-            <Link href="/" aria-label="home" className="flex gap-2 items-center">
-              <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl">
-                A
-              </div>
-            </Link>
-          </div>
-          <div className="flex flex-1 w-full items-center justify-center">
-            <div className="w-full max-w-sm">
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <h1 className="text-3xl font-bold tracking-tight">Loading...</h1>
+    <Suspense
+      fallback={
+        <div className="grid min-h-screen lg:grid-cols-2">
+          <div className="flex flex-col gap-4 p-6 md:p-10">
+            <div className="flex justify-center gap-2 md:justify-start">
+              <Link href="/" aria-label="home" className="flex items-center gap-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-xl font-bold text-primary-foreground">
+                  A
+                </div>
+              </Link>
+            </div>
+            <div className="flex w-full flex-1 items-center justify-center">
+              <div className="w-full max-w-sm">
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <h1 className="text-3xl font-bold tracking-tight">Loading...</h1>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="relative hidden bg-muted lg:block">
+            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+          </div>
         </div>
-        <div className="bg-muted relative hidden lg:block">
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
-        </div>
-      </div>
-    }>
+      }
+    >
       <VerifyEmailForm />
     </Suspense>
   );

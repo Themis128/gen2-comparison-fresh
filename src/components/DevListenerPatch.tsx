@@ -12,7 +12,11 @@ import { useLayoutEffect } from 'react';
 if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
   try {
     const orig = EventTarget.prototype.addEventListener;
-    EventTarget.prototype.addEventListener = function (type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) {
+    EventTarget.prototype.addEventListener = function (
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ) {
       try {
         if (type === 'wheel' || type === 'touchmove') {
           if (typeof options === 'boolean') {
@@ -29,7 +33,9 @@ if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
       }
       return orig.call(this, type, listener, options);
     };
-    console.info('[dev] Module-level listener patch applied (early): forcing passive for wheel/touchmove listeners');
+    console.warn(
+      '[dev] Module-level listener patch applied (early): forcing passive for wheel/touchmove listeners'
+    );
   } catch {
     // swallow
   }
@@ -42,7 +48,12 @@ export default function DevListenerPatch(): null {
     const original = EventTarget.prototype.addEventListener;
     let patched = false;
 
-    function patchedAddEventListener(this: EventTarget, type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) {
+    function patchedAddEventListener(
+      this: EventTarget,
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ) {
       // Only patch in development and for the known noisy event types
       if (type === 'wheel' || type === 'touchmove') {
         try {
@@ -72,14 +83,14 @@ export default function DevListenerPatch(): null {
 
     if (patched) {
       // Only log in dev to avoid spamming test outputs
-      console.info('[dev] Applied listener patch: forcing passive for wheel/touchmove listeners');
+      console.warn('[dev] Applied listener patch: forcing passive for wheel/touchmove listeners');
     }
 
     return () => {
       // Restore original
-    EventTarget.prototype.addEventListener = original;
+      EventTarget.prototype.addEventListener = original;
       if (patched) {
-        console.info('[dev] Restored original addEventListener');
+        console.warn('[dev] Restored original addEventListener');
       }
     };
   }, []);

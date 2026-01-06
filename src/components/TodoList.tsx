@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 
 import { client } from '@/lib/amplify-client';
+
 import type { Schema } from '../../amplify/data/resource';
 type Todo = Schema['Todo']['type'];
 
@@ -85,21 +86,18 @@ export function TodoList() {
   // ...existing code...
 
   if (loading) {
-    return <div className="text-center py-4">Loading todos...</div>;
+    return <div className="py-4 text-center">Loading todos...</div>;
   }
 
   return (
     <div className="space-y-4">
-      <form
-        onSubmit={createTodo}
-        className="space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg"
-      >
+      <form onSubmit={createTodo} className="space-y-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
         <input
           type="text"
           value={newTodoContent}
           onChange={(e) => setNewTodoContent(e.target.value)}
           placeholder="What needs to be done?"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
           required
         />
         <input
@@ -107,14 +105,12 @@ export function TodoList() {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           placeholder="Category (optional)"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
         />
         <select
           value={priority}
-          onChange={(e) =>
-            setPriority(e.target.value as 'low' | 'medium' | 'high')
-          }
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
         >
           <option value="low">Low Priority</option>
           <option value="medium">Medium Priority</option>
@@ -124,68 +120,64 @@ export function TodoList() {
           type="datetime-local"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
         />
         <button
           type="submit"
-          className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Add Todo
         </button>
       </form>
       <div className="space-y-2">
         {todos.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">
-            No todos yet. Add one above!
-          </p>
+          <p className="py-4 text-center text-gray-500">No todos yet. Add one above!</p>
         ) : (
           todos.map((todo) => (
             <div
               key={todo.id}
-              className={`p-4 rounded-md border-l-4 ${
+              className={`rounded-md border-l-4 p-4 ${
                 todo.isDone
-                  ? 'bg-green-50 dark:bg-green-900/20 border-green-500'
+                  ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
                   : todo.priority === 'high'
-                    ? 'bg-red-50 dark:bg-red-900/20 border-red-500'
+                    ? 'border-red-500 bg-red-50 dark:bg-red-900/20'
                     : todo.priority === 'medium'
-                      ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-500'
-                      : 'bg-gray-50 dark:bg-gray-700 border-gray-500'
+                      ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
+                      : 'border-gray-500 bg-gray-50 dark:bg-gray-700'
               }`}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
+                  <div className="mb-2 flex items-center gap-3">
                     <input
                       type="checkbox"
                       checked={todo.isDone || false}
                       onChange={() => toggleTodo(todo.id, todo.isDone || false)}
-                      className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      className="h-5 w-5 rounded border-gray-300 bg-gray-100 text-green-600 focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-green-600"
                     />
-                    <span
-                      className={`flex-1 ${todo.isDone ? 'line-through text-gray-500' : ''}`}
-                    >
+                    <span className={`flex-1 ${todo.isDone ? 'text-gray-500 line-through' : ''}`}>
                       {todo.content}
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-2 text-sm text-gray-600 dark:text-gray-400">
                     {todo.category && (
-                      <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded">
+                      <span className="rounded bg-blue-100 px-2 py-1 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
                         {todo.category}
                       </span>
                     )}
                     <span
-                      className={`px-2 py-1 rounded ${
+                      className={`rounded px-2 py-1 ${
                         todo.priority === 'high'
-                          ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
+                          ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                           : todo.priority === 'medium'
-                            ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
-                            : 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                            : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                       }`}
                     >
                       {todo.priority || 'medium'}
                     </span>
                     {todo.dueDate && (
-                      <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded">
+                      <span className="rounded bg-purple-100 px-2 py-1 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
                         Due: {new Date(todo.dueDate).toLocaleDateString()}
                       </span>
                     )}
@@ -193,7 +185,7 @@ export function TodoList() {
                 </div>
                 <button
                   onClick={() => deleteTodo(todo.id)}
-                  className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 ml-4"
+                  className="ml-4 rounded bg-red-500 px-3 py-1 text-sm text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                   Delete
                 </button>

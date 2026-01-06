@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { ThemeProvider } from '../lib/theme-context';
 

@@ -126,13 +126,13 @@
 @keyframes gradient-x {
   0%,
   100% {
-    background-size: 200% 200%;
     background-position: left center;
+    background-size: 200% 200%;
   }
 
   50% {
-    background-size: 200% 200%;
     background-position: right center;
+    background-size: 200% 200%;
   }
 }
 
@@ -158,11 +158,13 @@
 
 /* Neon / cyber styles */
 .neon-text {
+  animation: neon-flicker 3s ease-in-out infinite;
   background: linear-gradient(90deg, #7c3aed, #06b6d4, #f472b6);
   background-clip: text;
   color: transparent;
-  text-shadow: 0 0 6px rgb(124 58 237 / 60%), 0 0 18px rgb(6 182 212 / 35%);
-  animation: neon-flicker 3s ease-in-out infinite;
+  text-shadow:
+    0 0 6px rgb(124 58 237 / 60%),
+    0 0 18px rgb(6 182 212 / 35%);
 }
 
 @keyframes neon-flicker {
@@ -172,7 +174,9 @@
   }
 
   50% {
-    text-shadow: 0 0 12px rgb(6 182 212 / 80%), 0 0 24px rgb(246 72 153 / 50%);
+    text-shadow:
+      0 0 12px rgb(6 182 212 / 80%),
+      0 0 24px rgb(246 72 153 / 50%);
     transform: translateY(-2px);
   }
 
@@ -183,40 +187,40 @@
 }
 
 .neon-underline {
-  display: inline-block;
-  height: 4px;
-  width: 60%;
-  margin-top: 8px;
+  animation: underline-slide 2.5s linear infinite;
   background: linear-gradient(90deg, #06b6d4, #7c3aed, #f472b6);
   border-radius: 9999px;
   box-shadow: 0 0 10px rgb(6 182 212 / 40%);
-  animation: underline-slide 2.5s linear infinite;
+  display: inline-block;
+  height: 4px;
+  margin-top: 8px;
+  width: 60%;
 }
 
 @keyframes underline-slide {
   0% {
+    opacity: 60%;
     transform: translateX(-10%);
-    opacity: 0.6;
   }
 
   50% {
+    opacity: 100%;
     transform: translateX(10%);
-    opacity: 1;
   }
 
   100% {
+    opacity: 60%;
     transform: translateX(-10%);
-    opacity: 0.6;
   }
 }
 
 .tech-grid {
-  position: absolute;
-  inset: 0;
   background-image: radial-gradient(rgb(6 182 212 / 4%) 1px, transparent 1px);
   background-size: 40px 40px;
+  inset: 0;
+  opacity: 60%;
   pointer-events: none;
-  opacity: 0.6;
+  position: absolute;
 }
 
 /* Skills badge cloud */
@@ -234,28 +238,32 @@
 }
 
 .skill-badge:hover {
-  box-shadow: 0 12px 30px rgb(6 182 212 / 12%), 0 6px 12px rgb(124 58 237 / 6%);
+  box-shadow:
+    0 12px 30px rgb(6 182 212 / 12%),
+    0 6px 12px rgb(124 58 237 / 6%);
 }
 
 /* Site-wide tech overlay and mono accents */
 .site-tech-overlay {
-  background-image: linear-gradient(
-      180deg,
-      rgb(6 182 212 / 2%),
-      rgb(124 58 237 / 2%)
-    ),
+  background-image:
+    linear-gradient(180deg, rgb(6 182 212 / 2%), rgb(124 58 237 / 2%)),
     radial-gradient(rgb(6 182 212 / 3%) 1px, transparent 1px);
-  background-size: 100% 100%, 40px 40px;
-  background-position: center, 0 0;
-  opacity: 0.9;
+  background-position:
+    center,
+    0 0;
+  background-size:
+    100% 100%,
+    40px 40px;
   mix-blend-mode: overlay;
+  opacity: 90%;
 }
 
 .mono-accent {
-  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Monaco,
-    'Roboto Mono', 'Courier New', monospace;
-  letter-spacing: 0.04em;
   color: var(--foreground);
+  font-family:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Monaco, 'Roboto Mono', 'Courier New',
+    monospace;
+  letter-spacing: 0.04em;
 }
 
 /* Neon small accent for nav links */
@@ -264,17 +272,17 @@
 }
 
 .nav-accent::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 50%;
-  bottom: -6px;
-  height: 3px;
   background: linear-gradient(90deg, #06b6d4, #7c3aed, #f472b6);
   border-radius: 9999px;
+  bottom: -6px;
   box-shadow: 0 0 8px rgb(6 182 212 / 12%);
-  transform-origin: left;
+  content: '';
+  height: 3px;
+  left: 0;
+  position: absolute;
+  right: 50%;
   transform: scaleX(0);
+  transform-origin: left;
   transition: transform 220ms ease;
 }
 
@@ -322,43 +330,43 @@ body {
 }
 
 /* Mobile-first responsive design */
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .container {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   /* Mobile navigation optimizations */
   .mobile-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 50;
-    background: hsl(var(--background) / 95%);
     backdrop-filter: blur(10px);
+    background: hsl(var(--background) / 95%);
     border-bottom: 1px solid hsl(var(--border));
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 50;
   }
-  
+
   /* Mobile form optimizations */
   .mobile-form {
-    padding: 1rem;
     max-width: 100%;
+    padding: 1rem;
   }
-  
+
   /* Touch-friendly buttons */
   .touch-button {
     min-height: 44px;
     min-width: 44px;
     padding: 0.75rem 1rem;
   }
-  
+
   /* Mobile typography */
   .mobile-text {
     font-size: 0.875rem;
     line-height: 1.5;
   }
-  
+
   /* Mobile spacing */
   .mobile-spacing {
     margin-bottom: 1rem;
@@ -366,22 +374,23 @@ body {
 }
 
 /* Tablet optimizations */
-@media (min-width: 641px) and (max-width: 1024px) {
+@media (width >= 641px) and (width <= 1024px) {
   .tablet-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* Mobile menu animations */
 @keyframes slideInFromTop {
   from {
+    opacity: 0%;
     transform: translateY(-100%);
-    opacity: 0;
   }
+
   to {
+    opacity: 100%;
     transform: translateY(0);
-    opacity: 1;
   }
 }
 
@@ -399,42 +408,44 @@ body {
   .hover\:rotate-\[-5\]:hover {
     transform: none;
   }
-  
+
   /* Larger touch targets */
-  button, .button, [role="button"] {
+  button,
+  .button,
+  [role='button'] {
     min-height: 44px;
     min-width: 44px;
   }
-  
+
   /* Remove hover effects on touch devices */
   .card:hover {
-    transform: none;
     box-shadow: none;
+    transform: none;
   }
 }
 
 /* PWA and mobile viewport optimizations */
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   /* Prevent zoom on input focus */
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
   textarea,
   select {
     font-size: 16px;
   }
-  
+
   /* Mobile-friendly modals */
   .modal-content {
     margin: 1rem;
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
   }
-  
+
   /* Mobile navigation */
   .mobile-nav-item {
-    padding: 1rem;
     border-bottom: 1px solid hsl(var(--border));
+    padding: 1rem;
   }
 }
 
@@ -443,15 +454,15 @@ body {
   .safe-area-top {
     padding-top: max(1rem, env(safe-area-inset-top));
   }
-  
+
   .safe-area-bottom {
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
-  
+
   .safe-area-left {
     padding-left: max(1rem, env(safe-area-inset-left));
   }
-  
+
   .safe-area-right {
     padding-right: max(1rem, env(safe-area-inset-right));
   }

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import ModernSkills from './ModernSkills';
 
 import type { PersonalData } from '../lib/personal-data';

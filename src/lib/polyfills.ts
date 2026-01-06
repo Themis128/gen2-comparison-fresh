@@ -6,7 +6,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 
 if (typeof window !== 'undefined') {
-
   // Polyfill for Element.prototype.matches
   if (!Element.prototype.matches) {
     Element.prototype.matches =
@@ -16,7 +15,7 @@ if (typeof window !== 'undefined') {
         const matches = ((this as any).document || (this as any).ownerDocument).querySelectorAll(s);
         let i = matches.length;
         // eslint-disable-next-line no-empty
-        while (--i >= 0 && matches.item(i) !== this) { }
+        while (--i >= 0 && matches.item(i) !== this) {}
         return i > -1;
       };
   }
@@ -35,7 +34,11 @@ if (typeof window !== 'undefined') {
 
   // Polyfill for Array.prototype.includes
   if (!Array.prototype.includes) {
-    Array.prototype.includes = function <T>(this: T[], searchElement: T, fromIndex?: number): boolean {
+    Array.prototype.includes = function <T>(
+      this: T[],
+      searchElement: T,
+      fromIndex?: number
+    ): boolean {
       if (this == null) {
         throw new TypeError('"this" is null or not defined');
       }
@@ -151,29 +154,36 @@ if (typeof window !== 'undefined') {
   // Basic fetch polyfill for very old browsers
   if (typeof fetch === 'undefined') {
     (window as any).fetch = function (url: string, options?: any) {
-      return new (window as any).Promise((resolve: (response: any) => void, reject: (error: any) => void) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open(options?.method || 'GET', url);
+      return new (window as any).Promise(
+        (resolve: (response: any) => void, reject: (error: any) => void) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open(options?.method || 'GET', url);
 
-        if (options?.headers) {
-          Object.keys(options.headers).forEach((key: string) => {
-            xhr.setRequestHeader(key, options.headers[key]);
-          });
+          if (options?.headers) {
+            Object.keys(options.headers).forEach((key: string) => {
+              xhr.setRequestHeader(key, options.headers[key]);
+            });
+          }
+
+          xhr.onload = () => {
+            resolve({
+              ok: xhr.status >= 200 && xhr.status < 300,
+              status: xhr.status,
+              json: () =>
+                new (window as any).Promise((resolve: (data: any) => void) =>
+                  resolve(JSON.parse(xhr.responseText))
+                ),
+              text: () =>
+                new (window as any).Promise((resolve: (data: string) => void) =>
+                  resolve(xhr.responseText)
+                ),
+            });
+          };
+
+          xhr.onerror = () => reject(new Error('Network error'));
+          xhr.send(options?.body);
         }
-
-        xhr.onload = () => {
-          resolve({
-            ok: xhr.status >= 200 && xhr.status < 300,
-            status: xhr.status,
-            json: () => new (window as any).Promise((resolve: (data: any) => void) => resolve(JSON.parse(xhr.responseText))),
-            text: () => new (window as any).Promise((resolve: (data: string) => void) => resolve(xhr.responseText))
-          });
-        };
-
-        xhr.onerror = () => reject(new Error('Network error'));
-        xhr.send(options?.body);
-      });
+      );
     };
   }
-
 } // End browser check

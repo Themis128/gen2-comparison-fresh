@@ -16,7 +16,7 @@ const configureAmplify = (): void => {
   try {
     Amplify.configure(outputs, { ssr: true });
     isConfigured = true;
-    console.log(`✅ Amplify configured successfully for runtime`);
+    console.warn(`✅ Amplify configured successfully for runtime`);
   } catch {
     console.error('❌ Failed to configure Amplify');
     // Don't throw here as this might be expected during build time
@@ -41,7 +41,7 @@ export const ensureAmplifyConfigured = async (): Promise<void> => {
   try {
     Amplify.configure(outputs, { ssr: true });
     isConfigured = true;
-    console.log(`✅ Amplify configured successfully`);
+    console.warn(`✅ Amplify configured successfully`);
   } catch {
     console.error('❌ Failed to configure Amplify');
     // Don't throw - allow component to render even if config fails

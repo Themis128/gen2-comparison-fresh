@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-PORT=44769
+PORT=50000
 DEV_SERVER_PID=""
 
 # Function to clean up processes
@@ -27,9 +27,14 @@ echo "🚀 Starting Playwright E2E tests..."
 echo "📁 Working directory: $(pwd)"
 
 # Start the dev server in the background
-echo "🌐 Starting Next.js dev server on port $PORT..."
-npm run dev -- --port $PORT &
-DEV_SERVER_PID=$!
+echo "🌐 Checking Next.js dev server on port $PORT..."
+if curl -s http://localhost:$PORT > /dev/null 2>&1; then
+    echo "✅ Dev server is already running on port $PORT"
+else
+    echo "🌐 Starting Next.js dev server on port $PORT..."
+    npx next dev --port $PORT &
+    DEV_SERVER_PID=$!
+fi
 
 # Wait for the server to be ready
 echo "⏳ Waiting for dev server to start..."

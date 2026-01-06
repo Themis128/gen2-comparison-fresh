@@ -1,5 +1,4 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { routePermissions, canAccessRoute } from './src/lib/roleBasedAuth';
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;

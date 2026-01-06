@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { AuthEventMonitor } from './AuthEventMonitor';
+import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 import { UserProfile } from './UserProfile';
 import {
   type AuthFlowType,
@@ -43,7 +44,7 @@ export default function UserSession() {
     if (!user) return;
     try {
       await refreshAuthSession();
-      console.log('Session refreshed successfully');
+      console.warn('Session refreshed successfully');
       // Auth events will automatically update the user state
     } catch (error) {
       console.error('Error refreshing session:', error);
@@ -53,7 +54,7 @@ export default function UserSession() {
   const handleSignOut = async () => {
     try {
       await signOutUser();
-      console.log('User signed out');
+      console.warn('User signed out');
       // Auth events will automatically update the user state
     } catch (error) {
       console.error('Error signing out:', error);
@@ -68,34 +69,22 @@ export default function UserSession() {
     try {
       let result: SignInResult;
 
-      if (
-        signInStep?.nextStep.signInStep ===
-        'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION'
-      ) {
+      if (signInStep?.nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION') {
         // User has selected a challenge, confirm it
-        const selectedChallenge =
-          signInData.selectedChallenge || availableChallenges[0];
+        const selectedChallenge = signInData.selectedChallenge || availableChallenges[0];
         result = await confirmSignInWithChallenge(selectedChallenge);
       } else {
         // Initial sign-in attempt
-        const preferredChallenge =
-          signInData.preferredChallenge as PreferredChallenge;
-        result = await signInWithFlow(
-          signInData.username,
-          signInData.password || undefined,
-          {
-            authFlowType: authFlow,
-            preferredChallenge: preferredChallenge || undefined,
-          }
-        );
+        const preferredChallenge = signInData.preferredChallenge as PreferredChallenge;
+        result = await signInWithFlow(signInData.username, signInData.password || undefined, {
+          authFlowType: authFlow,
+          preferredChallenge: preferredChallenge || undefined,
+        });
       }
 
       setSignInStep(result);
 
-      if (
-        result.nextStep.signInStep ===
-        'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION'
-      ) {
+      if (result.nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION') {
         setAvailableChallenges(result.nextStep.availableChallenges || []);
         setSignInError(null);
       } else if (result.nextStep.signInStep === 'DONE') {
@@ -123,7 +112,7 @@ export default function UserSession() {
   if (isLoading) {
     return (
       <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900 dark:border-white" />
+        <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-gray-900 dark:border-white" />
         <span>Checking session...</span>
       </div>
     );
@@ -132,10 +121,7 @@ export default function UserSession() {
   if (!user) {
     if (showSignIn) {
       // Show challenge selection if available
-      if (
-        signInStep?.nextStep.signInStep ===
-        'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION'
-      ) {
+      if (signInStep?.nextStep.signInStep === 'CONTINUE_SIGN_IN_WITH_FIRST_FACTOR_SELECTION') {
         return (
           <div className="relative">
             <div className="flex flex-col space-y-2">
@@ -154,7 +140,7 @@ export default function UserSession() {
                       handleSignIn();
                     }}
                     disabled={signingIn}
-                    className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 text-xs"
+                    className="rounded bg-blue-600 px-3 py-1 text-xs text-white hover:bg-blue-700 disabled:opacity-50"
                   >
                     {challenge.replace('_', ' ')}
                   </button>
@@ -172,7 +158,7 @@ export default function UserSession() {
                     selectedChallenge: '',
                   });
                 }}
-                className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 text-xs self-start"
+                className="self-start rounded bg-gray-600 px-3 py-1 text-xs text-white hover:bg-gray-700"
               >
                 Cancel
               </button>
@@ -194,7 +180,7 @@ export default function UserSession() {
               <select
                 value={authFlow}
                 onChange={(e) => setAuthFlow(e.target.value as AuthFlowType)}
-                className="px-2 py-1 text-xs border rounded dark:bg-gray-800 dark:border-gray-600"
+                className="rounded border px-2 py-1 text-xs dark:border-gray-600 dark:bg-gray-800"
               >
                 <option value="USER_AUTH">USER_AUTH (Recommended)</option>
                 <option value="USER_SRP_AUTH">USER_SRP_AUTH</option>
@@ -215,7 +201,7 @@ export default function UserSession() {
                     username: e.target.value,
                   }))
                 }
-                className="px-2 py-1 text-xs border rounded dark:bg-gray-800 dark:border-gray-600"
+                className="rounded border px-2 py-1 text-xs dark:border-gray-600 dark:bg-gray-800"
                 required
               />
 
@@ -232,7 +218,7 @@ export default function UserSession() {
                       password: e.target.value,
                     }))
                   }
-                  className="px-2 py-1 text-xs border rounded dark:bg-gray-800 dark:border-gray-600"
+                  className="rounded border px-2 py-1 text-xs dark:border-gray-600 dark:bg-gray-800"
                   required
                 />
               )}
@@ -246,7 +232,7 @@ export default function UserSession() {
                       preferredChallenge: e.target.value,
                     }))
                   }
-                  className="px-2 py-1 text-xs border rounded dark:bg-gray-800 dark:border-gray-600"
+                  className="rounded border px-2 py-1 text-xs dark:border-gray-600 dark:bg-gray-800"
                 >
                   <option value="">Choose method (optional)</option>
                   <option value="PASSWORD_SRP">Password SRP</option>
@@ -262,7 +248,7 @@ export default function UserSession() {
               <button
                 type="submit"
                 disabled={signingIn}
-                className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 text-xs"
+                className="rounded bg-green-600 px-3 py-1 text-xs text-white hover:bg-green-700 disabled:opacity-50"
               >
                 {signingIn ? 'Signing in...' : 'Sign In'}
               </button>
@@ -279,16 +265,14 @@ export default function UserSession() {
                     selectedChallenge: '',
                   });
                 }}
-                className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 text-xs"
+                className="rounded bg-gray-600 px-3 py-1 text-xs text-white hover:bg-gray-700"
               >
                 Cancel
               </button>
             </div>
           </form>
           {signInError && (
-            <div className="mt-2 text-xs text-red-600 dark:text-red-400">
-              {signInError}
-            </div>
+            <div className="mt-2 text-xs text-red-600 dark:text-red-400">{signInError}</div>
           )}
         </div>
       );
@@ -297,7 +281,7 @@ export default function UserSession() {
     return (
       <button
         onClick={() => setShowSignIn(true)}
-        className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-xs"
+        className="rounded bg-green-600 px-3 py-1 text-xs text-white hover:bg-green-700"
       >
         Sign In
       </button>
@@ -310,47 +294,53 @@ export default function UserSession() {
         <div className="font-medium">{user.signInDetails?.loginId || user.username}</div>
       </div>
       <div className="flex space-x-2">
-        <button
-          onClick={() => setShowProfile(true)}
-          className="px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700 text-xs"
-        >
-          Profile
-        </button>
-        <button
-          onClick={() => setShowEventMonitor(true)}
-          className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs"
-        >
-          Events
-        </button>
+        <Dialog open={showProfile} onOpenChange={setShowProfile}>
+          <DialogTrigger asChild>
+            <button
+              className="rounded bg-purple-600 px-3 py-1 text-xs text-white transition-colors hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50"
+              aria-label="Open user profile"
+            >
+              Profile
+            </button>
+          </DialogTrigger>
+          <DialogContent className="max-h-[90vh] max-w-5xl overflow-y-auto bg-background/95 p-0 backdrop-blur-sm">
+            <div className="p-6">
+              <UserProfile />
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={showEventMonitor} onOpenChange={setShowEventMonitor}>
+          <DialogTrigger asChild>
+            <button
+              className="rounded bg-indigo-600 px-3 py-1 text-xs text-white transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+              aria-label="Open authentication events monitor"
+            >
+              Events
+            </button>
+          </DialogTrigger>
+          <DialogContent className="max-h-[90vh] max-w-6xl overflow-y-auto bg-background/95 p-0 backdrop-blur-sm">
+            <div className="p-6">
+              <AuthEventMonitor />
+            </div>
+          </DialogContent>
+        </Dialog>
+
         <button
           onClick={handleRefreshSession}
-          className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs"
+          className="rounded bg-blue-600 px-3 py-1 text-xs text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+          aria-label="Refresh authentication session"
         >
           Refresh Session
         </button>
         <button
           onClick={handleSignOut}
-          className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-xs"
+          className="rounded bg-red-600 px-3 py-1 text-xs text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50"
+          aria-label="Sign out of account"
         >
           Sign Out
         </button>
       </div>
-
-      {showProfile && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <UserProfile onClose={() => setShowProfile(false)} />
-          </div>
-        </div>
-      )}
-
-      {showEventMonitor && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="max-w-5xl w-full max-h-[90vh] overflow-y-auto">
-            <AuthEventMonitor onClose={() => setShowEventMonitor(false)} />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

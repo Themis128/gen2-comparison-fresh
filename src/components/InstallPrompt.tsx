@@ -16,8 +16,7 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export default function InstallPrompt() {
-  const [deferredPrompt, setDeferredPrompt] =
-    useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
 
@@ -31,14 +30,8 @@ export default function InstallPrompt() {
 
       // Check for iOS Safari
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      const isSafari = /^((?!chrome|android).)*safari/i.test(
-        navigator.userAgent
-      );
-      if (
-        isIOS &&
-        isSafari &&
-        (window.navigator as { standalone?: boolean }).standalone
-      ) {
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      if (isIOS && isSafari && (window.navigator as { standalone?: boolean }).standalone) {
         setIsInstalled(true);
         return;
       }
@@ -62,10 +55,7 @@ export default function InstallPrompt() {
     window.addEventListener('appinstalled', handleAppInstalled);
 
     return () => {
-      window.removeEventListener(
-        'beforeinstallprompt',
-        handleBeforeInstallPrompt
-      );
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
     };
   }, []);
@@ -78,9 +68,9 @@ export default function InstallPrompt() {
       const { outcome } = await deferredPrompt.userChoice;
 
       if (outcome === 'accepted') {
-        console.log('User accepted the install prompt');
+        console.warn('User accepted the install prompt');
       } else {
-        console.log('User dismissed the install prompt');
+        console.warn('User dismissed the install prompt');
       }
 
       setDeferredPrompt(null);
@@ -101,23 +91,19 @@ export default function InstallPrompt() {
 
   return (
     <div className="fixed bottom-4 left-4 right-4 z-50 md:left-auto md:right-4 md:w-96">
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
+      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
               Install Portfolio App
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-              Get the full experience! Install our portfolio app for offline
-              access and native app features.
+            <p className="mb-3 text-sm text-gray-600 dark:text-gray-300">
+              Get the full experience! Install our portfolio app for offline access and native app
+              features.
             </p>
             <div className="flex gap-2">
-              <Button
-                onClick={handleInstallClick}
-                className="flex items-center gap-2"
-                size="sm"
-              >
-                <Download className="w-4 h-4" />
+              <Button onClick={handleInstallClick} className="flex items-center gap-2" size="sm">
+                <Download className="h-4 w-4" />
                 Install App
               </Button>
               <Button
@@ -126,7 +112,7 @@ export default function InstallPrompt() {
                 size="sm"
                 className="flex items-center gap-2"
               >
-                <X className="w-4 h-4" />
+                <X className="h-4 w-4" />
                 Not Now
               </Button>
             </div>

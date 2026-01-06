@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import ModernAboutNew from './ModernAboutNew';
 
 import type { PersonalData } from '../lib/personal-data';

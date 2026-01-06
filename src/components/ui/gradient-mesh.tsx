@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import * as React from 'react';
 
-import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
+import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
 
 const vert = `
 attribute vec2 uv;
@@ -93,7 +93,7 @@ interface GradientMeshProps {
 }
 
 const hexToRgb = (hex: string): [number, number, number] => {
-  const cleanHex = hex.replace("#", "");
+  const cleanHex = hex.replace('#', '');
   const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
   const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
   const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
@@ -101,7 +101,7 @@ const hexToRgb = (hex: string): [number, number, number] => {
 };
 
 export function GradientMesh({
-  colors = ["#3b2a8d", "#aaa7d7", "#f75092"],
+  colors = ['#3b2a8d', '#aaa7d7', '#f75092'],
   distortion = 5,
   swirl = 0.5,
   speed = 1.0,
@@ -113,7 +113,7 @@ export function GradientMesh({
   waveFreq = 10.0,
   waveSpeed = 0.2,
   grain = 0.06,
-  className = "",
+  className = '',
 }: GradientMeshProps) {
   const ctnDom = React.useRef<HTMLDivElement>(null);
 
@@ -128,7 +128,7 @@ export function GradientMesh({
     function resize() {
       renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
     }
-    window.addEventListener("resize", resize, false);
+    window.addEventListener('resize', resize, false);
     resize();
 
     const geometry = new Triangle(gl);
@@ -145,16 +145,12 @@ export function GradientMesh({
       uWaveFreq: { value: waveFreq },
       uWaveSpeed: { value: waveSpeed },
       uResolution: {
-        value: new Color(
-          gl.canvas.width,
-          gl.canvas.height,
-          gl.canvas.width / gl.canvas.height,
-        ),
+        value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height),
       },
       uGrain: { value: grain },
     };
 
-    const labels = ["A", "B", "C"];
+    const labels = ['A', 'B', 'C'];
     rgbColors.forEach((c, i) => {
       uniforms[`uColor${labels[i]}`] = { value: new Color(...c) };
     });
@@ -179,11 +175,11 @@ export function GradientMesh({
 
     return () => {
       cancelAnimationFrame(animateId);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener('resize', resize);
       if (ctn.contains(gl.canvas)) {
         ctn.removeChild(gl.canvas);
       }
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [
     colors,
@@ -205,10 +201,10 @@ export function GradientMesh({
       ref={ctnDom}
       className={className}
       style={{
-        width: "100%",
-        height: "100%",
-        position: "absolute",
-        overflow: "hidden",
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        overflow: 'hidden',
       }}
     />
   );

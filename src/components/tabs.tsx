@@ -38,26 +38,17 @@ interface TabsContentProps {
   className?: string;
 }
 
-export const Tabs: React.FC<TabsProps> = ({
-  defaultValue,
-  children,
-  className = '',
-}) => {
+export const Tabs: React.FC<TabsProps> = ({ defaultValue, children, className = '' }) => {
   const [activeTab, setActiveTab] = useState(defaultValue);
 
   return (
     <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-      <div className={className}>
-        {children}
-      </div>
+      <div className={className}>{children}</div>
     </TabsContext.Provider>
   );
 };
 
-export const TabsList: React.FC<TabsListProps> = ({
-  children,
-  className = '',
-}) => (
+export const TabsList: React.FC<TabsListProps> = ({ children, className = '' }) => (
   <div
     className={`inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground ${className}`}
   >
@@ -65,11 +56,7 @@ export const TabsList: React.FC<TabsListProps> = ({
   </div>
 );
 
-export const TabsTrigger: React.FC<TabsTriggerProps> = ({
-  value,
-  children,
-  className = '',
-}) => {
+export const TabsTrigger: React.FC<TabsTriggerProps> = ({ value, children, className = '' }) => {
   const { activeTab, setActiveTab } = useTabs();
 
   return (
@@ -86,11 +73,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
   );
 };
 
-export const TabsContent: React.FC<TabsContentProps> = ({
-  value,
-  children,
-  className = '',
-}) => {
+export const TabsContent: React.FC<TabsContentProps> = ({ value, children, className = '' }) => {
   const { activeTab } = useTabs();
 
   return activeTab === value ? <div className={className}>{children}</div> : null;

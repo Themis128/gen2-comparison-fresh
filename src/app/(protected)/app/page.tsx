@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Suspense, memo } from 'react';
 
@@ -11,17 +11,28 @@ import Hero from '@/components/Hero';
 import Languages from '@/components/Languages';
 import { getPersonalDataServer } from '@/lib/personal-data';
 
-const LoadingSkeleton = memo(function LoadingSkeleton({ height = "400px", color = "blue" }: { height?: string; color?: string }) {
+const LoadingSkeleton = memo(function LoadingSkeleton({
+  height = '400px',
+  color = 'blue',
+}: {
+  height?: string;
+  color?: string;
+}) {
   const colorClasses: Record<string, string> = {
-    blue: "border-blue-500",
-    green: "border-green-500", 
-    purple: "border-purple-500",
-    orange: "border-orange-500",
+    blue: 'border-blue-500',
+    green: 'border-green-500',
+    purple: 'border-purple-500',
+    orange: 'border-orange-500',
   };
-  
+
   return (
-    <div className={`min-h-[${height}] flex items-center justify-center`} style={{ minHeight: height }}>
-      <div className={`animate-spin rounded-full h-10 w-10 border-b-2 ${colorClasses[color] || colorClasses.blue}`} />
+    <div
+      className={`min-h-[${height}] flex items-center justify-center`}
+      style={{ minHeight: height }}
+    >
+      <div
+        className={`h-10 w-10 animate-spin rounded-full border-b-2 ${colorClasses[color] || colorClasses.blue}`}
+      />
     </div>
   );
 });
@@ -53,23 +64,23 @@ const HomePage = memo(function HomePage() {
     <div className="min-h-screen">
       <Hero data={data} />
       <About data={data} />
-      
+
       <Suspense fallback={<LoadingSkeleton height="350px" color="orange" />}>
         <SkillsComponent data={data} />
       </Suspense>
-      
+
       <Suspense fallback={<LoadingSkeleton height="300px" color="green" />}>
         <ExperienceComponent data={data} />
       </Suspense>
-      
+
       <Suspense fallback={<LoadingSkeleton height="400px" color="blue" />}>
         <Projects data={data} />
       </Suspense>
-      
+
       <Suspense fallback={<LoadingSkeleton height="250px" color="purple" />}>
         <CertificationsComponent data={data} />
       </Suspense>
-      
+
       <Languages data={data} />
       <Achievements data={data} />
       <Contact data={data} />

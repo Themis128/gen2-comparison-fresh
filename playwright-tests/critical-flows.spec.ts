@@ -49,6 +49,14 @@ test('Navigation between major pages works', async ({ page }) => {
   await expect(page).toHaveURL(/contact/);
   await page.click('nav >> text=Admin');
   await expect(page).toHaveURL(/admin/);
+
+  // Test admin internal navigation
+  await page.click('button:has-text("Users")');
+  await expect(page.locator('h1')).toHaveText('Users');
+  await page.click('button:has-text("System")');
+  await expect(page.locator('h1')).toHaveText('System');
+  await page.click('button:has-text("Dashboard")');
+  await expect(page.locator('h1')).toHaveText('Dashboard');
 });
 
 // Theme switcher functionality

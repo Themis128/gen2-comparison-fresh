@@ -1,10 +1,56 @@
-# Fresh Gen2 Amplify Todo App
+# Baltzakis Themis Portfolio
 
 A modern, full-stack todo application built with AWS Amplify Gen2, Next.js 15, TypeScript, and Tailwind CSS.
+
+## Development Setup
+
+### Prerequisites
+
+- Node.js 18+
+- pnpm
+- AWS CLI configured with appropriate permissions
+
+### Installation
+
+```bash
+pnpm install
+```
+
+### Running in Development Mode
+
+To run both the Next.js dev server and Amplify sandbox concurrently (recommended for backend changes):
+
+```bash
+npm run dev:sandbox
+```
+
+This starts:
+
+- Next.js dev server on http://localhost:50000
+- Amplify sandbox backend (local GraphQL API, auth, etc.)
+
+The frontend automatically detects the running sandbox and uses local backend services instead of cloud endpoints.
+
+### Alternative: Run Separately
+
+If you prefer to run them separately:
+
+```bash
+# Terminal 1: Start dev server
+npm run dev
+
+# Terminal 2: Start sandbox
+AWS_REGION=us-east-1 npx ampx sandbox
+```
+
+### Backend Changes
+
+The sandbox watches for changes in the `amplify/` directory and automatically restarts when you modify backend code (models, auth rules, functions, etc.).
 
 ## Features
 
 ### ✅ Core Functionality
+
 - **User Authentication** (Email/Password + Social Login)
 - **Email Verification** flow
 - **Password Reset** with secure token handling
@@ -14,6 +60,7 @@ A modern, full-stack todo application built with AWS Amplify Gen2, Next.js 15, T
 - **Responsive Design** for all screen sizes
 
 ### ✅ Authentication Features
+
 - **Email/Password** authentication
 - **Social Authentication** (Google & GitHub OAuth)
 - **Email Verification** workflow
@@ -22,6 +69,7 @@ A modern, full-stack todo application built with AWS Amplify Gen2, Next.js 15, T
 - **Session Management** with JWT tokens
 
 ### ✅ Advanced Features
+
 - **Real-time Updates** via GraphQL subscriptions
 - **Type-safe API** with TypeScript throughout
 - **Modern UI** with shadcn/ui components
@@ -31,6 +79,7 @@ A modern, full-stack todo application built with AWS Amplify Gen2, Next.js 15, T
 ## Quick Start
 
 ### Prerequisites
+
 - Node.js 18+ and npm/pnpm
 - AWS CLI configured
 - Git
@@ -38,13 +87,15 @@ A modern, full-stack todo application built with AWS Amplify Gen2, Next.js 15, T
 ### Installation
 
 1. **Clone and install:**
+
    ```bash
    git clone <repository-url>
-   cd gen2-comparison-fresh
+   cd baltzakis-themis-portfolio
    pnpm install
    ```
 
 2. **Set up environment variables:**
+
    ```bash
    cp .env.example .env.local
    ```
@@ -52,12 +103,14 @@ A modern, full-stack todo application built with AWS Amplify Gen2, Next.js 15, T
    Edit `.env.local` with your OAuth credentials (see Social Authentication section below).
 
 3. **Configure Amplify:**
+
    ```bash
    npx ampx configure
    npx ampx sandbox
    ```
 
 4. **Start development:**
+
    ```bash
    pnpm dev
    ```
@@ -137,6 +190,7 @@ Social Authentication:
 ## Testing Authentication
 
 ### Automated Tests
+
 ```bash
 # Run all authentication tests
 npx playwright test tests/e2e/auth.spec.ts
@@ -151,6 +205,7 @@ npx playwright test tests/e2e/auth.spec.ts -g "should redirect to sign-in"
 ### Manual Testing
 
 1. **Email Authentication:**
+
    ```bash
    # Start dev server
    pnpm dev
@@ -168,6 +223,7 @@ npx playwright test tests/e2e/auth.spec.ts -g "should redirect to sign-in"
    ```
 
 2. **Password Reset:**
+
    ```bash
    # From sign-in page, click "Forgot password?"
    # Enter email and submit
@@ -187,12 +243,14 @@ npx playwright test tests/e2e/auth.spec.ts -g "should redirect to sign-in"
 ## Architecture
 
 ### Frontend (Next.js 15 + TypeScript)
+
 - **App Router** for modern routing
 - **Server Components** with client components where needed
 - **Type-safe** API calls with Amplify client
 - **Real-time subscriptions** for live updates
 
 ### Backend (AWS Amplify Gen2)
+
 - **GraphQL API** with automatic type generation
 - **Cognito User Pools** for authentication
 - **DynamoDB** for data storage
@@ -200,6 +258,7 @@ npx playwright test tests/e2e/auth.spec.ts -g "should redirect to sign-in"
 - **Social OAuth** providers (Google, GitHub)
 
 ### Authentication
+
 - **Route Protection** with AuthWrapper component
 - **Session Management** with JWT tokens
 - **Social OAuth** integration
@@ -209,18 +268,22 @@ npx playwright test tests/e2e/auth.spec.ts -g "should redirect to sign-in"
 ## Deployment
 
 ### Development
+
 ```bash
 npx ampx sandbox
 pnpm dev
 ```
 
 ### Production
+
 ```bash
 npx ampx deploy
 ```
 
 ### Environment Variables for Production
+
 Set these in your Amplify console:
+
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
 - `GITHUB_CLIENT_ID`
@@ -251,6 +314,7 @@ Set these in your Amplify console:
 ## API Reference
 
 ### Authentication
+
 - `signUp()` - Register new user
 - `signIn()` - Sign in existing user
 - `signInWithRedirect()` - Social authentication
@@ -260,6 +324,7 @@ Set these in your Amplify console:
 - `signOut()` - Sign out user
 
 ### Todo Operations
+
 - `client.models.Todo.create()` - Create todo
 - `client.models.Todo.list()` - List todos
 - `client.models.Todo.update()` - Update todo

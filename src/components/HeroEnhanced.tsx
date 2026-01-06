@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import ModernHeroSection from './ModernHero';
 
 import type { PersonalData } from '../lib/personal-data';

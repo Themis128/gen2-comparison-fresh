@@ -1,17 +1,19 @@
 import '@aws-amplify/ui-react/styles.css';
-import type { Metadata } from 'next';
-
 import { Inter, JetBrains_Mono } from 'next/font/google';
 
+import { Toaster } from 'sonner';
+
 import AmplifyInitializer from '../components/AmplifyInitializer';
+import ClientAuthGuard from '../components/ClientAuthGuard';
 import DevConsoleFilter from '../components/DevConsoleFilter';
 import DevListenerPatch from '../components/DevListenerPatch';
 import InstallPrompt from '../components/InstallPrompt';
 import NavigationWrapper from '../components/NavigationWrapper';
-import { Toaster } from 'sonner';
 // import ToolbarMountController from '../components/ToolbarMountController';
 import '../lib/amplify-client-config'; // Configure Amplify early
 import { ThemeProvider } from '../lib/theme-context';
+
+import type { Metadata } from 'next';
 import '../styles/app.css'; // Custom styles
 import './globals.css';
 // import '@aws-amplify/ui-react-ai/styles.css'; // AI UI styles - removed as package may not have styles
@@ -78,7 +80,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <head>
         {/* PWA Meta Tags */}
         <meta name="theme-color" content="#000000" />
@@ -86,7 +88,10 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Cloudless" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes, viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes, viewport-fit=cover"
+        />
         <meta name="format-detection" content="telephone=no" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/cloudless-favicon.ico" />
@@ -220,6 +225,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <AmplifyInitializer />
+        <ClientAuthGuard />
         <ThemeProvider>
           <div
             className="site-tech-overlay pointer-events-none fixed inset-0 z-0"
@@ -232,7 +238,7 @@ export default function RootLayout({
         </ThemeProvider>
         {process.env.NODE_ENV === 'development' && <DevListenerPatch />}
         {process.env.NODE_ENV === 'development' && <DevConsoleFilter />}
-        {/* 
+        {/*
           Dev-only patches for console noise and passive listener violations.
         */}
         {/* <ToolbarMountController /> */}

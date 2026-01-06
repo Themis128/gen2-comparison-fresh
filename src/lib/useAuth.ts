@@ -15,7 +15,7 @@ import {
   updateUserAttributes,
   type UserAttributeKey,
   type VerifiableUserAttributeKey,
-  type SignUpInput
+  type SignUpInput,
 } from 'aws-amplify/auth';
 import { Hub } from 'aws-amplify/utils';
 
@@ -25,15 +25,25 @@ export type { UserAttributeKey, VerifiableUserAttributeKey };
 export interface UserInfo {
   username: string;
   userId: string;
-  signInDetails: {
+  signInDetails?: {
     loginId?: string;
     authFlowType?: string;
-  } | null | undefined;
+  } | null;
 }
 
-export type AuthFlowType = 'USER_SRP_AUTH' | 'USER_PASSWORD_AUTH' | 'CUSTOM_WITH_SRP' | 'CUSTOM_WITHOUT_SRP' | 'USER_AUTH';
+export type AuthFlowType =
+  | 'USER_SRP_AUTH'
+  | 'USER_PASSWORD_AUTH'
+  | 'CUSTOM_WITH_SRP'
+  | 'CUSTOM_WITHOUT_SRP'
+  | 'USER_AUTH';
 
-export type PreferredChallenge = 'PASSWORD' | 'PASSWORD_SRP' | 'WEB_AUTHN' | 'EMAIL_OTP' | 'SMS_OTP';
+export type PreferredChallenge =
+  | 'PASSWORD'
+  | 'PASSWORD_SRP'
+  | 'WEB_AUTHN'
+  | 'EMAIL_OTP'
+  | 'SMS_OTP';
 
 export interface SignInOptions {
   authFlowType?: AuthFlowType;
@@ -180,7 +190,9 @@ export const signInWithFlow = async (
  * @param challengeResponse - The selected challenge or response
  * @returns Promise<SignInResult>
  */
-export const confirmSignInWithChallenge = async (challengeResponse: string): Promise<SignInResult> => {
+export const confirmSignInWithChallenge = async (
+  challengeResponse: string
+): Promise<SignInResult> => {
   const result = await confirmSignIn({
     challengeResponse,
   });
@@ -288,7 +300,9 @@ export const confirmUserAttributeUpdate = async (
  * @param attributeKey - The attribute key that needs verification
  * @returns Promise<void>
  */
-export const sendUserAttributeVerification = async (attributeKey: VerifiableUserAttributeKey): Promise<void> => {
+export const sendUserAttributeVerification = async (
+  attributeKey: VerifiableUserAttributeKey
+): Promise<void> => {
   await sendUserAttributeVerificationCode({
     userAttributeKey: attributeKey,
   });
@@ -299,7 +313,9 @@ export const sendUserAttributeVerification = async (attributeKey: VerifiableUser
  * @param attributeKeys - Array of attribute keys to delete
  * @returns Promise<void>
  */
-export const deleteUserAttributesByKeys = async (attributeKeys: [UserAttributeKey, ...UserAttributeKey[]]): Promise<void> => {
+export const deleteUserAttributesByKeys = async (
+  attributeKeys: [UserAttributeKey, ...UserAttributeKey[]]
+): Promise<void> => {
   await deleteUserAttributes({
     userAttributeKeys: attributeKeys,
   });
@@ -329,6 +345,7 @@ export interface AuthEventData {
   event: AuthEventType;
   data?: unknown;
   message?: string;
+  timestamp: number;
 }
 
 /**
@@ -343,6 +360,7 @@ export const listenToAuthEvents = (callback: (data: AuthEventData) => void): (()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: (payload as any).data,
       message: payload.message,
+      timestamp: Date.now(),
     };
     callback(eventData);
   });
@@ -367,6 +385,7 @@ export const listenToSpecificAuthEvents = (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: (payload as any).data,
         message: payload.message,
+        timestamp: Date.now(),
       };
       callback(eventData);
     }
@@ -399,43 +418,43 @@ export const logAuthEvents = (events?: AuthEventType[]): (() => void) => {
   return listenToSpecificAuthEvents(targetEvents, ({ event, data, message }) => {
     switch (event) {
       case 'signedIn':
-        console.log('🔐 User has been signed in successfully.');
+        console.warn('🔐 User has been signed in successfully.');
         break;
       case 'signedOut':
-        console.log('🚪 User has been signed out successfully.');
+        console.warn('🚪 User has been signed out successfully.');
         break;
       case 'tokenRefresh':
-        console.log('🔄 Auth tokens have been refreshed.');
+        console.warn('🔄 Auth tokens have been refreshed.');
         break;
       case 'tokenRefresh_failure':
-        console.log('❌ Failure while refreshing auth tokens.', { error: data });
+        console.warn('❌ Failure while refreshing auth tokens.', { error: data });
         break;
       case 'signInWithRedirect':
-        console.log('🔗 signInWithRedirect API has successfully been resolved.');
+        console.warn('🔗 signInWithRedirect API has successfully been resolved.');
         break;
       case 'signInWithRedirect_failure':
-        console.log('❌ Failure while trying to resolve signInWithRedirect API.', { error: data });
+        console.warn('❌ Failure while trying to resolve signInWithRedirect API.', { error: data });
         break;
       case 'customOAuthState':
-        console.log('🌐 Custom state returned from Cognito Hosted UI', { state: data });
+        console.warn('🌐 Custom state returned from Cognito Hosted UI', { state: data });
         break;
       case 'signIn_failure':
-        console.log('❌ Sign in failed.', { error: data, message });
+        console.warn('❌ Sign in failed.', { error: data, message });
         break;
       case 'signUp':
-        console.log('📝 User has signed up successfully.');
+        console.warn('📝 User has signed up successfully.');
         break;
       case 'signUp_failure':
-        console.log('❌ Sign up failed.', { error: data, message });
+        console.warn('❌ Sign up failed.', { error: data, message });
         break;
       case 'autoSignIn':
-        console.log('🔄 Auto sign in successful.');
+        console.warn('🔄 Auto sign in successful.');
         break;
       case 'autoSignIn_failure':
-        console.log('❌ Auto sign in failed.', { error: data, message });
+        console.warn('❌ Auto sign in failed.', { error: data, message });
         break;
       default:
-        console.log(`ℹ️ Auth event: ${event}`, { data, message });
+        console.warn(`ℹ️ Auth event: ${event}`, { data, message });
     }
   });
 };

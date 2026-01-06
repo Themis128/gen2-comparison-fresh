@@ -18,8 +18,12 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const router = useRouter();
 
   const isTestMode = useMemo(() => {
-    return process.env.NEXT_PUBLIC_TEST_MODE === 'true' ||
-           (typeof window !== 'undefined' && (window as any).__NEXT_PUBLIC_TEST_MODE === 'true');
+    return (
+      process.env.NEXT_PUBLIC_TEST_MODE === 'true' ||
+      (typeof window !== 'undefined' &&
+        (window as typeof globalThis & { __NEXT_PUBLIC_TEST_MODE?: string })
+          .__NEXT_PUBLIC_TEST_MODE === 'true')
+    );
   }, []);
 
   const checkAuth = useCallback(async () => {
@@ -54,9 +58,9 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
 
   const checkUserRole = useCallback(async () => {
     try {
-      const user = await getCurrentUser();
+      const _user = await getCurrentUser();
       const session = await fetchAuthSession();
-      const groups = session.tokens?.accessToken?.payload['cognito:groups'] as string[] || [];
+      const groups = (session.tokens?.accessToken?.payload['cognito:groups'] as string[]) || [];
       return groups.includes('admin') ? 'admin' : 'user';
     } catch {
       return 'user';
@@ -68,7 +72,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
 
     checkAuth().then(async (authenticated) => {
       if (!mounted) return;
-      
+
       setIsAuthenticated(authenticated);
       if (!authenticated) {
         router.push('/auth/signin');
@@ -88,10 +92,10 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
 
   if (isAuthenticated === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary" />
-          <p className="text-sm text-muted-foreground animate-pulse">Loading...</p>
+          <div className="h-16 w-16 animate-spin rounded-full border-b-2 border-t-2 border-primary" />
+          <p className="animate-pulse text-sm text-muted-foreground">Loading...</p>
         </div>
       </div>
     );

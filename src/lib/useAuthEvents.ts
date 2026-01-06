@@ -9,7 +9,7 @@ import {
   type AuthEventType,
   type AuthEventData,
   checkAuthStatus,
-  type UserInfo
+  type UserInfo,
 } from './useAuth';
 
 // Re-export types for components
@@ -29,24 +29,29 @@ export const useAuthEvents = (
   const [isLoading, setIsLoading] = useState(true);
   const [lastEvent, setLastEvent] = useState<AuthEventData | null>(null);
 
-  const handleAuthEvent = useCallback((data: AuthEventData) => {
-    setLastEvent(data);
+  const handleAuthEvent = useCallback(
+    (data: AuthEventData) => {
+      setLastEvent(data);
 
-    // Update user state based on auth events
-    switch (data.event) {
-      case 'signedIn':
-      case 'tokenRefresh':
-        // Refresh user info when signed in or tokens refreshed
-        checkAuthStatus().then(setUser).catch(() => setUser(null));
-        break;
-      case 'signedOut':
-        setUser(null);
-        break;
-    }
+      // Update user state based on auth events
+      switch (data.event) {
+        case 'signedIn':
+        case 'tokenRefresh':
+          // Refresh user info when signed in or tokens refreshed
+          checkAuthStatus()
+            .then(setUser)
+            .catch(() => setUser(null));
+          break;
+        case 'signedOut':
+          setUser(null);
+          break;
+      }
 
-    // Call user-provided callback
-    callback?.(data);
-  }, [callback]);
+      // Call user-provided callback
+      callback?.(data);
+    },
+    [callback]
+  );
 
   useEffect(() => {
     if (!enabled) return;
@@ -89,22 +94,27 @@ export const useSpecificAuthEvents = (
   const [isLoading, setIsLoading] = useState(true);
   const [lastEvent, setLastEvent] = useState<AuthEventData | null>(null);
 
-  const handleAuthEvent = useCallback((data: AuthEventData) => {
-    setLastEvent(data);
+  const handleAuthEvent = useCallback(
+    (data: AuthEventData) => {
+      setLastEvent(data);
 
-    // Update user state based on auth events
-    switch (data.event) {
-      case 'signedIn':
-      case 'tokenRefresh':
-        checkAuthStatus().then(setUser).catch(() => setUser(null));
-        break;
-      case 'signedOut':
-        setUser(null);
-        break;
-    }
+      // Update user state based on auth events
+      switch (data.event) {
+        case 'signedIn':
+        case 'tokenRefresh':
+          checkAuthStatus()
+            .then(setUser)
+            .catch(() => setUser(null));
+          break;
+        case 'signedOut':
+          setUser(null);
+          break;
+      }
 
-    callback?.(data);
-  }, [callback]);
+      callback?.(data);
+    },
+    [callback]
+  );
 
   useEffect(() => {
     if (!enabled) return;
@@ -170,7 +180,7 @@ export const useAuthState = () => {
   });
 
   const handleAuthEvent = useCallback((data: AuthEventData) => {
-    setAuthState(prev => ({
+    setAuthState((prev) => ({
       ...prev,
       lastEvent: data,
     }));
@@ -180,21 +190,25 @@ export const useAuthState = () => {
       case 'signedIn':
       case 'tokenRefresh':
         checkAuthStatus()
-          .then(user => setAuthState(prev => ({
-            ...prev,
-            user,
-            isAuthenticated: !!user,
-            isLoading: false,
-          })))
-          .catch(() => setAuthState(prev => ({
-            ...prev,
-            user: null,
-            isAuthenticated: false,
-            isLoading: false,
-          })));
+          .then((user) =>
+            setAuthState((prev) => ({
+              ...prev,
+              user,
+              isAuthenticated: !!user,
+              isLoading: false,
+            }))
+          )
+          .catch(() =>
+            setAuthState((prev) => ({
+              ...prev,
+              user: null,
+              isAuthenticated: false,
+              isLoading: false,
+            }))
+          );
         break;
       case 'signedOut':
-        setAuthState(prev => ({
+        setAuthState((prev) => ({
           ...prev,
           user: null,
           isAuthenticated: false,
@@ -207,18 +221,22 @@ export const useAuthState = () => {
   useEffect(() => {
     // Initial auth check
     checkAuthStatus()
-      .then(user => setAuthState({
-        user,
-        isAuthenticated: !!user,
-        isLoading: false,
-        lastEvent: null,
-      }))
-      .catch(() => setAuthState({
-        user: null,
-        isAuthenticated: false,
-        isLoading: false,
-        lastEvent: null,
-      }));
+      .then((user) =>
+        setAuthState({
+          user,
+          isAuthenticated: !!user,
+          isLoading: false,
+          lastEvent: null,
+        })
+      )
+      .catch(() =>
+        setAuthState({
+          user: null,
+          isAuthenticated: false,
+          isLoading: false,
+          lastEvent: null,
+        })
+      );
 
     // Listen to auth events
     const stopListening = listenToAuthEvents(handleAuthEvent);

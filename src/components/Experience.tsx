@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import ModernExperience from './ModernExperience';
 
 import type { PersonalData } from '../lib/personal-data';

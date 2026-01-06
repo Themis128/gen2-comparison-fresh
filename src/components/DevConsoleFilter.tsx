@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
+/* eslint-disable no-console */
+import { useEffect } from 'react';
 
 // Quick, defensive module-level patch so it executes as early as possible when
 // the module is imported. This helps suppress third-party dev toolbar messages
@@ -25,7 +26,9 @@ if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
 
     function shouldSuppress(first: unknown) {
       if (typeof first !== 'string') return false;
-      return suppressedPatterns.some((p) => (p instanceof RegExp ? p.test(first) : first.includes(p)));
+      return suppressedPatterns.some((p) =>
+        p instanceof RegExp ? p.test(first) : first.includes(p)
+      );
     }
 
     console.error = (...args: Parameters<typeof console.error>) => {
@@ -68,7 +71,9 @@ if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
       return origConsoleInfo.apply(console, args);
     };
 
-    console.info('[dev] Module-level console filter applied (early): suppressing noisy dev messages');
+    console.warn(
+      '[dev] Module-level console filter applied (early): suppressing noisy dev messages'
+    );
   } catch {
     // swallow
   }
@@ -103,7 +108,9 @@ export default function DevConsoleFilter() {
 
     function shouldSuppress(first: unknown) {
       if (typeof first !== 'string') return false;
-      return suppressedPatterns.some((p) => (p instanceof RegExp ? p.test(first) : first.includes(p)));
+      return suppressedPatterns.some((p) =>
+        p instanceof RegExp ? p.test(first) : first.includes(p)
+      );
     }
 
     console.error = (...args: Parameters<typeof console.error>) => {

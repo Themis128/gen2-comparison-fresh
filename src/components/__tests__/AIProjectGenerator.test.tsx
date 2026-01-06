@@ -6,26 +6,14 @@ import AIProjectGenerator from '../AIProjectGenerator';
 // Mock framer-motion
 jest.mock('framer-motion', () => ({
   motion: {
-    div: ({
-      children,
-      ...props
-    }: {
-      children: React.ReactNode;
-      [key: string]: unknown;
-    }) => <div {...props}>{children}</div>,
-    button: ({
-      children,
-      ...props
-    }: {
-      children: React.ReactNode;
-      [key: string]: unknown;
-    }) => <button {...props}>{children}</button>,
+    div: ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => (
+      <div {...props}>{children}</div>
+    ),
+    button: ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => (
+      <button {...props}>{children}</button>
+    ),
   },
-  AnimatePresence: ({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) => <>{children}</>,
+  AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
 // Mock lucide-react icons
@@ -112,14 +100,10 @@ describe('AIProjectGenerator', () => {
     await waitFor(() => {
       expect(screen.getByText('Project name is required')).toBeInTheDocument();
     });
-    expect(
-      screen.getByText('Project description is required')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Project description is required')).toBeInTheDocument();
 
     // Fill in inputs and try again
-    const projectNameInput = screen.getByPlaceholderText(
-      'Enter your project name...'
-    );
+    const projectNameInput = screen.getByPlaceholderText('Enter your project name...');
     const projectDescriptionInput = screen.getByPlaceholderText(
       'Describe what you want to build...'
     );
@@ -140,18 +124,14 @@ describe('AIProjectGenerator', () => {
     await waitFor(() => {
       expect(screen.getByText('Project name is required')).toBeInTheDocument();
     });
-    expect(
-      screen.getByText('Project description is required')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Project description is required')).toBeInTheDocument();
   });
 
   it('shows validation errors for short inputs', async () => {
     const user = userEvent.setup();
     render(<AIProjectGenerator />);
 
-    const projectNameInput = screen.getByPlaceholderText(
-      'Enter your project name...'
-    );
+    const projectNameInput = screen.getByPlaceholderText('Enter your project name...');
     const projectDescriptionInput = screen.getByPlaceholderText(
       'Describe what you want to build...'
     );
@@ -162,12 +142,8 @@ describe('AIProjectGenerator', () => {
     const generateButton = screen.getByText('Generate Project');
     await user.click(generateButton);
 
-    expect(
-      screen.getByText('Project name must be at least 3 characters')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('Description must be at least 10 characters')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Project name must be at least 3 characters')).toBeInTheDocument();
+    expect(screen.getByText('Description must be at least 10 characters')).toBeInTheDocument();
   });
 
   it('clears validation errors when user starts typing', async () => {
@@ -181,15 +157,11 @@ describe('AIProjectGenerator', () => {
       expect(screen.getByText('Project name is required')).toBeInTheDocument();
     });
 
-    const projectNameInput = screen.getByPlaceholderText(
-      'Enter your project name...'
-    );
+    const projectNameInput = screen.getByPlaceholderText('Enter your project name...');
     await user.type(projectNameInput, 'Test Project');
 
     await waitFor(() => {
-      expect(
-        screen.queryByText('Project name is required')
-      ).not.toBeInTheDocument();
+      expect(screen.queryByText('Project name is required')).not.toBeInTheDocument();
     });
   });
 
@@ -216,9 +188,7 @@ describe('AIProjectGenerator', () => {
     const user = userEvent.setup();
     render(<AIProjectGenerator />);
 
-    const projectNameInput = screen.getByPlaceholderText(
-      'Enter your project name...'
-    );
+    const projectNameInput = screen.getByPlaceholderText('Enter your project name...');
     const projectDescriptionInput = screen.getByPlaceholderText(
       'Describe what you want to build...'
     );
@@ -242,9 +212,7 @@ describe('AIProjectGenerator', () => {
       expect(screen.getByText('Test Project')).toBeInTheDocument();
     });
 
-    expect(
-      screen.getByText('Project generated successfully!')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Project generated successfully!')).toBeInTheDocument();
   });
 
   it('handles API errors gracefully', async () => {
@@ -253,26 +221,19 @@ describe('AIProjectGenerator', () => {
     const user = userEvent.setup();
     render(<AIProjectGenerator />);
 
-    const projectNameInput = screen.getByPlaceholderText(
-      'Enter your project name...'
-    );
+    const projectNameInput = screen.getByPlaceholderText('Enter your project name...');
     const projectDescriptionInput = screen.getByPlaceholderText(
       'Describe what you want to build...'
     );
     const generateButton = screen.getByText('Generate Project');
 
     await user.type(projectNameInput, 'Test Project');
-    await user.type(
-      projectDescriptionInput,
-      'This is a test project description.'
-    );
+    await user.type(projectDescriptionInput, 'This is a test project description.');
 
     await user.click(generateButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText('Failed to generate project. Please try again.')
-      ).toBeInTheDocument();
+      expect(screen.getByText('Failed to generate project. Please try again.')).toBeInTheDocument();
     });
   });
 
@@ -295,19 +256,14 @@ describe('AIProjectGenerator', () => {
     render(<AIProjectGenerator />);
 
     // First generate a project
-    const projectNameInput = screen.getByPlaceholderText(
-      'Enter your project name...'
-    );
+    const projectNameInput = screen.getByPlaceholderText('Enter your project name...');
     const projectDescriptionInput = screen.getByPlaceholderText(
       'Describe what you want to build...'
     );
     const generateButton = screen.getByText('Generate Project');
 
     await user.type(projectNameInput, 'Test Project');
-    await user.type(
-      projectDescriptionInput,
-      'This is a test project description.'
-    );
+    await user.type(projectDescriptionInput, 'This is a test project description.');
 
     await user.click(generateButton);
 
@@ -338,19 +294,14 @@ describe('AIProjectGenerator', () => {
     render(<AIProjectGenerator />);
 
     // Generate a project first
-    const projectNameInput = screen.getByPlaceholderText(
-      'Enter your project name...'
-    );
+    const projectNameInput = screen.getByPlaceholderText('Enter your project name...');
     const projectDescriptionInput = screen.getByPlaceholderText(
       'Describe what you want to build...'
     );
     const generateButton = screen.getByText('Generate Project');
 
     await user.type(projectNameInput, 'Test Project');
-    await user.type(
-      projectDescriptionInput,
-      'This is a test project description.'
-    );
+    await user.type(projectDescriptionInput, 'This is a test project description.');
 
     await user.click(generateButton);
 
@@ -359,9 +310,7 @@ describe('AIProjectGenerator', () => {
     });
 
     // Test downloading
-    const downloadButton = screen
-      .getByTestId('download-icon')
-      .closest('button');
+    const downloadButton = screen.getByTestId('download-icon').closest('button');
     await user.click(downloadButton!);
 
     expect(mockCreateObjectURL).toHaveBeenCalled();
@@ -372,9 +321,7 @@ describe('AIProjectGenerator', () => {
     const user = userEvent.setup();
     render(<AIProjectGenerator />);
 
-    const projectNameInput = screen.getByPlaceholderText(
-      'Enter your project name...'
-    );
+    const projectNameInput = screen.getByPlaceholderText('Enter your project name...');
     const projectDescriptionInput = screen.getByPlaceholderText(
       'Describe what you want to build...'
     );
@@ -405,27 +352,17 @@ describe('AIProjectGenerator', () => {
     render(<AIProjectGenerator />);
 
     // Check if preferences were loaded (this would be verified by checking component state)
-    expect(localStorage.getItem).toHaveBeenCalledWith(
-      'ai-generator-selected-model'
-    );
-    expect(localStorage.getItem).toHaveBeenCalledWith(
-      'ai-generator-advanced-mode'
-    );
-    expect(localStorage.getItem).toHaveBeenCalledWith(
-      'ai-generator-temperature'
-    );
-    expect(localStorage.getItem).toHaveBeenCalledWith(
-      'ai-generator-max-tokens'
-    );
+    expect(localStorage.getItem).toHaveBeenCalledWith('ai-generator-selected-model');
+    expect(localStorage.getItem).toHaveBeenCalledWith('ai-generator-advanced-mode');
+    expect(localStorage.getItem).toHaveBeenCalledWith('ai-generator-temperature');
+    expect(localStorage.getItem).toHaveBeenCalledWith('ai-generator-max-tokens');
   });
 
   it('supports keyboard shortcuts', async () => {
     const user = userEvent.setup();
     render(<AIProjectGenerator />);
 
-    const projectNameInput = screen.getByPlaceholderText(
-      'Enter your project name...'
-    );
+    const projectNameInput = screen.getByPlaceholderText('Enter your project name...');
     const projectDescriptionInput = screen.getByPlaceholderText(
       'Describe what you want to build...'
     );
@@ -457,9 +394,7 @@ describe('AIProjectGenerator', () => {
   it('shows empty state when no results', () => {
     render(<AIProjectGenerator />);
 
-    expect(
-      screen.getByText('No results yet. Generate your first project!')
-    ).toBeInTheDocument();
+    expect(screen.getByText('No results yet. Generate your first project!')).toBeInTheDocument();
     expect(screen.getByTestId('file-text-icon')).toBeInTheDocument();
   });
 
@@ -471,9 +406,7 @@ describe('AIProjectGenerator', () => {
     expect(screen.getByText('0 Results')).toBeInTheDocument();
 
     // Generate first project
-    const projectNameInput = screen.getByPlaceholderText(
-      'Enter your project name...'
-    );
+    const projectNameInput = screen.getByPlaceholderText('Enter your project name...');
     const projectDescriptionInput = screen.getByPlaceholderText(
       'Describe what you want to build...'
     );
@@ -492,10 +425,7 @@ describe('AIProjectGenerator', () => {
     await user.clear(projectNameInput);
     await user.clear(projectDescriptionInput);
     await user.type(projectNameInput, 'Test Project 2');
-    await user.type(
-      projectDescriptionInput,
-      'Second test project description.'
-    );
+    await user.type(projectDescriptionInput, 'Second test project description.');
 
     await user.click(generateButton);
 

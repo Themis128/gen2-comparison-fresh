@@ -1,56 +1,36 @@
-"use client";
+'use client';
+
 import Link from 'next/link';
 
-import AuthWrapper from '../components/AuthWrapper';
-import { Button } from '../components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-
-export default function Home() {
+export default function HomePage() {
   return (
-    <AuthWrapper>
-      <main role="main">
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
-          <div className="max-w-md w-full space-y-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-              Welcome
-            </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-              AWS Amplify Gen2 Authentication Demo
-            </p>
-          </div>
-
-          <Card className="shadow-lg">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Get Started</CardTitle>
-              <CardDescription>
-                Sign in or create an account to explore the authentication features
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <a href="/auth/signin" className="w-full inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 active:bg-primary/95 h-12 px-6 text-lg font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-ring/70" data-testid="sign-in-link">
-                Sign In
-              </a>
-              <a href="/auth/signup" className="w-full inline-flex items-center justify-center rounded-lg border border-input bg-background font-semibold shadow-sm hover:bg-background/90 active:bg-background/95 h-12 px-6 text-lg transition-all duration-200 focus-visible:outline-2 focus-visible:outline-ring/70" data-testid="create-account-link">
-                Create Account
-              </a>
-              <div className="pt-4 border-t">
-                <Link href="/test-page" className="w-full">
-                  <Button variant="ghost" className="w-full text-sm" size="sm">
-                    View Demo Features →
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-            <p>Built with AWS Amplify Gen2, Next.js, and TypeScript</p>
-            <p className="mt-1">Featuring Google & GitHub OAuth authentication</p>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="container mx-auto px-4 py-16">
+        <div className="text-center">
+          <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">
+            Themistoklis Baltzakis
+          </h1>
+          <p className="mb-8 text-xl text-gray-600 dark:text-gray-300">ML/LLM Engineer</p>
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-500 dark:text-gray-400">
+            With over 15 years of experience in IT support, cloud solutions, and Cisco
+            infrastructure management.
+          </p>
+          <div className="space-x-4">
+            <Link
+              href="/contact"
+              className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
+            >
+              Get in Touch
+            </Link>
+            <Link
+              href="/projects"
+              className="inline-block rounded-lg bg-gray-200 px-6 py-3 text-gray-800 transition-colors hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+            >
+              View Projects
+            </Link>
           </div>
         </div>
-      </main>
-    </AuthWrapper>
+      </div>
+    </div>
   );
 }

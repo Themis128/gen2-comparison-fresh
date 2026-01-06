@@ -1,9 +1,5 @@
 export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListUsers($filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -21,10 +17,7 @@ export const listUsers = /* GraphQL */ `
 `;
 
 export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
+  mutation CreateUser($input: CreateUserInput!, $condition: ModelUserConditionInput) {
     createUser(input: $input, condition: $condition) {
       id
       name
@@ -39,11 +32,7 @@ export const createUser = /* GraphQL */ `
 `;
 
 export const listSystemMetrics = /* GraphQL */ `
-  query ListSystemMetrics(
-    $filter: ModelSystemMetricFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListSystemMetrics($filter: ModelSystemMetricFilterInput, $limit: Int, $nextToken: String) {
     listSystemMetrics(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -75,11 +64,7 @@ export const createSystemMetric = /* GraphQL */ `
 `;
 
 export const listActivityLogs = /* GraphQL */ `
-  query ListActivityLogs(
-    $filter: ModelActivityLogFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListActivityLogs($filter: ModelActivityLogFilterInput, $limit: Int, $nextToken: String) {
     listActivityLogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -113,11 +98,7 @@ export const createActivityLog = /* GraphQL */ `
 `;
 
 export const listAlerts = /* GraphQL */ `
-  query ListAlerts(
-    $filter: ModelAlertFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListAlerts($filter: ModelAlertFilterInput, $limit: Int, $nextToken: String) {
     listAlerts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -134,10 +115,7 @@ export const listAlerts = /* GraphQL */ `
 `;
 
 export const updateAlert = /* GraphQL */ `
-  mutation UpdateAlert(
-    $input: UpdateAlertInput!
-    $condition: ModelAlertConditionInput
-  ) {
+  mutation UpdateAlert($input: UpdateAlertInput!, $condition: ModelAlertConditionInput) {
     updateAlert(input: $input, condition: $condition) {
       id
       type
@@ -150,11 +128,7 @@ export const updateAlert = /* GraphQL */ `
   }
 `;
 export const listAuditLogs = /* GraphQL */ `
-  query ListAuditLogs(
-    $filter: ModelAuditLogFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListAuditLogs($filter: ModelAuditLogFilterInput, $limit: Int, $nextToken: String) {
     listAuditLogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -175,10 +149,7 @@ export const listAuditLogs = /* GraphQL */ `
 `;
 
 export const createAuditLog = /* GraphQL */ `
-  mutation CreateAuditLog(
-    $input: CreateAuditLogInput!
-    $condition: ModelAuditLogConditionInput
-  ) {
+  mutation CreateAuditLog($input: CreateAuditLogInput!, $condition: ModelAuditLogConditionInput) {
     createAuditLog(input: $input, condition: $condition) {
       id
       action
@@ -195,10 +166,7 @@ export const createAuditLog = /* GraphQL */ `
   }
 `;
 export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
+  mutation UpdateUser($input: UpdateUserInput!, $condition: ModelUserConditionInput) {
     updateUser(input: $input, condition: $condition) {
       id
       name
@@ -213,10 +181,7 @@ export const updateUser = /* GraphQL */ `
 `;
 
 export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
-  ) {
+  mutation DeleteUser($input: DeleteUserInput!, $condition: ModelUserConditionInput) {
     deleteUser(input: $input, condition: $condition) {
       id
       name

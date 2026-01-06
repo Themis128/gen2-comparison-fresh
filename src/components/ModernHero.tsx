@@ -1,12 +1,21 @@
 'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import { motion } from "framer-motion";
-import { ArrowRight, Cloud, Github, Globe, Linkedin, Network, Server, Shield, type LucideIcon } from "lucide-react";
+import { motion } from 'framer-motion';
+import {
+  ArrowRight,
+  Cloud,
+  Github,
+  Globe,
+  Linkedin,
+  Network,
+  Server,
+  Shield,
+  type LucideIcon,
+} from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-
+import { Button } from '@/components/ui/button';
 
 // Particle class for the background animation
 class Particle {
@@ -84,14 +93,14 @@ const ParticlesBackground = () => {
 
       // Draw connections
       particles.forEach((particle, i) => {
-        particles.slice(i + 1).forEach(otherParticle => {
+        particles.slice(i + 1).forEach((otherParticle) => {
           const dx = particle.x - otherParticle.x;
           const dy = particle.y - otherParticle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 120) {
             ctx.save();
-            ctx.globalAlpha = (120 - distance) / 120 * 0.2;
+            ctx.globalAlpha = ((120 - distance) / 120) * 0.2;
             ctx.strokeStyle = particle.color;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
@@ -104,7 +113,7 @@ const ParticlesBackground = () => {
       });
 
       // Update and draw particles
-      particles.forEach(particle => {
+      particles.forEach((particle) => {
         particle.update(canvas.width, canvas.height);
         particle.draw(ctx);
       });
@@ -130,13 +139,13 @@ const ParticlesBackground = () => {
       {/* Particles canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 h-full w-full"
         style={{ background: 'transparent' }}
       />
 
       {/* Animated shapes for extra effect */}
       <motion.div
-        className="absolute top-20 left-10 w-32 h-32 bg-blue-200/20 dark:bg-blue-500/10 rounded-full blur-2xl"
+        className="absolute left-10 top-20 h-32 w-32 rounded-full bg-blue-200/20 blur-2xl dark:bg-blue-500/10"
         animate={{
           x: [0, 50, 0],
           y: [0, -30, 0],
@@ -145,11 +154,11 @@ const ParticlesBackground = () => {
         transition={{
           duration: 12,
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: 'easeInOut',
         }}
       />
       <motion.div
-        className="absolute top-40 right-20 w-24 h-24 bg-purple-200/20 dark:bg-purple-500/10 rounded-full blur-2xl"
+        className="absolute right-20 top-40 h-24 w-24 rounded-full bg-purple-200/20 blur-2xl dark:bg-purple-500/10"
         animate={{
           x: [0, -40, 0],
           y: [0, 25, 0],
@@ -158,12 +167,12 @@ const ParticlesBackground = () => {
         transition={{
           duration: 10,
           repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2
+          ease: 'easeInOut',
+          delay: 2,
         }}
       />
       <motion.div
-        className="absolute bottom-32 left-1/4 w-40 h-40 bg-indigo-200/15 dark:bg-indigo-500/8 rounded-full blur-3xl"
+        className="dark:bg-indigo-500/8 absolute bottom-32 left-1/4 h-40 w-40 rounded-full bg-indigo-200/15 blur-3xl"
         animate={{
           scale: [1, 1.4, 1],
           opacity: [0.2, 0.5, 0.2],
@@ -171,8 +180,8 @@ const ParticlesBackground = () => {
         transition={{
           duration: 8,
           repeat: Infinity,
-          ease: "easeInOut",
-          delay: 4
+          ease: 'easeInOut',
+          delay: 4,
         }}
       />
 
@@ -185,24 +194,24 @@ const ParticlesBackground = () => {
 const FeatureCards = ({ features }: { features: Array<{ icon: LucideIcon; label: string }> }) => {
   return (
     <motion.div
-      className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+      className="mx-auto grid max-w-4xl grid-cols-2 gap-4 md:grid-cols-4"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
-      {features.map((feature, index) => {
+      {features.map((feature, _index) => {
         const Icon = feature.icon;
         return (
           <motion.div
-            key={index}
-            className="flex flex-col items-center justify-center gap-3 p-6 rounded-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
+            key={feature.label}
+            className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border border-gray-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-gray-700/50 dark:bg-gray-800/80"
             whileHover={{ y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
+            transition={{ type: 'spring', stiffness: 300 }}
           >
-            <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50">
+            <div className="rounded-full bg-blue-100 p-3 dark:bg-blue-900/50">
               <Icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             </div>
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 text-center">
+            <span className="text-center text-sm font-medium text-gray-700 dark:text-gray-300">
               {feature.label}
             </span>
           </motion.div>
@@ -234,7 +243,7 @@ const AnimatedName = ({ name }: { name: string }) => {
 
   return (
     <motion.h1
-      className="text-5xl md:text-7xl lg:text-8xl font-black text-blue-600 dark:text-blue-400 mb-6"
+      className="mb-6 text-5xl font-black text-blue-600 md:text-7xl lg:text-8xl dark:text-blue-400"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.2 }}
@@ -244,20 +253,20 @@ const AnimatedName = ({ name }: { name: string }) => {
       </span>
       {isTyping && (
         <motion.span
-          className="inline-block w-1 h-12 md:h-16 lg:h-20 bg-blue-600 ml-1"
+          className="ml-1 inline-block h-12 w-1 bg-blue-600 md:h-16 lg:h-20"
           animate={{ opacity: [1, 0, 1] }}
           transition={{ duration: 0.8, repeat: Infinity }}
         />
       )}
       {!isTyping && (
         <motion.span
-          className="inline-block ml-2"
+          className="ml-2 inline-block"
           animate={{
             textShadow: [
-              "0 0 0px rgba(59, 130, 246, 0)",
-              "0 0 20px rgba(59, 130, 246, 0.5)",
-              "0 0 0px rgba(59, 130, 246, 0)"
-            ]
+              '0 0 0px rgba(59, 130, 246, 0)',
+              '0 0 20px rgba(59, 130, 246, 0.5)',
+              '0 0 0px rgba(59, 130, 246, 0)',
+            ],
           }}
           transition={{ duration: 2, repeat: Infinity }}
         >
@@ -274,7 +283,7 @@ const AnimatedBio = ({ bio }: { bio: string }) => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setVisibleWords(prev => {
+      setVisibleWords((prev) => {
         if (prev < words.length) {
           return prev + 1;
         }
@@ -288,24 +297,24 @@ const AnimatedBio = ({ bio }: { bio: string }) => {
 
   return (
     <motion.p
-      className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed"
+      className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-gray-600 md:text-xl dark:text-gray-400"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.6 }}
     >
       {words.map((word, index) => (
         <motion.span
-          key={index}
-          className="inline-block mr-1"
+          key={word}
+          className="mr-1 inline-block"
           initial={{ opacity: 0, y: 10 }}
           animate={{
             opacity: index < visibleWords ? 1 : 0,
-            y: index < visibleWords ? 0 : 10
+            y: index < visibleWords ? 0 : 10,
           }}
           transition={{
             duration: 0.3,
             delay: index * 0.05,
-            ease: "easeOut"
+            ease: 'easeOut',
           }}
         >
           {word}
@@ -334,10 +343,10 @@ interface ModernHeroProps {
 
 const ModernHeroSection = ({ data }: ModernHeroProps) => {
   const features = [
-    { icon: Network, label: "Network Engineering" },
-    { icon: Cloud, label: "Cloud Solutions" },
-    { icon: Server, label: "Cisco Systems" },
-    { icon: Shield, label: "Azure AD" },
+    { icon: Network, label: 'Network Engineering' },
+    { icon: Cloud, label: 'Cloud Solutions' },
+    { icon: Server, label: 'Cisco Systems' },
+    { icon: Shield, label: 'Azure AD' },
   ];
 
   return (
@@ -345,13 +354,13 @@ const ModernHeroSection = ({ data }: ModernHeroProps) => {
       <ParticlesBackground />
 
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20">
-        <div className="mx-auto max-w-6xl w-full text-center">
+        <div className="mx-auto w-full max-w-6xl text-center">
           {/* Name */}
           <AnimatedName name={data.name.split(' ')[0]} />
 
           {/* Title */}
           <motion.h2
-            className="text-2xl md:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-6"
+            className="mb-6 text-2xl font-bold text-gray-800 md:text-4xl dark:text-gray-200"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -364,15 +373,17 @@ const ModernHeroSection = ({ data }: ModernHeroProps) => {
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+            className="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
             <Button
               size="lg"
-              className="w-full sm:w-auto group relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
-              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+              className="group relative w-full transform overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 hover:shadow-2xl sm:w-auto"
+              onClick={() =>
+                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+              }
             >
               <span className="relative z-10 flex items-center gap-2">
                 View My Work
@@ -382,8 +393,10 @@ const ModernHeroSection = ({ data }: ModernHeroProps) => {
             <Button
               size="lg"
               variant="outline"
-              className="w-full sm:w-auto border-blue-200 dark:border-blue-800 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-700 dark:text-blue-300"
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="w-full border-blue-200 bg-white/80 text-blue-700 backdrop-blur-sm hover:bg-blue-50 sm:w-auto dark:border-blue-800 dark:bg-gray-800/80 dark:text-blue-300 dark:hover:bg-blue-900/20"
+              onClick={() =>
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+              }
             >
               Get In Touch
             </Button>
@@ -399,14 +412,14 @@ const ModernHeroSection = ({ data }: ModernHeroProps) => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 1.2 }}
           >
-            <p className="text-gray-500 dark:text-gray-400 mb-6">Connect with me</p>
+            <p className="mb-6 text-gray-500 dark:text-gray-400">Connect with me</p>
             <div className="flex flex-wrap items-center justify-center gap-6">
               {data.github && (
                 <motion.a
                   href={data.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:shadow-md"
+                  className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white/60 px-4 py-2 font-medium text-gray-700 backdrop-blur-sm transition-all duration-200 hover:bg-white hover:shadow-md dark:border-gray-700 dark:bg-gray-800/60 dark:text-gray-300 dark:hover:bg-gray-800"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -419,7 +432,7 @@ const ModernHeroSection = ({ data }: ModernHeroProps) => {
                   href={data.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:shadow-md"
+                  className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white/60 px-4 py-2 font-medium text-gray-700 backdrop-blur-sm transition-all duration-200 hover:bg-white hover:shadow-md dark:border-gray-700 dark:bg-gray-800/60 dark:text-gray-300 dark:hover:bg-gray-800"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -432,7 +445,7 @@ const ModernHeroSection = ({ data }: ModernHeroProps) => {
                   href={data.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:shadow-md"
+                  className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white/60 px-4 py-2 font-medium text-gray-700 backdrop-blur-sm transition-all duration-200 hover:bg-white hover:shadow-md dark:border-gray-700 dark:bg-gray-800/60 dark:text-gray-300 dark:hover:bg-gray-800"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

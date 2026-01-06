@@ -23,6 +23,6 @@ test('OAuth login flow redirects to Google', async ({ page }) => {
 test('OAuth config is loaded in the app', async ({ page }) => {
   await page.goto('/auth/signin');
   // Check for OAuth config presence in window object (customize as needed)
-  const oauthConfig = await page.evaluate(() => window?.Amplify?.Auth?.configuredProviders);
+  const oauthConfig = await page.evaluate(() => (window as any)?.Amplify?.Auth?.configuredProviders);
   expect(oauthConfig).toBeDefined();
 });

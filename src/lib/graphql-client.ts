@@ -27,17 +27,14 @@ export class GraphQLClient {
     this.apiKey = (config as { data?: { api_key?: string } })?.data?.api_key || '';
   }
 
-  async query<T = unknown>(
-    query: string,
-    variables?: Record<string, unknown>
-  ): Promise<T> {
+  async query<T = unknown>(query: string, variables?: Record<string, unknown>): Promise<T> {
     const startTime = Date.now();
 
     try {
-      console.log(`[GraphQLClient] Starting query at ${new Date().toISOString()}`);
-      console.log(`[GraphQLClient] Endpoint: ${this.endpoint}`);
-      console.log(`[GraphQLClient] Query: ${query.substring(0, 100)}...`);
-      console.log(`[GraphQLClient] Variables:`, variables);
+      console.warn(`[GraphQLClient] Starting query at ${new Date().toISOString()}`);
+      console.warn(`[GraphQLClient] Endpoint: ${this.endpoint}`);
+      console.warn(`[GraphQLClient] Query: ${query.substring(0, 100)}...`);
+      console.warn(`[GraphQLClient] Variables:`, variables);
 
       const response: AxiosResponse<GraphQLResponse<T>> = await axios.post(
         this.endpoint,
@@ -55,13 +52,15 @@ export class GraphQLClient {
       );
 
       const duration = Date.now() - startTime;
-      console.log(`[GraphQLClient] Query completed in ${duration}ms`);
-      console.log(`[GraphQLClient] Response status: ${response.status}`);
-      console.log(`[GraphQLClient] Response data:`, response.data);
+      console.warn(`[GraphQLClient] Query completed in ${duration}ms`);
+      console.warn(`[GraphQLClient] Response status: ${response.status}`);
+      console.warn(`[GraphQLClient] Response data:`, response.data);
 
       if (response.data.errors && response.data.errors.length > 0) {
         console.error(`[GraphQLClient] GraphQL errors:`, response.data.errors);
-        const error = new Error(`GraphQL Error: ${response.data.errors[0].message}`) as GraphQLError;
+        const error = new Error(
+          `GraphQL Error: ${response.data.errors[0].message}`
+        ) as GraphQLError;
         error.response = response;
         throw error;
       }
@@ -85,7 +84,9 @@ export class GraphQLClient {
           data: error.response?.data,
         });
 
-        const graphQLError = new Error(`HTTP ${error.response?.status}: ${error.message}`) as GraphQLError;
+        const graphQLError = new Error(
+          `HTTP ${error.response?.status}: ${error.message}`
+        ) as GraphQLError;
         graphQLError.response = error.response;
         graphQLError.code = error.code;
         throw graphQLError;
@@ -95,10 +96,7 @@ export class GraphQLClient {
     }
   }
 
-  async mutation<T = unknown>(
-    mutation: string,
-    variables?: Record<string, unknown>
-  ): Promise<T> {
+  async mutation<T = unknown>(mutation: string, variables?: Record<string, unknown>): Promise<T> {
     // Mutations use the same POST request structure as queries
     return this.query<T>(mutation, variables);
   }

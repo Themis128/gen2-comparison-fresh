@@ -2,12 +2,12 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "dev",
+      "label": "dev:sandbox",
       "type": "shell",
       "command": "npm",
       "args": [
         "run",
-        "dev"
+        "dev:sandbox"
       ],
       "group": {
         "kind": "build",
@@ -131,7 +131,10 @@
       "isBackground": true,
       "problemMatcher": [],
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "AWS_REGION": "us-east-1"
+        }
       }
     },
     {

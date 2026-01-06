@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 declare global {
   interface Window {
-    workbox?: any;
+    workbox?: unknown;
   }
 }
 
@@ -16,18 +16,15 @@ export default function PWARegistration() {
       window.workbox !== undefined
     ) {
       // If using workbox-window
-    } else if (
-      typeof window !== 'undefined' &&
-      'serviceWorker' in navigator
-    ) {
+    } else if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('/sw.js')
           .then((registration) => {
-            console.log('SW registered: ', registration);
+            console.warn('SW registered: ', registration);
           })
           .catch((registrationError) => {
-            console.log('SW registration failed: ', registrationError);
+            console.warn('SW registration failed: ', registrationError);
           });
       });
     }

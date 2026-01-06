@@ -28,7 +28,6 @@ import { Label } from './ui/label';
 import { Switch } from './ui/switch';
 import { Textarea } from './ui/textarea';
 
-
 interface Model {
   id: string;
   name: string;
@@ -51,28 +50,28 @@ const models: Model[] = [
     id: 'gpt-4',
     name: 'GPT-4',
     description: 'Most capable model for complex tasks',
-    icon: <Sparkles className="w-4 h-4" />,
+    icon: <Sparkles className="h-4 w-4" />,
     color: 'from-purple-500 to-pink-500',
   },
   {
     id: 'claude-3',
     name: 'Claude 3',
     description: 'Advanced reasoning and analysis',
-    icon: <Wand2 className="w-4 h-4" />,
+    icon: <Wand2 className="h-4 w-4" />,
     color: 'from-blue-500 to-cyan-500',
   },
   {
     id: 'codex',
     name: 'Codex',
     description: 'Fast and efficient for code generation',
-    icon: <Code className="w-4 h-4" />,
+    icon: <Code className="h-4 w-4" />,
     color: 'from-green-500 to-emerald-500',
   },
   {
     id: 'dall-e',
     name: 'DALL-E 3',
     description: 'Advanced image generation capabilities',
-    icon: <ImageIcon className="w-4 h-4" />,
+    icon: <ImageIcon className="h-4 w-4" />,
     color: 'from-orange-500 to-red-500',
   },
 ];
@@ -145,8 +144,7 @@ const AIProjectGenerator: React.FC = () => {
     if (!projectDescription.trim()) {
       newErrors.projectDescription = 'Project description is required';
     } else if (projectDescription.length < 10) {
-      newErrors.projectDescription =
-        'Description must be at least 10 characters';
+      newErrors.projectDescription = 'Description must be at least 10 characters';
     }
 
     setErrors(newErrors);
@@ -160,9 +158,7 @@ const AIProjectGenerator: React.FC = () => {
     // Check if required fields are filled
     if (!projectName.trim() || !projectDescription.trim()) {
       setErrors({
-        projectName: projectName.trim()
-          ? undefined
-          : 'Project name is required',
+        projectName: projectName.trim() ? undefined : 'Project name is required',
         projectDescription: projectDescription.trim()
           ? undefined
           : 'Project description is required',
@@ -263,11 +259,7 @@ const AIProjectGenerator: React.FC = () => {
       if (event.ctrlKey || event.metaKey) {
         switch (event.key) {
           case 'Enter':
-            if (
-              !isGenerating &&
-              projectName.trim() &&
-              projectDescription.trim()
-            ) {
+            if (!isGenerating && projectName.trim() && projectDescription.trim()) {
               event.preventDefault();
               handleGenerate();
             }
@@ -285,34 +277,32 @@ const AIProjectGenerator: React.FC = () => {
   }, [isGenerating, projectName, projectDescription, handleGenerate]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6 text-white">
+      <div className="mx-auto max-w-7xl space-y-6">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center space-y-2 mb-8"
+          className="mb-8 space-y-2 text-center"
         >
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Zap className="w-8 h-8 text-yellow-500" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <div className="mb-2 flex items-center justify-center gap-2">
+            <Zap className="h-8 w-8 text-yellow-500" />
+            <h1 className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-4xl font-bold text-transparent">
               AI Project Generator
             </h1>
           </div>
-          <p className="text-slate-400">
-            Create amazing projects with AI-powered generation
-          </p>
+          <p className="text-slate-400">Create amazing projects with AI-powered generation</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-1 space-y-6"
+            className="space-y-6 lg:col-span-1"
           >
-            <Card className="bg-slate-900/50 border-slate-800 p-6 backdrop-blur-sm">
+            <Card className="border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm">
               <div className="space-y-4">
                 <div>
-                  <Label className="text-sm font-medium text-slate-300 mb-3 block">
+                  <Label className="mb-3 block text-sm font-medium text-slate-300">
                     Select AI Model
                   </Label>
                   <div className="space-y-2">
@@ -323,31 +313,22 @@ const AIProjectGenerator: React.FC = () => {
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setSelectedModel(model.id)}
                         className={cn(
-                          'w-full p-4 rounded-lg border-2 transition-all text-left',
+                          'w-full rounded-lg border-2 p-4 text-left transition-all',
                           selectedModel === model.id
                             ? 'border-blue-500 bg-blue-500/10'
                             : 'border-slate-700 bg-slate-800/50 hover:border-slate-600'
                         )}
                       >
                         <div className="flex items-start gap-3">
-                          <div
-                            className={cn(
-                              'p-2 rounded-lg bg-gradient-to-br',
-                              model.color
-                            )}
-                          >
+                          <div className={cn('rounded-lg bg-gradient-to-br p-2', model.color)}>
                             {model.icon}
                           </div>
                           <div className="flex-1">
-                            <div className="font-semibold text-white">
-                              {model.name}
-                            </div>
-                            <div className="text-xs text-slate-400 mt-1">
-                              {model.description}
-                            </div>
+                            <div className="font-semibold text-white">{model.name}</div>
+                            <div className="mt-1 text-xs text-slate-400">{model.description}</div>
                           </div>
                           {selectedModel === model.id && (
-                            <Check className="w-5 h-5 text-blue-500" />
+                            <Check className="h-5 w-5 text-blue-500" />
                           )}
                         </div>
                       </motion.button>
@@ -355,15 +336,11 @@ const AIProjectGenerator: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-slate-800">
-                  <div className="flex items-center justify-between mb-4">
-                    <Label className="text-sm font-medium text-slate-300">
-                      Advanced Settings
-                    </Label>
+                <div className="border-t border-slate-800 pt-4">
+                  <div className="mb-4 flex items-center justify-between">
+                    <Label className="text-sm font-medium text-slate-300">Advanced Settings</Label>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-500">
-                        Press Ctrl+/ to toggle
-                      </span>
+                      <span className="text-xs text-slate-500">Press Ctrl+/ to toggle</span>
                       <Switch
                         checked={advancedMode}
                         onCheckedChange={setAdvancedMode}
@@ -380,7 +357,7 @@ const AIProjectGenerator: React.FC = () => {
                         className="space-y-4"
                       >
                         <div>
-                          <Label className="text-xs text-slate-400 mb-2 block">
+                          <Label className="mb-2 block text-xs text-slate-400">
                             Temperature: {temperature}
                           </Label>
                           <Input
@@ -394,14 +371,12 @@ const AIProjectGenerator: React.FC = () => {
                           />
                         </div>
                         <div>
-                          <Label className="text-xs text-slate-400 mb-2 block">
-                            Max Tokens
-                          </Label>
+                          <Label className="mb-2 block text-xs text-slate-400">Max Tokens</Label>
                           <Input
                             type="number"
                             value={maxTokens}
                             onChange={(e) => setMaxTokens(e.target.value)}
-                            className="bg-slate-800 border-slate-700 text-white"
+                            className="border-slate-700 bg-slate-800 text-white"
                           />
                         </div>
                       </motion.div>
@@ -415,26 +390,24 @@ const AIProjectGenerator: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="lg:col-span-2 space-y-6"
+            className="space-y-6 lg:col-span-2"
           >
-            <Card className="bg-slate-900/50 border-slate-800 p-6 backdrop-blur-sm">
+            <Card className="border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm">
               <div className="space-y-4">
                 {successMessage && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="bg-green-500/10 border border-green-500/20 rounded-lg p-3"
+                    className="rounded-lg border border-green-500/20 bg-green-500/10 p-3"
                   >
-                    <p className="text-green-400 text-sm text-center">
-                      {successMessage}
-                    </p>
+                    <p className="text-center text-sm text-green-400">{successMessage}</p>
                   </motion.div>
                 )}
                 <div>
                   <Label
                     htmlFor="project-name"
-                    className="text-sm font-medium text-slate-300 mb-2 block"
+                    className="mb-2 block text-sm font-medium text-slate-300"
                   >
                     Project Name
                   </Label>
@@ -452,21 +425,14 @@ const AIProjectGenerator: React.FC = () => {
                       }
                     }}
                     className={cn(
-                      'bg-slate-800 border-slate-700 text-white placeholder:text-slate-500',
-                      errors.projectName &&
-                        'border-red-500 focus-visible:ring-red-500'
+                      'border-slate-700 bg-slate-800 text-white placeholder:text-slate-500',
+                      errors.projectName && 'border-red-500 focus-visible:ring-red-500'
                     )}
-                    aria-describedby={
-                      errors.projectName ? 'project-name-error' : undefined
-                    }
+                    aria-describedby={errors.projectName ? 'project-name-error' : undefined}
                     aria-invalid={!!errors.projectName}
                   />
                   {errors.projectName && (
-                    <p
-                      id="project-name-error"
-                      className="text-red-400 text-xs mt-1"
-                      role="alert"
-                    >
+                    <p id="project-name-error" className="mt-1 text-xs text-red-400" role="alert">
                       {errors.projectName}
                     </p>
                   )}
@@ -475,7 +441,7 @@ const AIProjectGenerator: React.FC = () => {
                 <div>
                   <Label
                     htmlFor="project-description"
-                    className="text-sm font-medium text-slate-300 mb-2 block"
+                    className="mb-2 block text-sm font-medium text-slate-300"
                   >
                     Project Description
                   </Label>
@@ -493,21 +459,18 @@ const AIProjectGenerator: React.FC = () => {
                       }
                     }}
                     className={cn(
-                      'bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 min-h-[120px]',
-                      errors.projectDescription &&
-                        'border-red-500 focus-visible:ring-red-500'
+                      'min-h-[120px] border-slate-700 bg-slate-800 text-white placeholder:text-slate-500',
+                      errors.projectDescription && 'border-red-500 focus-visible:ring-red-500'
                     )}
                     aria-describedby={
-                      errors.projectDescription
-                        ? 'project-description-error'
-                        : undefined
+                      errors.projectDescription ? 'project-description-error' : undefined
                     }
                     aria-invalid={!!errors.projectDescription}
                   />
                   {errors.projectDescription && (
                     <p
                       id="project-description-error"
-                      className="text-red-400 text-xs mt-1"
+                      className="mt-1 text-xs text-red-400"
                       role="alert"
                     >
                       {errors.projectDescription}
@@ -524,19 +487,14 @@ const AIProjectGenerator: React.FC = () => {
                   >
                     {isGenerating ? (
                       <>
-                        <Loader2
-                          className="w-4 h-4 mr-2 animate-spin"
-                          aria-hidden="true"
-                        />
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
                         Generating...
                       </>
                     ) : (
                       <>
-                        <Play className="w-4 h-4 mr-2" aria-hidden="true" />
+                        <Play className="mr-2 h-4 w-4" aria-hidden="true" />
                         Generate Project
-                        <span className="ml-2 text-xs opacity-75">
-                          (Ctrl+Enter)
-                        </span>
+                        <span className="ml-2 text-xs opacity-75">(Ctrl+Enter)</span>
                       </>
                     )}
                   </Button>
@@ -550,24 +508,18 @@ const AIProjectGenerator: React.FC = () => {
                     className="border-slate-700 hover:bg-slate-800"
                     aria-label="Clear all fields"
                   >
-                    <RefreshCw className="w-4 h-4" aria-hidden="true" />
+                    <RefreshCw className="h-4 w-4" aria-hidden="true" />
                   </Button>
                 </div>
               </div>
             </Card>
 
-            <Card className="bg-slate-900/50 border-slate-800 backdrop-blur-sm">
+            <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">
-                    Generated Results
-                  </CardTitle>
-                  <Badge
-                    variant="secondary"
-                    className="bg-slate-800 text-slate-300"
-                  >
-                    {results.length}{' '}
-                    {results.length === 1 ? 'Result' : 'Results'}
+                  <CardTitle className="text-white">Generated Results</CardTitle>
+                  <Badge variant="secondary" className="bg-slate-800 text-slate-300">
+                    {results.length} {results.length === 1 ? 'Result' : 'Results'}
                   </Badge>
                 </div>
               </CardHeader>
@@ -577,19 +529,19 @@ const AIProjectGenerator: React.FC = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="bg-slate-800/50 rounded-lg border border-slate-700 overflow-hidden"
+                      className="overflow-hidden rounded-lg border border-slate-700 bg-slate-800/50"
                     >
-                      <div className="p-4 border-b border-slate-700">
+                      <div className="border-b border-slate-700 p-4">
                         <div className="animate-pulse">
-                          <div className="h-4 bg-slate-700 rounded w-1/3 mb-2" />
-                          <div className="h-3 bg-slate-700 rounded w-1/4" />
+                          <div className="mb-2 h-4 w-1/3 rounded bg-slate-700" />
+                          <div className="h-3 w-1/4 rounded bg-slate-700" />
                         </div>
                       </div>
                       <div className="p-4">
                         <div className="animate-pulse space-y-2">
-                          <div className="h-3 bg-slate-700 rounded" />
-                          <div className="h-3 bg-slate-700 rounded w-5/6" />
-                          <div className="h-3 bg-slate-700 rounded w-4/6" />
+                          <div className="h-3 rounded bg-slate-700" />
+                          <div className="h-3 w-5/6 rounded bg-slate-700" />
+                          <div className="h-3 w-4/6 rounded bg-slate-700" />
                         </div>
                       </div>
                     </motion.div>
@@ -599,9 +551,9 @@ const AIProjectGenerator: React.FC = () => {
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="text-center py-12 text-slate-500"
+                        className="py-12 text-center text-slate-500"
                       >
-                        <FileText className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                        <FileText className="mx-auto mb-3 h-12 w-12 opacity-50" />
                         <p>No results yet. Generate your first project!</p>
                       </motion.div>
                     ) : (
@@ -611,14 +563,12 @@ const AIProjectGenerator: React.FC = () => {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -20 }}
-                          className="bg-slate-800/50 rounded-lg border border-slate-700 overflow-hidden"
+                          className="overflow-hidden rounded-lg border border-slate-700 bg-slate-800/50"
                         >
-                          <div className="p-4 border-b border-slate-700">
+                          <div className="border-b border-slate-700 p-4">
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
-                                <h3 className="font-semibold text-white mb-1">
-                                  {result.title}
-                                </h3>
+                                <h3 className="mb-1 font-semibold text-white">{result.title}</h3>
                                 <div className="flex items-center gap-2 text-xs text-slate-400">
                                   <Badge
                                     variant="outline"
@@ -627,24 +577,20 @@ const AIProjectGenerator: React.FC = () => {
                                     {result.model}
                                   </Badge>
                                   <span>•</span>
-                                  <span>
-                                    {result.timestamp.toLocaleTimeString()}
-                                  </span>
+                                  <span>{result.timestamp.toLocaleTimeString()}</span>
                                 </div>
                               </div>
                               <div className="flex gap-2">
                                 <Button
                                   size="sm"
                                   variant="ghost"
-                                  onClick={() =>
-                                    handleCopy(result.id, result.content)
-                                  }
+                                  onClick={() => handleCopy(result.id, result.content)}
                                   className="hover:bg-slate-700"
                                 >
                                   {copiedId === result.id ? (
-                                    <Check className="w-4 h-4 text-green-500" />
+                                    <Check className="h-4 w-4 text-green-500" />
                                   ) : (
-                                    <Copy className="w-4 h-4" />
+                                    <Copy className="h-4 w-4" />
                                   )}
                                 </Button>
                                 <Button
@@ -653,13 +599,13 @@ const AIProjectGenerator: React.FC = () => {
                                   onClick={() => handleDownload(result)}
                                   className="hover:bg-slate-700"
                                 >
-                                  <Download className="w-4 h-4" />
+                                  <Download className="h-4 w-4" />
                                 </Button>
                               </div>
                             </div>
                           </div>
                           <div className="p-4">
-                            <pre className="text-xs text-slate-300 whitespace-pre-wrap font-mono bg-slate-900/50 p-4 rounded overflow-x-auto">
+                            <pre className="overflow-x-auto whitespace-pre-wrap rounded bg-slate-900/50 p-4 font-mono text-xs text-slate-300">
                               {result.content}
                             </pre>
                           </div>

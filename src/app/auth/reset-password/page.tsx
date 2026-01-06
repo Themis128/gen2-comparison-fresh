@@ -10,7 +10,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { confirmResetPassword } from 'aws-amplify/auth';
 
-
 import { GradientMesh } from '@/components/gradient-mesh';
 import { AuthLogo } from '@/components/Logo';
 import { Button } from '@/components/ui/button';
@@ -67,18 +66,18 @@ function ResetPasswordForm() {
           <AuthLogo href="/" />
         </div>
 
-        <div className="flex flex-1 w-full items-center justify-center">
+        <div className="flex w-full flex-1 items-center justify-center">
           <div className="w-full max-w-sm">
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-3xl font-bold tracking-tight">Reset your password</h1>
-                <p className="text-muted-foreground text-sm text-balance">
+                <p className="text-balance text-sm text-muted-foreground">
                   Enter the code from your email and your new password
                 </p>
               </div>
 
               {error && (
-                <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg text-sm">
+                <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
                   {error}
                 </div>
               )}
@@ -130,7 +129,10 @@ function ResetPasswordForm() {
 
               <p className="text-center text-sm text-muted-foreground">
                 Remember your password?{' '}
-                <Link href="/auth/signin" className="text-primary hover:underline underline-offset-4 font-medium">
+                <Link
+                  href="/auth/signin"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
+                >
                   Back to sign in
                 </Link>
               </p>
@@ -139,7 +141,7 @@ function ResetPasswordForm() {
         </div>
       </div>
 
-      <div className="bg-muted relative hidden lg:block">
+      <div className="relative hidden bg-muted lg:block">
         <GradientMesh
           colors={['#f59e0b', '#ef4444', '#ec4899']}
           distortion={5}
@@ -157,7 +159,7 @@ function ResetPasswordForm() {
             <p className="text-2xl font-semibold text-foreground">
               &ldquo;Secure password reset&rdquo;
             </p>
-            <cite className="block text-sm text-muted-foreground not-italic">
+            <cite className="block text-sm not-italic text-muted-foreground">
               Reset your password securely and regain access
             </cite>
           </blockquote>
@@ -169,31 +171,33 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={
-      <div className="grid min-h-screen lg:grid-cols-2">
-        <div className="flex flex-col gap-4 p-6 md:p-10">
-          <div className="flex justify-center gap-2 md:justify-start">
-            <Link href="/" aria-label="home" className="flex gap-2 items-center">
-              <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl">
-                A
-              </div>
-            </Link>
-          </div>
-          <div className="flex flex-1 w-full items-center justify-center">
-            <div className="w-full max-w-sm">
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <h1 className="text-3xl font-bold tracking-tight">Loading...</h1>
+    <Suspense
+      fallback={
+        <div className="grid min-h-screen lg:grid-cols-2">
+          <div className="flex flex-col gap-4 p-6 md:p-10">
+            <div className="flex justify-center gap-2 md:justify-start">
+              <Link href="/" aria-label="home" className="flex items-center gap-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-xl font-bold text-primary-foreground">
+                  A
+                </div>
+              </Link>
+            </div>
+            <div className="flex w-full flex-1 items-center justify-center">
+              <div className="w-full max-w-sm">
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <h1 className="text-3xl font-bold tracking-tight">Loading...</h1>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="relative hidden bg-muted lg:block">
+            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+          </div>
         </div>
-        <div className="bg-muted relative hidden lg:block">
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
-        </div>
-      </div>
-    }>
+      }
+    >
       <ResetPasswordForm />
     </Suspense>
   );

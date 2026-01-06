@@ -57,8 +57,7 @@ export default function Navigation() {
     if (element) {
       const navbarHeight = 80;
       const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.pageYOffset - navbarHeight;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
 
       window.scrollTo({
         top: offsetPosition,
@@ -99,10 +98,10 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700'
-          : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-gray-700/50'
+          ? 'border-b border-gray-200 bg-white/95 backdrop-blur-md dark:border-gray-700 dark:bg-gray-900/95'
+          : 'border-b border-gray-200/50 bg-white/80 backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80'
       }`}
       role="navigation"
       aria-label="Main navigation"
@@ -115,7 +114,7 @@ export default function Navigation() {
               e.preventDefault();
               scrollToSection('hero');
             }}
-            className="flex items-center gap-3 group"
+            className="group flex items-center gap-3"
             aria-label="Home"
           >
             <Image
@@ -123,25 +122,25 @@ export default function Navigation() {
               alt="Themis Baltzakis Logo"
               width={32}
               height={32}
-              className="dark:brightness-0 dark:invert transition-all duration-300 group-hover:scale-110"
+              className="transition-all duration-300 group-hover:scale-110 dark:brightness-0 dark:invert"
             />
             <span className="sr-only">Home</span>
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden items-center space-x-8 md:flex">
             {navItems.map((item) => (
               <button
                 key={item.name}
                 onClick={() => handleNavigation(item)}
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-300 font-medium relative group font-mono nav-accent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="nav-accent group relative font-mono font-medium text-gray-600 transition-all duration-300 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:text-gray-300 dark:hover:text-white"
                 aria-label={item.name}
               >
                 {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
               </button>
             ))}
-            <div className="w-px h-8 bg-gray-200 dark:bg-gray-700" />
+            <div className="h-8 w-px bg-gray-200 dark:bg-gray-700" />
             <div className="flex items-center gap-2">
               <UserSession />
               <ThemeSwitcher />
@@ -152,13 +151,13 @@ export default function Navigation() {
           <button
             ref={mobileButtonRef}
             onClick={toggleMobileMenu}
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="rounded-lg p-2 transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 md:hidden dark:hover:bg-gray-800"
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
           >
             <svg
-              className="w-6 h-6 text-gray-700 dark:text-gray-300 transition-transform duration-300"
+              className="h-6 w-6 text-gray-700 transition-transform duration-300 dark:text-gray-300"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -188,7 +187,7 @@ export default function Navigation() {
           <div
             ref={mobileMenuRef}
             id="mobile-menu"
-            className="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700 animate-in slide-in-from-top-2 duration-200"
+            className="animate-in slide-in-from-top-2 mt-4 border-t border-gray-200 pb-4 duration-200 md:hidden dark:border-gray-700"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"
@@ -198,16 +197,16 @@ export default function Navigation() {
                 <button
                   key={item.name}
                   onClick={() => handleNavigation(item)}
-                  className="text-left text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-300 font-medium relative group text-lg py-3 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="group relative rounded-lg px-4 py-3 text-left text-lg font-medium text-gray-700 transition-all duration-300 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
                   aria-label={item.name}
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
                 </button>
               ))}
 
               {/* Mobile Theme Switcher and User Session */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4 dark:border-gray-700">
                 <div className="flex items-center gap-4">
                   <UserSession />
                   <ThemeSwitcher />

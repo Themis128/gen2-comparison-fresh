@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 
-import { AuthWrapper } from '../AuthWrapper';
+import AuthWrapper from '../AuthWrapper';
 
 type User = {
   userId: string;
@@ -9,15 +10,18 @@ type User = {
 
 // Mock Next.js router
 const mockPush = jest.fn();
+const mockPathname = jest.fn();
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
   }),
+  usePathname: () => mockPathname(),
 }));
 
 // Mock AWS Amplify auth
 jest.mock('aws-amplify/auth', () => ({
   getCurrentUser: jest.fn(),
+  fetchAuthSession: jest.fn(),
 }));
 
 // Mock process.env
@@ -32,14 +36,14 @@ afterEach(() => {
   process.env = originalEnv;
 });
 
-import { getCurrentUser } from 'aws-amplify/auth';
-
 const mockGetCurrentUser = getCurrentUser as jest.MockedFunction<typeof getCurrentUser>;
+const mockFetchAuthSession = fetchAuthSession as jest.MockedFunction<typeof fetchAuthSession>;
 
 describe('AuthWrapper', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockPush.mockClear();
+    mockPathname.mockReturnValue('/');
   });
 
   it('shows loading spinner while checking authentication', () => {
@@ -58,10 +62,20 @@ describe('AuthWrapper', () => {
   });
 
   it('renders children when user is authenticated', async () => {
+    mockPathname.mockReturnValue('/app');
     mockGetCurrentUser.mockResolvedValue({
       userId: 'test-user-id',
       username: 'testuser',
     } as User);
+    mockFetchAuthSession.mockResolvedValue({
+      tokens: {
+        accessToken: {
+          payload: {
+            'cognito:groups': [],
+          },
+        },
+      },
+    } as any);
 
     render(
       <AuthWrapper>

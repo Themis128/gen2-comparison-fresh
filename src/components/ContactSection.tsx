@@ -10,7 +10,7 @@ const Contact = dynamic(() => import('../components/Contact'), {
   loading: () => (
     <section id="contact" className="py-24">
       <div className="container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold mb-4">Contact Me</h2>
+        <h2 className="mb-4 text-3xl font-bold">Contact Me</h2>
         <p>Loading contact form...</p>
       </div>
     </section>

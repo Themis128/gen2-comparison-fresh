@@ -25,8 +25,7 @@ const Navigation: React.FC<NavigationProps> = ({
     if (element) {
       const navbarHeight = 80;
       const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.pageYOffset - navbarHeight;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
 
       window.scrollTo({
         top: offsetPosition,
@@ -49,7 +48,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-gray-700/50"
+      className="fixed left-0 right-0 top-0 z-50 border-b border-gray-200/50 bg-white/80 backdrop-blur-sm transition-all duration-300 dark:border-gray-700/50 dark:bg-gray-900/80"
       role="navigation"
       aria-label="Main navigation"
       id="main-navigation"
@@ -58,7 +57,7 @@ const Navigation: React.FC<NavigationProps> = ({
         <div className="flex items-center justify-between">
           <button
             onClick={() => scrollToSection('about')}
-            className="flex items-center gap-3 group"
+            className="group flex items-center gap-3"
             aria-label="Home"
           >
             <Image
@@ -66,26 +65,26 @@ const Navigation: React.FC<NavigationProps> = ({
               loading="lazy"
               width={64}
               height={64}
-              className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-16 lg:w-16 dark:brightness-0 dark:invert transition-all duration-300 group-hover:scale-110"
+              className="h-8 w-8 transition-all duration-300 group-hover:scale-110 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-16 lg:w-16 dark:brightness-0 dark:invert"
               src={logoSrc}
             />
             <span className="sr-only">Home</span>
           </button>
 
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden items-center space-x-8 md:flex">
             {navItems.map((item) => (
               <button
                 key={item.label}
                 onClick={() => scrollToSection(item.href.substring(1))}
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-300 font-medium relative group font-mono nav-accent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="nav-accent group relative font-mono font-medium text-gray-600 transition-all duration-300 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:text-gray-300 dark:hover:text-white"
                 aria-label={item.label}
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
               </button>
             ))}
 
-            <div className="w-px h-8 bg-gray-200 dark:bg-gray-700" />
+            <div className="h-8 w-px bg-gray-200 dark:bg-gray-700" />
 
             <div className="flex items-center gap-4">
               <ThemeSwitcher />
@@ -95,18 +94,13 @@ const Navigation: React.FC<NavigationProps> = ({
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                aria-label="Open menu"
-              >
-                <Menu className="w-6 h-6" />
+              <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
+                <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-              <div className="flex flex-col space-y-4 mt-6">
+              <div className="mt-6 flex flex-col space-y-4">
                 {navItems.map((item) => (
                   <Button
                     key={item.label}
@@ -118,7 +112,7 @@ const Navigation: React.FC<NavigationProps> = ({
                   </Button>
                 ))}
 
-                <div className="flex flex-col gap-4 pt-4 border-t">
+                <div className="flex flex-col gap-4 border-t pt-4">
                   <ThemeSwitcher />
                   <UserSession />
                 </div>

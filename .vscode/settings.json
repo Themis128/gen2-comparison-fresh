@@ -7,7 +7,7 @@
     "source.fixAll.stylelint": "explicit",
     "source.organizeImports": "never"
   },
-  
+
   "eslint.useFlatConfig": true,
   "eslint.validate": [
     "javascript",
@@ -16,21 +16,30 @@
     "typescriptreact"
   ],
   "eslint.workingDirectories": [{ "mode": "auto" }],
-  
+
   "stylelint.validate": ["css", "postcss", "scss"],
+
+  // Browser Preview Configuration
+  "browser-preview.startUrl": "http://localhost:50000",
+  "browser-preview.verbose": true,
+
+  // Live Preview Configuration
+  "livePreview.portNumber": 50000,
+  "livePreview.openPreviewTarget": "Embedded Preview",
+  "livePreview.defaultPreviewPath": "/",
   "css.validate": false,
   "scss.validate": false,
-  
+
   "prettier.requireConfig": true,
-  
+
   "typescript.preferences.importModuleSpecifier": "relative",
   "typescript.suggest.autoImports": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
-  
+
   "javascript.preferences.importModuleSpecifier": "relative",
   "javascript.suggest.autoImports": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
-  
+
   "files.associations": {
     "*.css": "tailwindcss"
   },
@@ -43,11 +52,11 @@
     "typescript": "javascript",
     "typescriptreact": "javascript"
   },
-  
+
   "editor.quickSuggestions": {
     "strings": true
   },
-  
+
   "terminal.integrated.shellIntegration.enabled": true,
   "terminal.integrated.suggest": {
     "enabled": true,
@@ -77,7 +86,7 @@
   "terminal.integrated.lineHeight": 1.2,
   "terminal.integrated.minimumContrastRatio": 4.5,
   "terminal.integrated.gpuAcceleration": "on",
-  
+
   "simpleBrowser.focusLockIndicator.enabled": true,
   "simpleBrowser.showCurrentLocation": true
 }

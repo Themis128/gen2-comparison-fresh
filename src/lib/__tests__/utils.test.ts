@@ -31,7 +31,7 @@ describe('cn utility function', () => {
   });
 
   it('handles object inputs', () => {
-    expect(cn({ 'class1': true, 'class2': false }, 'class3')).toBe('class1 class3');
+    expect(cn({ class1: true, class2: false }, 'class3')).toBe('class1 class3');
   });
 
   it('returns empty string for no inputs', () => {

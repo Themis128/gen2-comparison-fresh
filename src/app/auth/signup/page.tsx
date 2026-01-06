@@ -17,9 +17,6 @@ import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
 import { signUpWithAttributes } from '@/lib/useAuth';
 
-
-
-
 export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -53,8 +50,7 @@ export default function SignUpPage() {
       });
       router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`);
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : 'Failed to create account';
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create account';
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -71,8 +67,7 @@ export default function SignUpPage() {
       });
       // Note: This will redirect to Google, so we don't set loading to false
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : 'Failed to sign up with Google';
+      const errorMessage = err instanceof Error ? err.message : 'Failed to sign up with Google';
       setError(errorMessage);
       setLoading(false);
     }
@@ -86,20 +81,16 @@ export default function SignUpPage() {
           <AuthLogo href="/" />
         </div>
 
-        <div className="flex flex-1 w-full items-center justify-center">
+        <div className="flex w-full flex-1 items-center justify-center">
           <div className="w-full max-w-sm">
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
               <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-3xl font-bold tracking-tight">
-                  Create your account
-                </h1>
-                <p className="text-gray-600 text-sm text-balance">
-                  Join us today and get started
-                </p>
+                <h1 className="text-3xl font-bold tracking-tight">Create your account</h1>
+                <p className="text-balance text-sm text-gray-600">Join us today and get started</p>
               </div>
 
               {error && (
-                <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg text-sm">
+                <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
                   {error}
                 </div>
               )}
@@ -108,7 +99,7 @@ export default function SignUpPage() {
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
                       id="email"
                       type="email"
@@ -125,7 +116,7 @@ export default function SignUpPage() {
                 <div className="grid gap-2">
                   <Label htmlFor="password">Password</Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+                    <Lock className="absolute left-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <PasswordInput
                       id="password"
                       placeholder="Create a password"
@@ -141,7 +132,7 @@ export default function SignUpPage() {
                 <div className="grid gap-2">
                   <Label htmlFor="confirmPassword">Confirm Password</Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+                    <Lock className="absolute left-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <PasswordInput
                       id="confirmPassword"
                       placeholder="Confirm your password"
@@ -154,17 +145,24 @@ export default function SignUpPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                  <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <div className="flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-950/20">
+                  <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   <div>
-                    <Label className="text-sm font-medium text-blue-900 dark:text-blue-100">reCAPTCHA Protection</Label>
-                    <p className="text-xs text-blue-700 dark:text-blue-300">Verify you're not a robot</p>
+                    <Label className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                      reCAPTCHA Protection
+                    </Label>
+                    <p className="text-xs text-blue-700 dark:text-blue-300">
+                      Verify you're not a robot
+                    </p>
                   </div>
                 </div>
                 <div className="flex justify-center">
                   <ReCAPTCHA
                     ref={recaptchaRef}
-                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'}
+                    sitekey={
+                      process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ||
+                      '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+                    }
                     onChange={(token) => setRecaptchaToken(token)}
                     onExpired={() => setRecaptchaToken(null)}
                   />
@@ -180,9 +178,7 @@ export default function SignUpPage() {
                   <span className="w-full border-t border-border" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
+                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
                 </div>
               </div>
 
@@ -220,7 +216,7 @@ export default function SignUpPage() {
                 Already have an account?{' '}
                 <Link
                   href="/auth/signin"
-                  className="text-primary hover:underline underline-offset-4 font-medium"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
                 >
                   Sign in
                 </Link>
@@ -231,7 +227,7 @@ export default function SignUpPage() {
       </div>
 
       {/* Right side - Gradient Background */}
-      <div className="bg-muted relative hidden lg:block">
+      <div className="relative hidden bg-muted lg:block">
         <GradientMesh
           colors={['#3b82f6', '#8b5cf6', '#ec4899']}
           distortion={7}
@@ -249,7 +245,7 @@ export default function SignUpPage() {
             <p className="text-2xl font-semibold text-foreground">
               &ldquo;Join thousands of satisfied users&rdquo;
             </p>
-            <cite className="block text-sm text-muted-foreground not-italic">
+            <cite className="block text-sm not-italic text-muted-foreground">
               Start your journey with us today
             </cite>
           </blockquote>

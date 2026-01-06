@@ -4,7 +4,12 @@ import { useEffect, useState, useCallback } from 'react';
 
 import { useRouter, usePathname } from 'next/navigation';
 
-import { getCurrentAuthUser, canAccessRoute, getRoleBasedRedirect, type AuthUser } from '@/lib/roleBasedAuth';
+import {
+  getCurrentAuthUser,
+  canAccessRoute,
+  getRoleBasedRedirect,
+  type AuthUser,
+} from '@/lib/roleBasedAuth';
 
 interface ProtectedLayoutProps {
   children: React.ReactNode;
@@ -24,7 +29,9 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
       // Check for test mode
       const isTestMode =
         process.env.NEXT_PUBLIC_TEST_MODE === 'true' ||
-        (typeof window !== 'undefined' && (window as any).__NEXT_PUBLIC_TEST_MODE === 'true');
+        (typeof window !== 'undefined' &&
+          (window as typeof globalThis & { __NEXT_PUBLIC_TEST_MODE?: string })
+            .__NEXT_PUBLIC_TEST_MODE === 'true');
 
       if (isTestMode) {
         setAuthUser({
@@ -87,10 +94,10 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   // Show loading spinner while checking authentication
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary" />
-          <p className="text-sm text-muted-foreground animate-pulse">Authenticating...</p>
+          <div className="h-16 w-16 animate-spin rounded-full border-b-2 border-t-2 border-primary" />
+          <p className="animate-pulse text-sm text-muted-foreground">Authenticating...</p>
         </div>
       </div>
     );

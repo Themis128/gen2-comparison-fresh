@@ -4,7 +4,13 @@ import { useEffect, useState, useCallback } from 'react';
 
 import { useRouter, usePathname } from 'next/navigation';
 
-import { getCurrentAuthUser, canAccessRoute, getRoleBasedRedirect, type AuthUser, type UserRole } from '@/lib/roleBasedAuth';
+import {
+  getCurrentAuthUser,
+  canAccessRoute,
+  getRoleBasedRedirect,
+  type AuthUser,
+  type UserRole,
+} from '@/lib/roleBasedAuth';
 
 interface UseRoleGuardOptions {
   requiredRole?: UserRole;
@@ -39,10 +45,11 @@ export const useRoleGuard = (options: UseRoleGuardOptions = {}): UseRoleGuardRet
 
       // Check for test mode
       const isTestMode =
-        allowTestMode && (
-          process.env.NEXT_PUBLIC_TEST_MODE === 'true' ||
-          (typeof window !== 'undefined' && (window as Record<string, unknown>).__NEXT_PUBLIC_TEST_MODE === 'true')
-        );
+        allowTestMode &&
+        (process.env.NEXT_PUBLIC_TEST_MODE === 'true' ||
+          (typeof window !== 'undefined' &&
+            (window as typeof globalThis & { __NEXT_PUBLIC_TEST_MODE?: string })
+              .__NEXT_PUBLIC_TEST_MODE === 'true'));
 
       if (isTestMode) {
         const testUser: AuthUser = {
@@ -76,8 +83,8 @@ export const useRoleGuard = (options: UseRoleGuardOptions = {}): UseRoleGuardRet
 
       if (requiredRole) {
         // Check specific role requirement
-        canAccess = authUser.role === requiredRole ||
-                   (authUser.role === 'admin' && requiredRole !== 'admin'); // Admin can access most routes
+        canAccess =
+          authUser.role === requiredRole || (authUser.role === 'admin' && requiredRole !== 'admin'); // Admin can access most routes
       } else {
         // Check general route access
         canAccess = canAccessRoute(pathname, authUser.role);
@@ -128,8 +135,8 @@ export const useModeratorGuard = (redirectTo?: string) => {
   const result = useRoleGuard({ redirectTo });
 
   // Override hasAccess to allow moderator and admin
-  const hasModeratorAccess = result.user &&
-    (result.user.role === 'moderator' || result.user.role === 'admin');
+  const hasModeratorAccess =
+    result.user && (result.user.role === 'moderator' || result.user.role === 'admin');
 
   return {
     ...result,
@@ -149,8 +156,8 @@ export const withRoleGuard = <P extends object>(
 
     if (isLoading) {
       return (
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600" />
         </div>
       );
     }

@@ -1,6 +1,6 @@
-// Custom storage configuration for existing bucket baltzakisthemis.com
+// Custom storage configuration for existing bucket gen2-static-site-1767625048
 export const customStorage = {
-  bucket: 'baltzakisthemis.com',
+  bucket: 'gen2-static-site-1767625048',
   region: 'eu-central-1',
   baseUrl: 'https://baltzakisthemis.com',
 

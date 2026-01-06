@@ -27,30 +27,19 @@
     "function-no-unknown": [
       true,
       {
-        "ignoreFunctions": [
-          "theme",
-          "screen"
-        ]
+        "ignoreFunctions": ["theme", "screen"]
       }
     ],
-    "declaration-block-trailing-semicolon": null,
+
     "no-descending-specificity": null,
     "selector-class-pattern": null,
     "keyframes-name-pattern": null,
     "custom-property-pattern": null,
-    "media-feature-name-value-no-unknown": [
-      true,
-      {
-        "ignoreMediaFeatureNames": ["prefers-contrast"]
-      }
-    ],
+    "media-feature-name-value-no-unknown": null,
     "property-no-unknown": [
       true,
       {
-        "ignoreProperties": [
-          "/^--/",
-          "composes"
-        ]
+        "ignoreProperties": ["/^--/", "composes"]
       }
     ],
     "selector-pseudo-class-no-unknown": [
@@ -66,15 +55,21 @@
     "shorthand-property-no-redundant-values": true,
     "declaration-block-no-redundant-longhand-properties": true,
     "declaration-block-single-line-max-declarations": 1,
-    "rule-empty-line-before": ["always", {
-      "except": ["first-nested"],
-      "ignore": ["after-comment"]
-    }],
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
+      }
+    ],
     "import-notation": "string",
-    "value-keyword-case": ["lower", {
-      "ignoreFunctions": ["theme"],
-      "ignoreKeywords": ["currentColor"]
-    }]
+    "value-keyword-case": [
+      "lower",
+      {
+        "ignoreFunctions": ["theme"],
+        "ignoreKeywords": ["currentColor"]
+      }
+    ]
   },
   "ignoreFiles": [
     "node_modules/**",

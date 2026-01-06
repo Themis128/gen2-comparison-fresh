@@ -1,11 +1,13 @@
 {
-  "name": "gen2-comparison-fresh",
+  "name": "baltzakis-themis-portfolio",
   "version": "1.0.0",
-  "description": "",
+  "description": "Baltzakis Themis Portfolio - Modern Todo App with AWS Amplify Gen2",
   "type": "module",
+  "packageManager": "pnpm@10.26.2",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev --port 8000",
+    "dev": "next dev --port 50000",
+    "dev:sandbox": "concurrently -n \"DEV,SANDBOX\" -c \"cyan,magenta\" \"npm run dev\" \"AWS_REGION=us-east-1 npx ampx sandbox --outputs-format json\"",
     "build": "ESLINT_USE_FLAT_CONFIG=true NEXT_TELEMETRY_DISABLED=1 next build",
     "start": "next start",
     "lint": "echo 'Linting disabled - use build for type checking'",
@@ -21,6 +23,7 @@
     "@aws-amplify/backend": "^1.19.0",
     "@aws-amplify/backend-cli": "^1.8.1",
     "@aws-amplify/ui-react": "^6.13.2",
+    "@aws-sdk/client-cognito-identity-provider": "^3.962.0",
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -45,11 +48,11 @@
     "aws-amplify": "^6.15.9",
     "aws-cdk-lib": "^2.216.0",
     "axios": "^1.6.0",
+    "beasties": "^0.3.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.0.0",
     "cmdk": "^1.0.1",
     "constructs": "^10.4.4",
-    "critters": "^0.0.25",
     "framer-motion": "^11.0.0",
     "jspdf": "^2.5.1",
     "lightningcss": "^1.30.2",
@@ -59,19 +62,28 @@
     "ogl": "^1.0.11",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-google-recaptcha": "^3.1.0",
     "react-hook-form": "^7.69.0",
     "react-resizable-panels": "^4.2.0",
     "sonner": "^1.4.3",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^3.4.0",
     "zod": "^3.22.4"
+  },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.0.0",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
+    "@types/react-google-recaptcha": "^2.1.9",
     "@typescript-eslint/eslint-plugin": "^8.51.0",
     "@typescript-eslint/parser": "^8.51.0",
     "autoprefixer": "^10.4.0",
+    "concurrently": "^9.2.1",
     "esbuild": "^0.27.2",
     "eslint": "^9.39.2",
     "eslint-config-next": "16.1.1",
@@ -81,7 +93,13 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "jest": "^29.0.0",
     "jest-environment-jsdom": "^30.2.0",
+    "playwright": "^1.57.0",
     "postcss": "^8.4.0",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "stylelint": "^16.26.1",
+    "stylelint-config-standard": "^39.0.1",
+    "stylelint-config-tailwindcss": "^1.0.0",
+    "stylelint-order": "^7.0.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
@@ -90,6 +108,9 @@
     "overrides": {
       "@types/react": "19.2.7",
       "@types/react-dom": "19.2.3"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
   }
 }

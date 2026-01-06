@@ -1,7 +1,22 @@
-import * as React from "react";
+import * as React from 'react';
 
-type BGVariantType = 'dots' | 'grid' | 'diagonal-stripes' | 'horizontal-lines' | 'vertical-lines' | 'checkerboard';
-type BGMaskType = 'fade-edges' | 'fade-center' | 'fade-top' | 'fade-bottom' | 'fade-left' | 'fade-right' | 'fade-x' | 'fade-y' | 'none';
+type BGVariantType =
+  | 'dots'
+  | 'grid'
+  | 'diagonal-stripes'
+  | 'horizontal-lines'
+  | 'vertical-lines'
+  | 'checkerboard';
+type BGMaskType =
+  | 'fade-edges'
+  | 'fade-center'
+  | 'fade-top'
+  | 'fade-bottom'
+  | 'fade-left'
+  | 'fade-right'
+  | 'fade-x'
+  | 'fade-y'
+  | 'none';
 
 type BGPatternProps = React.ComponentProps<'div'> & {
   variant?: BGVariantType;
@@ -65,4 +80,3 @@ export default function BGPattern({
     />
   );
 }
-

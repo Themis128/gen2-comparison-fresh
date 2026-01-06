@@ -23,14 +23,14 @@ export const auth = defineAuth({
         scopes: ['email', 'profile', 'openid'],
       },
       callbackUrls: [
+        'http://localhost:50000/auth/callback',
         'http://localhost:3000/auth/callback',
-        'http://localhost:45267/auth/callback',
         'https://baltzakisthemis.com/auth/callback',
         'https://www.baltzakisthemis.com/auth/callback',
       ],
       logoutUrls: [
+        'http://localhost:50000',
         'http://localhost:3000',
-        'http://localhost:45267',
         'https://baltzakisthemis.com',
         'https://www.baltzakisthemis.com',
       ],

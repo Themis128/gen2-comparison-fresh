@@ -141,11 +141,7 @@ function GradientMesh({
       uWaveFreq: { value: waveFreq },
       uWaveSpeed: { value: waveSpeed },
       uResolution: {
-        value: new Color(
-          gl.canvas.width,
-          gl.canvas.height,
-          gl.canvas.width / gl.canvas.height
-        ),
+        value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height),
       },
       uGrain: { value: grain },
     };
