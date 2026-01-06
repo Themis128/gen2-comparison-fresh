@@ -1,6 +1,7 @@
 "use client";
-import { PersonalData } from '../lib/personal-data';
 import ModernExperience from './ModernExperience';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface ExperienceProps {
   data: PersonalData;

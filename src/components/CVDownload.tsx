@@ -1,7 +1,9 @@
 "use client";
 import jsPDF from 'jspdf';
-import { PersonalData } from '../lib/personal-data';
+
 import { Button } from "./ui/button";
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface CVDownloadProps {
   data: PersonalData;

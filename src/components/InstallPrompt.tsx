@@ -1,7 +1,9 @@
 'use client';
 
-import { Download, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
+import { Download, X } from 'lucide-react';
+
 import { Button } from './ui/button';
 
 interface BeforeInstallPromptEvent extends Event {

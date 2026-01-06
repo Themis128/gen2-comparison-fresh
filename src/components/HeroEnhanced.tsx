@@ -1,6 +1,7 @@
 "use client";
-import { PersonalData } from '../lib/personal-data';
 import ModernHeroSection from './ModernHero';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface HeroProps {
   data: PersonalData;

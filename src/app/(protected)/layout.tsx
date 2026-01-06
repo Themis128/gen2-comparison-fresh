@@ -1,14 +1,15 @@
 'use client';
 
 import { useEffect, useState, useCallback, useMemo } from 'react';
+
 import { useRouter } from 'next/navigation';
-import { getCurrentUser } from 'aws-amplify/auth';
+
+import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 
 interface ProtectedLayoutProps {
   children: React.ReactNode;
 }
 
-// Cache auth state to avoid repeated checks
 let cachedAuthState: boolean | null = null;
 let authCheckPromise: Promise<boolean> | null = null;
 
@@ -16,24 +17,20 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(cachedAuthState);
   const router = useRouter();
 
-  // Check if test mode is enabled
   const isTestMode = useMemo(() => {
     return process.env.NEXT_PUBLIC_TEST_MODE === 'true' ||
            (typeof window !== 'undefined' && (window as any).__NEXT_PUBLIC_TEST_MODE === 'true');
   }, []);
 
   const checkAuth = useCallback(async () => {
-    // Return cached result if available
     if (cachedAuthState !== null) {
       return cachedAuthState;
     }
 
-    // Return existing promise if auth check is in progress
     if (authCheckPromise) {
       return authCheckPromise;
     }
 
-    // Start new auth check
     authCheckPromise = (async () => {
       try {
         if (isTestMode) {
@@ -55,24 +52,40 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
     return authCheckPromise;
   }, [isTestMode]);
 
+  const checkUserRole = useCallback(async () => {
+    try {
+      const user = await getCurrentUser();
+      const session = await fetchAuthSession();
+      const groups = session.tokens?.accessToken?.payload['cognito:groups'] as string[] || [];
+      return groups.includes('admin') ? 'admin' : 'user';
+    } catch {
+      return 'user';
+    }
+  }, []);
+
   useEffect(() => {
     let mounted = true;
 
-    checkAuth().then((authenticated) => {
+    checkAuth().then(async (authenticated) => {
       if (!mounted) return;
       
       setIsAuthenticated(authenticated);
       if (!authenticated) {
         router.push('/auth/signin');
+      } else {
+        const role = await checkUserRole();
+        if (role === 'admin') {
+          router.push('/admin');
+        }
+        // Regular users stay in the protected app area
       }
     });
 
     return () => {
       mounted = false;
     };
-  }, [checkAuth, router]);
+  }, [checkAuth, checkUserRole, router]);
 
-  // Optimized loading state with skeleton
   if (isAuthenticated === null) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">

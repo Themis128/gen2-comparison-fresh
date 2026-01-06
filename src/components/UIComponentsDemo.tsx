@@ -1,25 +1,28 @@
 'use client';
 
 import React, { useState } from 'react';
+
+import { CheckCircle, AlertCircle, Info, XCircle } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Checkbox } from './ui/checkbox';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
-import { Checkbox } from './ui/checkbox';
+import { Progress } from './ui/progress';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Switch } from './ui/switch';
-import { Slider } from './ui/slider';
-import { Progress } from './ui/progress';
-import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
+import { Slider } from './ui/slider';
+import { Switch } from './ui/switch';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
-import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { toast } from 'sonner';
-import { CheckCircle, AlertCircle, Info, XCircle } from 'lucide-react';
+import { Textarea } from './ui/textarea';
+
 
 export const UIComponentsDemo: React.FC = () => {
   const [sliderValue, setSliderValue] = useState([50]);

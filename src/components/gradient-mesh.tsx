@@ -1,5 +1,6 @@
-import { Color, Mesh, Program, Renderer, Triangle } from 'ogl';
 import * as React from 'react';
+
+import { Color, Mesh, Program, Renderer, Triangle } from 'ogl';
 
 const vert = `
 attribute vec2 uv;

@@ -3,15 +3,20 @@
 // Force dynamic rendering for auth pages that use search params
 export const dynamic = 'force-dynamic';
 
-import { confirmResetPassword } from 'aws-amplify/auth';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, Suspense } from 'react';
+
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import { confirmResetPassword } from 'aws-amplify/auth';
+
+
+import { GradientMesh } from '@/components/gradient-mesh';
+import { AuthLogo } from '@/components/Logo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
-import { GradientMesh } from '@/components/gradient-mesh';
 
 function ResetPasswordForm() {
   const [code, setCode] = useState('');
@@ -59,11 +64,7 @@ function ResetPasswordForm() {
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
-          <Link href="/" aria-label="home" className="flex gap-2 items-center">
-            <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl">
-              A
-            </div>
-          </Link>
+          <AuthLogo href="/" />
         </div>
 
         <div className="flex flex-1 w-full items-center justify-center">

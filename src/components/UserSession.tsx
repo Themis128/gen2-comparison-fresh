@@ -1,19 +1,20 @@
 'use client';
 
 import { useState } from 'react';
+
+import { AuthEventMonitor } from './AuthEventMonitor';
+import { UserProfile } from './UserProfile';
 import {
-  AuthFlowType,
+  type AuthFlowType,
   checkAuthStatus,
   confirmSignInWithChallenge,
-  PreferredChallenge,
+  type PreferredChallenge,
   refreshAuthSession,
-  SignInResult,
+  type SignInResult,
   signInWithFlow,
   signOutUser,
 } from '../lib/useAuth';
 import { useAuthEventLogger, useAuthState } from '../lib/useAuthEvents';
-import { AuthEventMonitor } from './AuthEventMonitor';
-import { UserProfile } from './UserProfile';
 
 export default function UserSession() {
   // Use auth state hook for automatic event-driven updates
@@ -122,7 +123,7 @@ export default function UserSession() {
   if (isLoading) {
     return (
       <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900 dark:border-white"></div>
+        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900 dark:border-white" />
         <span>Checking session...</span>
       </div>
     );
@@ -306,10 +307,7 @@ export default function UserSession() {
   return (
     <div className="flex items-center space-x-4 text-sm">
       <div className="text-gray-900 dark:text-white">
-        <div className="font-medium">{user.username}</div>
-        <div className="text-xs text-gray-500 dark:text-gray-400">
-          ID: {user.userId}
-        </div>
+        <div className="font-medium">{user.signInDetails?.loginId || user.username}</div>
       </div>
       <div className="flex space-x-2">
         <button

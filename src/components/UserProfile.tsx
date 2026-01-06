@@ -1,20 +1,21 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button } from './ui/button';
+
+import { Badge } from './badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
 import { Input } from './input';
 import { Label } from './label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
-import { Badge } from './badge';
+import { Button } from './ui/button';
 import {
   getUserAttributes,
   updateMultipleUserAttributes,
   confirmUserAttributeUpdate,
   sendUserAttributeVerification,
   deleteUserAttributesByKeys,
-  UserAttributes,
-  UpdateUserAttributesResult,
+  type UserAttributes,
+  type UpdateUserAttributesResult,
   type VerifiableUserAttributeKey,
   type UserAttributeKey
 } from '../lib/useAuth';

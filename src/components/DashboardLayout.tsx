@@ -1,33 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from './ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from './ui/card';
-import { Badge } from './ui/badge';
-import { Progress } from './ui/progress';
-import { Separator } from './ui/separator';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from './ui/sidebar';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from './ui/collapsible';
+
 import {
   Home,
   Users,
@@ -42,6 +16,35 @@ import {
   Bell,
   User,
 } from 'lucide-react';
+
+import { Badge } from './ui/badge';
+import { Button } from './ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from './ui/card';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from './ui/collapsible';
+import { Progress } from './ui/progress';
+import { Separator } from './ui/separator';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from './ui/sidebar';
+
 
 const sidebarItems = [
   {
@@ -293,7 +296,7 @@ export const DashboardLayout: React.FC = () => {
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2" />
                     <div className="flex-1">
                       <p className="text-sm">New user registration</p>
                       <p className="text-xs text-muted-foreground">
@@ -303,7 +306,7 @@ export const DashboardLayout: React.FC = () => {
                     <Badge variant="secondary">User</Badge>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2" />
                     <div className="flex-1">
                       <p className="text-sm">Project milestone completed</p>
                       <p className="text-xs text-muted-foreground">
@@ -313,7 +316,7 @@ export const DashboardLayout: React.FC = () => {
                     <Badge variant="default">Project</Badge>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2" />
                     <div className="flex-1">
                       <p className="text-sm">System maintenance scheduled</p>
                       <p className="text-xs text-muted-foreground">
@@ -323,7 +326,7 @@ export const DashboardLayout: React.FC = () => {
                     <Badge variant="destructive">System</Badge>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2" />
                     <div className="flex-1">
                       <p className="text-sm">New feature deployed</p>
                       <p className="text-xs text-muted-foreground">1 day ago</p>

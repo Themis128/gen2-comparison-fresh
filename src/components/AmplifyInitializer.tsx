@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+
 import { ensureAmplifyConfigured } from '../lib/amplify-client-config';
 
 export default function AmplifyInitializer() {

@@ -1,6 +1,7 @@
 "use client";
 import { Github, Globe, Linkedin, Mail, MapPin, Network, Shield, Sparkles, Zap } from 'lucide-react';
-import { PersonalData } from '../lib/personal-data';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface AboutProps {
   data: PersonalData;

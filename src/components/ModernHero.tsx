@@ -1,9 +1,12 @@
 'use client';
 
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef, useState } from "react";
+
 import { motion } from "framer-motion";
 import { ArrowRight, Cloud, Github, Globe, Linkedin, Network, Server, Shield, type LucideIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+
 
 // Particle class for the background animation
 class Particle {

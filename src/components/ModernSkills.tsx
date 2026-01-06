@@ -1,8 +1,10 @@
 "use client";
+import { useState } from 'react';
+
 import { motion } from 'framer-motion';
 import { Award, BarChart3, Brain, Calendar, Cloud, Code2, Cpu, Database, ExternalLink, GitBranch, Globe, Lock, Network, Server, Settings, Shield, Smartphone, Sparkles, Star, Zap } from 'lucide-react';
-import { useState } from 'react';
-import { PersonalData } from '../lib/personal-data';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface SkillsProps {
   data: PersonalData;

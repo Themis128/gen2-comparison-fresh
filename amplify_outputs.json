@@ -1,9 +1,9 @@
 {
   "auth": {
-    "user_pool_id": "eu-central-1_LVCtrLzvV",
-    "aws_region": "eu-central-1",
-    "user_pool_client_id": "4t9hlfomlq7el31lo2gg4jlpj3",
-    "identity_pool_id": "eu-central-1:ebe53934-157e-47a0-b96d-f4a50fccb8b9",
+    "user_pool_id": "us-east-1_m7QOCwEqs",
+    "aws_region": "us-east-1",
+    "user_pool_client_id": "4koi2qju8s48arhrnhuu4p2vm4",
+    "identity_pool_id": "us-east-1:472bbd05-a56b-4614-8c4b-6d28aadd9e83",
     "mfa_methods": [],
     "standard_required_attributes": [
       "email"
@@ -14,7 +14,18 @@
     "user_verification_types": [
       "email"
     ],
-    "groups": [],
+    "groups": [
+      {
+        "admin": {
+          "precedence": 0
+        }
+      },
+      {
+        "user": {
+          "precedence": 1
+        }
+      }
+    ],
     "mfa_configuration": "NONE",
     "password_policy": {
       "min_length": 8,
@@ -23,13 +34,41 @@
       "require_symbols": true,
       "require_uppercase": true
     },
+    "oauth": {
+      "identity_providers": [
+        "GOOGLE"
+      ],
+      "redirect_sign_in_uri": [
+        "http://localhost:3000/auth/callback",
+        "http://localhost:45267/auth/callback",
+        "https://baltzakisthemis.com/auth/callback",
+        "https://www.baltzakisthemis.com/auth/callback"
+      ],
+      "redirect_sign_out_uri": [
+        "http://localhost:3000",
+        "http://localhost:45267",
+        "https://baltzakisthemis.com",
+        "https://www.baltzakisthemis.com"
+      ],
+      "response_type": "code",
+      "scopes": [
+        "phone",
+        "email",
+        "openid",
+        "profile",
+        "aws.cognito.signin.user.admin"
+      ],
+      "domain": "e1571f8e6b32099ac9b6.auth.us-east-1.amazoncognito.com"
+    },
     "unauthenticated_identities_enabled": true
   },
   "data": {
-    "url": "https://qp53gyylmzbthgdiq4ipvekb2q.appsync-api.eu-central-1.amazonaws.com/graphql",
-    "aws_region": "eu-central-1",
+    "url": "https://esqoprnopnhgja3zcezo3k2vfu.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_region": "us-east-1",
+    "api_key": "da2-bgibmthimrgyfcfj7ybjz4ed3m",
     "default_authorization_type": "AWS_IAM",
     "authorization_types": [
+      "API_KEY",
       "AMAZON_COGNITO_USER_POOLS"
     ],
     "model_introspection": {
@@ -110,7 +149,123 @@
                 "rules": [
                   {
                     "allow": "public",
-                    "provider": "iam",
+                    "provider": "apiKey",
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
+                  },
+                  {
+                    "allow": "private",
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "primaryKeyInfo": {
+            "isCustomPrimaryKey": false,
+            "primaryKeyFieldName": "id",
+            "sortKeyFieldNames": []
+          }
+        },
+        "ContactMessage": {
+          "name": "ContactMessage",
+          "fields": {
+            "id": {
+              "name": "id",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "name": {
+              "name": "name",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "email": {
+              "name": "email",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "subject": {
+              "name": "subject",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "message": {
+              "name": "message",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "priority": {
+              "name": "priority",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "newsletter": {
+              "name": "newsletter",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": false,
+              "attributes": []
+            },
+            "recaptchaToken": {
+              "name": "recaptchaToken",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "createdAt": {
+              "name": "createdAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": [],
+              "isReadOnly": true
+            },
+            "updatedAt": {
+              "name": "updatedAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": [],
+              "isReadOnly": true
+            }
+          },
+          "syncable": true,
+          "pluralName": "ContactMessages",
+          "attributes": [
+            {
+              "type": "model",
+              "properties": {}
+            },
+            {
+              "type": "auth",
+              "properties": {
+                "rules": [
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
                     "operations": [
                       "create",
                       "update",

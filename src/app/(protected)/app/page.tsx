@@ -1,15 +1,16 @@
 "use client";
 
 import { Suspense, memo } from 'react';
-import { getPersonalDataServer } from '@/lib/personal-data';
-import Hero from '@/components/Hero';
-import About from '@/components/About';
-import dynamic from 'next/dynamic';
-import Contact from '@/components/Contact';
-import Languages from '@/components/Languages';
-import Achievements from '@/components/Achievements';
 
-// Optimized loading skeleton
+import dynamic from 'next/dynamic';
+
+import About from '@/components/About';
+import Achievements from '@/components/Achievements';
+import Contact from '@/components/Contact';
+import Hero from '@/components/Hero';
+import Languages from '@/components/Languages';
+import { getPersonalDataServer } from '@/lib/personal-data';
+
 const LoadingSkeleton = memo(function LoadingSkeleton({ height = "400px", color = "blue" }: { height?: string; color?: string }) {
   const colorClasses: Record<string, string> = {
     blue: "border-blue-500",
@@ -25,10 +26,9 @@ const LoadingSkeleton = memo(function LoadingSkeleton({ height = "400px", color 
   );
 });
 
-// Lazy load heavy components with prefetch for better perceived performance
 const Projects = dynamic(() => import('@/components/Projects'), {
   loading: () => <LoadingSkeleton height="400px" color="blue" />,
-  ssr: false, // Disable SSR for faster initial load
+  ssr: false,
 });
 
 const ExperienceComponent = dynamic(() => import('@/components/Experience'), {
@@ -46,17 +46,14 @@ const SkillsComponent = dynamic(() => import('@/components/Skills'), {
   ssr: false,
 });
 
-// Memoize the page component to prevent unnecessary re-renders
 const HomePage = memo(function HomePage() {
   const data = getPersonalDataServer();
 
   return (
     <div className="min-h-screen">
-      {/* Critical above-the-fold content - render immediately */}
       <Hero data={data} />
       <About data={data} />
       
-      {/* Below-the-fold content - lazy loaded with Suspense boundaries */}
       <Suspense fallback={<LoadingSkeleton height="350px" color="orange" />}>
         <SkillsComponent data={data} />
       </Suspense>
@@ -73,7 +70,6 @@ const HomePage = memo(function HomePage() {
         <CertificationsComponent data={data} />
       </Suspense>
       
-      {/* Lighter components - render normally */}
       <Languages data={data} />
       <Achievements data={data} />
       <Contact data={data} />

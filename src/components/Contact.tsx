@@ -1,11 +1,14 @@
 "use client";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import { motion } from 'framer-motion';
 import { Clock, Github, Linkedin, Mail, MapPin, MessageSquare, Send } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { PersonalData } from '../lib/personal-data';
+
 import { Input } from './input';
 import { Textarea } from './textarea';
 import { Button } from "./ui/button";
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface ContactProps {
   data: PersonalData;

@@ -1,4 +1,5 @@
 import { Amplify } from 'aws-amplify';
+
 import { getAmplifyConfig } from './amplify-client-config';
 
 // Configure Amplify for server-side use

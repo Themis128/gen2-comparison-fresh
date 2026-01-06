@@ -1,11 +1,14 @@
 import '@aws-amplify/ui-react/styles.css';
 import type { Metadata } from 'next';
+
 import { Inter, JetBrains_Mono } from 'next/font/google';
+
 import AmplifyInitializer from '../components/AmplifyInitializer';
 import DevConsoleFilter from '../components/DevConsoleFilter';
 import DevListenerPatch from '../components/DevListenerPatch';
 import InstallPrompt from '../components/InstallPrompt';
 import NavigationWrapper from '../components/NavigationWrapper';
+import { Toaster } from 'sonner';
 // import ToolbarMountController from '../components/ToolbarMountController';
 import '../lib/amplify-client-config'; // Configure Amplify early
 import { ThemeProvider } from '../lib/theme-context';
@@ -81,11 +84,10 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta
-          name="apple-mobile-web-app-title"
-          content="TBaltzakis Portfolio"
-        />
+        <meta name="apple-mobile-web-app-title" content="Cloudless" />
         <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes, viewport-fit=cover" />
+        <meta name="format-detection" content="telephone=no" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/cloudless-favicon.ico" />
 
@@ -215,11 +217,10 @@ export default function RootLayout({
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        suppressHydrationWarning={true}
+        suppressHydrationWarning
       >
         <AmplifyInitializer />
         <ThemeProvider>
-          {/* Global tech overlay */}
           <div
             className="site-tech-overlay pointer-events-none fixed inset-0 z-0"
             aria-hidden="true"
@@ -227,6 +228,7 @@ export default function RootLayout({
           <NavigationWrapper />
           {children}
           <InstallPrompt />
+          <Toaster />
         </ThemeProvider>
         {process.env.NODE_ENV === 'development' && <DevListenerPatch />}
         {process.env.NODE_ENV === 'development' && <DevConsoleFilter />}

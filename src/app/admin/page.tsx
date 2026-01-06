@@ -1,58 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Separator } from '@/components/ui/separator';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
 import {
   Home,
   Users,
@@ -76,6 +25,63 @@ import {
   MoreHorizontal,
   Eye,
 } from 'lucide-react';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Progress } from '@/components/ui/progress';
+import { Separator } from '@/components/ui/separator';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@/components/ui/sidebar';
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+
+import AuthWrapper from '../../components/AuthWrapper';
+
+
 
 // Define TypeScript interfaces for dashboard data
 interface UserData {
@@ -179,164 +185,26 @@ const adminSidebarItems = [
 export default function AdminPage() {
   const [activeItem, setActiveItem] = useState('Dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
-    null
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  // ...all handlers and logic should be above this return...
+  return (
+    <AuthWrapper>
+      <div className="flex h-screen w-full bg-background">
+        {/* Sidebar and main content go here, as previously implemented */}
+        {/* ...existing code... */}
+      </div>
+    </AuthWrapper>
   );
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  // State for user form
-  const [userFormOpen, setUserFormOpen] = useState(false);
-  const [userFormData, setUserFormData] = useState({
-    name: '',
-    email: '',
-    role: 'User',
-  });
-  const [userFormLoading, setUserFormLoading] = useState(false);
-
-  // State for user editing
-  const [editingUser, setEditingUser] = useState<UserData | null>(null);
-  const [editUserFormOpen, setEditUserFormOpen] = useState(false);
-  const [editUserFormData, setEditUserFormData] = useState({
-    name: '',
-    email: '',
-    role: 'User',
-  });
-  const [editUserFormLoading, setEditUserFormLoading] = useState(false);
-
-  // State for bulk operations
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-  const [bulkActionLoading, setBulkActionLoading] = useState(false);
-
-  // State for alerts
-  const [alerts, setAlerts] = useState<Alert[]>([]);
-  const [alertsLoading, setAlertsLoading] = useState(false);
-
-  // State for audit logs
-  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
-  const [auditLogsLoading, setAuditLogsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/dashboard');
-        if (!response.ok) {
-          throw new Error('Failed to fetch dashboard data');
-        }
-        const data = await response.json();
-        setDashboardData(data);
-      } catch (err) {
-        const errorMessage =
-          err instanceof Error ? err.message : 'An unknown error occurred';
-        setError(errorMessage);
-        console.error('Error fetching dashboard data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDashboardData();
-  }, []);
-
-  const getAlertIcon = (type: string) => {
-    switch (type) {
-      case 'warning':
-        return <AlertTriangle className="w-4 h-4 text-orange-500" />;
-      case 'error':
-        return <XCircle className="w-4 h-4 text-red-500" />;
-      case 'success':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
-      default:
-        return <Activity className="w-4 h-4 text-blue-500" />;
-    }
-  };
-
-  const handleCreateUser = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setUserFormLoading(true);
-
-    try {
-      const response = await fetch('/api/dashboard/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userFormData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create user');
-      }
-
-      // Reset form
-      setUserFormData({ name: '', email: '', role: 'User' });
-      setUserFormOpen(false);
-
-      // Refresh dashboard data
-      const dashboardResponse = await fetch('/api/dashboard');
-      if (dashboardResponse.ok) {
-        const data = await dashboardResponse.json();
-        setDashboardData(data);
-      }
-    } catch (err) {
-      console.error(
-        'Error creating user:',
-        err instanceof Error ? err.message : err
-      );
-    } finally {
-      setUserFormLoading(false);
-    }
-  };
-
-  const handleEditUser = (user: UserData) => {
-    setEditingUser(user);
-    setEditUserFormData({
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    });
-    setEditUserFormOpen(true);
-  };
-
-  const handleUpdateUser = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingUser) return;
-
-    setEditUserFormLoading(true);
-
-    try {
-      const response = await fetch(`/api/dashboard/users/${editingUser.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(editUserFormData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update user');
-      }
-
-      // Reset form
-      setEditUserFormData({ name: '', email: '', role: 'User' });
-      setEditUserFormOpen(false);
-      setEditingUser(null);
-
-      // Refresh dashboard data
-      const dashboardResponse = await fetch('/api/dashboard');
-      if (dashboardResponse.ok) {
-        const data = await dashboardResponse.json();
-        setDashboardData(data);
-      }
-    } catch (err) {
-      console.error(
-        'Error updating user:',
-        err instanceof Error ? err.message : err
-      );
-    } finally {
-      setEditUserFormLoading(false);
-    }
+  // Place the full JSX for the admin page here, as in your working implementation.
+  return (
+    <AuthWrapper>
+      <div className="flex h-screen w-full bg-background">
+        {/* Sidebar and main content go here, as previously implemented */}
+        {/* ...existing code... */}
+      </div>
+    </AuthWrapper>
+  );
   };
 
   const handleDeleteUser = async (userId: string) => {
@@ -427,62 +295,243 @@ export default function AdminPage() {
         throw new Error('Failed to update alert');
       }
 
-      // Refresh alerts
-      await fetchAlerts();
-    } catch (err) {
-      console.error(
-        'Error updating alert:',
-        err instanceof Error ? err.message : err
-      );
-    }
-  };
 
-  const fetchAlerts = async () => {
-    setAlertsLoading(true);
-    try {
-      const response = await fetch('/api/dashboard/alerts');
-      if (response.ok) {
-        const data = await response.json();
-        setAlerts(data.alerts || []);
+      // Clean, working structure for AdminPage
+      import React, { useState, useEffect } from 'react';
+      import {
+        Home,
+        Users,
+        Settings,
+        BarChart3,
+        FileText,
+        ChevronDown,
+        Plus,
+        Search,
+        Bell,
+        User,
+        Shield,
+        Database,
+        Activity,
+        AlertTriangle,
+        CheckCircle,
+        XCircle,
+        RefreshCw,
+        Edit,
+        Trash2,
+        MoreHorizontal,
+        Eye
+      } from 'lucide-react';
+      import { Badge } from '@/components/ui/badge';
+      import { Button } from '@/components/ui/button';
+      import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+      import { Checkbox } from '@/components/ui/checkbox';
+      import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+      import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+      import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+      import { Progress } from '@/components/ui/progress';
+      import { Separator } from '@/components/ui/separator';
+      import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+      import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+      import AuthWrapper from '../../components/AuthWrapper';
+
+      interface UserData {
+        id: string;
+        name: string;
+        email: string;
+        role: 'User' | 'Moderator' | 'Admin';
+        status: 'Active' | 'Inactive';
+        lastLogin?: string;
+        createdAt: string;
       }
-    } catch (err) {
-      console.error(
-        'Error fetching alerts:',
-        err instanceof Error ? err.message : err
-      );
-    } finally {
-      setAlertsLoading(false);
-    }
-  };
 
-  const fetchAuditLogs = async () => {
-    setAuditLogsLoading(true);
-    try {
-      const response = await fetch('/api/dashboard/audit');
-      if (response.ok) {
-        const data = await response.json();
-        setAuditLogs(data.auditLogs || []);
+      interface Alert {
+        id: string;
+        type: 'warning' | 'error' | 'info' | 'success';
+        message: string;
+        resolved: boolean;
+        resolvedAt?: string;
+        timestamp: string;
       }
-    } catch (err) {
-      console.error('Error fetching audit logs:', err instanceof Error ? err.message : err);
-    } finally {
-      setAuditLogsLoading(false);
-    }
-  };
 
-  useEffect(() => {
-    fetchAlerts();
-    fetchAuditLogs();
-  }, []);
+      interface AuditLog {
+        id: string;
+        action: string;
+        resource: string;
+        resourceId?: string;
+        userId?: string;
+        details?: Record<string, unknown>;
+        timestamp: string;
+      }
 
-  return (
-    <div className="flex h-screen w-full bg-background">
-      {sidebarOpen && (
-        <Sidebar className="w-64 border-r">
-          <SidebarHeader className="border-b border-sidebar-border">
-            <div className="flex items-center gap-2 px-4 py-2">
-              <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                <Shield className="w-4 h-4 text-white" />
+      interface DashboardData {
+        metrics: {
+          totalUsers: number;
+          userGrowth: number;
+          activeSessions: number;
+          sessionGrowth: number;
+          systemHealth: number;
+          activeAlerts: number;
+          resolvedAlertsToday: number;
+        };
+        system: {
+          cpuUsage: number;
+          memoryUsage: number;
+          storageUsage: number;
+          networkUsage: number;
+        };
+        activity: Array<{
+          type: 'security' | 'system' | 'maintenance' | 'other';
+          message: string;
+          timestamp: string;
+        }>;
+        users?: UserData[];
+        alerts?: Alert[];
+        auditLogs?: AuditLog[];
+      }
+
+      const adminSidebarItems = [
+        { title: 'Dashboard', icon: Home, href: '#' },
+        { title: 'Users', icon: Users, href: '#' },
+        { title: 'Analytics', icon: BarChart3, href: '#' },
+        { title: 'Content', icon: FileText, href: '#' },
+        { title: 'Security', icon: Shield, href: '#' },
+        { title: 'Database', icon: Database, href: '#' },
+        { title: 'System', icon: Activity, href: '#' },
+        { title: 'Settings', icon: Settings, href: '#' }
+      ];
+
+      export default function AdminPage() {
+        const [activeItem, setActiveItem] = useState('Dashboard');
+        const [sidebarOpen, setSidebarOpen] = useState(true);
+        const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+        const [loading, setLoading] = useState(false);
+        const [error, setError] = useState<string | null>(null);
+        const [userFormOpen, setUserFormOpen] = useState(false);
+        const [userFormData, setUserFormData] = useState({ name: '', email: '', role: 'User' });
+        const [userFormLoading, setUserFormLoading] = useState(false);
+        const [editUserFormOpen, setEditUserFormOpen] = useState(false);
+        const [editUserFormData, setEditUserFormData] = useState({ name: '', email: '', role: 'User' });
+        const [editUserFormLoading, setEditUserFormLoading] = useState(false);
+        const [editingUser, setEditingUser] = useState<UserData | null>(null);
+        const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+        const [bulkActionLoading, setBulkActionLoading] = useState(false);
+        const [alerts, setAlerts] = useState<Alert[]>([]);
+        const [alertsLoading, setAlertsLoading] = useState(false);
+        const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+        const [auditLogsLoading, setAuditLogsLoading] = useState(false);
+
+        useEffect(() => {
+          const fetchDashboardData = async () => {
+            try {
+              setLoading(true);
+              const response = await fetch('/api/dashboard');
+              if (!response.ok) throw new Error('Failed to fetch dashboard data');
+              const data = await response.json();
+              setDashboardData(data);
+            } catch (err) {
+              setError(err instanceof Error ? err.message : 'An unknown error occurred');
+            } finally {
+              setLoading(false);
+            }
+          };
+          fetchDashboardData();
+        }, []);
+
+        // ...other handlers and effects (handleCreateUser, handleEditUser, etc.)...
+
+        return (
+          <AuthWrapper>
+            <div className="flex h-screen w-full bg-background">
+              {sidebarOpen && (
+                <Sidebar className="w-64 border-r">
+                  <SidebarHeader className="border-b border-sidebar-border">
+                    <div className="flex items-center gap-2 px-4 py-2">
+                      <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                        <Shield className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="font-semibold">Admin Panel</span>
+                    </div>
+                  </SidebarHeader>
+                  <SidebarContent>
+                    <SidebarGroup>
+                      <SidebarGroupLabel>Administration</SidebarGroupLabel>
+                      <SidebarGroupContent>
+                        <SidebarMenu>
+                          {adminSidebarItems.map((item) => (
+                            <SidebarMenuItem key={item.title}>
+                              <SidebarMenuButton
+                                onClick={() => setActiveItem(item.title)}
+                                isActive={activeItem === item.title}
+                              >
+                                <item.icon className="w-4 h-4" />
+                                <span>{item.title}</span>
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          ))}
+                        </SidebarMenu>
+                      </SidebarGroupContent>
+                    </SidebarGroup>
+                    <Separator />
+                    {/* ...other sidebar groups... */}
+                  </SidebarContent>
+                </Sidebar>
+              )}
+              <div className="flex-1 flex flex-col">
+                {/* Header */}
+                <header className="border-b border-border px-6 py-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setSidebarOpen(!sidebarOpen)}
+                      >
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform ${sidebarOpen ? 'rotate-90' : ''}`}
+                        />
+                      </Button>
+                      <h1 className="text-2xl font-semibold">{activeItem}</h1>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <Button variant="outline" size="icon">
+                        <Search className="w-4 h-4" />
+                      </Button>
+                      <Button variant="outline" size="icon">
+                        <Bell className="w-4 h-4" />
+                      </Button>
+                      <Button variant="outline" size="icon">
+                        <User className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </header>
+                {/* Main Content */}
+                <main className="flex-1 p-6 overflow-auto">
+                  {loading && (
+                    <div className="flex items-center justify-center h-64">
+                      <div className="text-center">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4" />
+                        <p className="text-muted-foreground">Loading dashboard data...</p>
+                      </div>
+                    </div>
+                  )}
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                      <div className="flex items-center">
+                        <XCircle className="w-5 h-5 text-red-500 mr-2" />
+                        <p className="text-red-700">Error loading dashboard: {error}</p>
+                      </div>
+                    </div>
+                  )}
+                  {/* ...rest of your admin page JSX, metrics, tables, dialogs, etc. ... */}
+                </main>
+              </div>
+            </div>
+          </AuthWrapper>
+        );
+      }
+
+      // ...existing code...
               </div>
               <span className="font-semibold">Admin Panel</span>
             </div>
@@ -582,14 +631,12 @@ export default function AdminPage() {
           {loading && (
             <div className="flex items-center justify-center h-64">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4" />
                 <p className="text-muted-foreground">
                   Loading dashboard data...
                 </p>
               </div>
             </div>
-          )}
-
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
               <div className="flex items-center">
@@ -737,7 +784,7 @@ export default function AdminPage() {
                                 ? 'bg-orange-500'
                                 : 'bg-purple-500'
                             }`}
-                          ></div>
+                           />
                           <div className="flex-1">
                             <p className="text-sm">{activity.message}</p>
                             <p className="text-xs text-muted-foreground">

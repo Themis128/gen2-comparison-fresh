@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { type AxiosResponse } from 'axios';
+
 import { getAmplifyConfig } from './amplify-client-config';
 
 interface GraphQLResponse<T = unknown> {

@@ -1,9 +1,17 @@
 'use client';
 
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useRef } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+import { generateClient } from 'aws-amplify/data';
+import { Send, Mail, User, MessageSquare, Shield } from 'lucide-react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
+
+import type { Schema } from '../../amplify/data/resource';
+
 import { Button } from './ui/button';
 import {
   Card,
@@ -12,6 +20,7 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card';
+import { Checkbox } from './ui/checkbox';
 import {
   Form,
   FormControl,
@@ -22,7 +31,6 @@ import {
   FormMessage,
 } from './ui/form';
 import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
 import {
   Select,
   SelectContent,
@@ -30,9 +38,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
-import { Checkbox } from './ui/checkbox';
-import { toast } from 'sonner';
-import { Send, Mail, User, MessageSquare } from 'lucide-react';
+import { Textarea } from './ui/textarea';
+
+const client = generateClient<Schema>();
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -58,16 +66,49 @@ export const ContactForm: React.FC = () => {
     },
   });
 
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [recaptchaToken, setRecaptchaToken] = React.useState<string | null>(null);
+
   const onSubmit = async (data: ContactFormValues) => {
+    if (!recaptchaToken) {
+      toast.error('Please complete the reCAPTCHA verification');
+      return;
+    }
+
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const apiUrl = process.env.NEXT_PUBLIC_CONTACT_FORM_API_URL;
 
-      console.log('Form submitted:', data);
+      if (apiUrl) {
+        // Use external API
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...data,
+            recaptchaToken,
+          }),
+        });
+
+        if (!response.ok) throw new Error('API request failed');
+      } else {
+        // Fallback to Amplify GraphQL
+        await client.models.ContactMessage.create({
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+          priority: data.priority,
+          newsletter: data.newsletter,
+          recaptchaToken,
+        });
+      }
+
       toast.success('Message sent successfully!');
-
-      // Reset form
       form.reset();
+      setRecaptchaToken(null);
+      recaptchaRef.current?.reset();
     } catch {
       toast.error('Failed to send message. Please try again.');
     }
@@ -86,19 +127,19 @@ export const ContactForm: React.FC = () => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" data-testid="contact-form" role="form">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="flex items-center gap-2">
+                    <label htmlFor="name" className="flex items-center gap-2">
                       <User className="w-4 h-4" />
                       Name
-                    </FormLabel>
+                    </label>
                     <FormControl>
-                      <Input placeholder="Your full name" {...field} />
+                      <Input id="name" name="name" placeholder="Your full name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -110,12 +151,14 @@ export const ContactForm: React.FC = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="flex items-center gap-2">
+                    <label htmlFor="email" className="flex items-center gap-2">
                       <Mail className="w-4 h-4" />
                       Email
-                    </FormLabel>
+                    </label>
                     <FormControl>
                       <Input
+                        id="email"
+                        name="email"
                         type="email"
                         placeholder="your.email@example.com"
                         {...field}
@@ -172,14 +215,16 @@ export const ContactForm: React.FC = () => {
             <FormField
               control={form.control}
               name="message"
-              render={({ field }) => (
+                render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center gap-2">
+                  <label htmlFor="message" className="flex items-center gap-2">
                     <MessageSquare className="w-4 h-4" />
                     Message
-                  </FormLabel>
+                  </label>
                   <FormControl>
                     <Textarea
+                      id="message"
+                      name="message"
                       placeholder="Tell us more about your inquiry..."
                       className="min-h-[120px]"
                       {...field}
@@ -215,11 +260,28 @@ export const ContactForm: React.FC = () => {
               )}
             />
 
+            <div className="flex items-center gap-2 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+              <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              <div>
+                <FormLabel className="text-sm font-medium text-blue-900 dark:text-blue-100">reCAPTCHA Protection</FormLabel>
+                <p className="text-xs text-blue-700 dark:text-blue-300">Verify you're not a robot</p>
+              </div>
+            </div>
+            <div className="flex justify-center">
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'}
+                onChange={(token) => setRecaptchaToken(token)}
+                onExpired={() => setRecaptchaToken(null)}
+              />
+            </div>
+
             <div className="flex gap-4">
               <Button
                 type="submit"
                 disabled={form.formState.isSubmitting}
                 className="flex-1"
+                tabIndex={0}
               >
                 {form.formState.isSubmitting ? (
                   'Sending...'

@@ -1,9 +1,12 @@
 "use client";
+import Image from 'next/image';
+
 import { motion } from 'framer-motion';
 import { Briefcase, Code, Cpu, ExternalLink, Eye, FolderOpen, Github, Star } from 'lucide-react';
-import Image from 'next/image';
-import { PersonalData } from '../lib/personal-data';
+
 import IconImage from './IconImage';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface ProjectsProps {
   data: PersonalData;

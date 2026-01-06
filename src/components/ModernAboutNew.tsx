@@ -1,5 +1,7 @@
-import { Badge } from '@/components/badge';
-import { Card, CardContent } from '@/components/card';
+import React, { useEffect, useRef } from 'react';
+
+import Image from 'next/image';
+
 import { motion, useInView, useScroll, useSpring, useTransform } from 'framer-motion';
 import {
     Award,
@@ -15,9 +17,13 @@ import {
     Server,
     Terminal
 } from 'lucide-react';
-import Image from 'next/image';
-import React, { useEffect, useRef } from 'react';
-import { PersonalData } from '../lib/personal-data';
+
+import { Badge } from '@/components/badge';
+import { Card, CardContent } from '@/components/card';
+
+
+
+import type { PersonalData } from '../lib/personal-data';
 
 type BGVariantType = 'dots' | 'diagonal-stripes' | 'grid' | 'horizontal-lines' | 'vertical-lines' | 'checkerboard';
 type BGMaskType =

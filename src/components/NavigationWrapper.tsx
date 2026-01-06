@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+
 import CustomNavigation from '../components/CustomNavigation';
 
 export default function NavigationWrapper() {

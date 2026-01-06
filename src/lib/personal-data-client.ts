@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PersonalData, getPersonalDataServer } from "./personal-data";
+
+import { type PersonalData, getPersonalDataServer } from "./personal-data";
 
 export function usePersonalData() {
   const [data, setData] = useState<PersonalData | null>(null);

@@ -1,9 +1,11 @@
 "use client";
 import { motion } from 'framer-motion';
 import { Building, Calendar, Circle } from 'lucide-react';
-import { PersonalData } from '../lib/personal-data';
+
 import { Badge } from './badge';
 import { Card, CardContent } from './card';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface ExperienceProps {
   data: PersonalData;
@@ -67,7 +69,7 @@ export default function ModernExperience({ data }: ExperienceProps) {
           {/* Timeline */}
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 to-purple-400"></div>
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 to-purple-400" />
 
             <motion.div
               className="absolute left-8 top-0 w-0.5 bg-primary origin-top"

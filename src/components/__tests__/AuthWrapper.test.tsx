@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
+
 import { AuthWrapper } from '../AuthWrapper';
 
 type User = {
@@ -107,7 +108,7 @@ describe('AuthWrapper', () => {
 
   it('bypasses authentication in test mode', () => {
     render(
-      <AuthWrapper testMode={true}>
+      <AuthWrapper testMode>
         <div>Protected Content</div>
       </AuthWrapper>
     );

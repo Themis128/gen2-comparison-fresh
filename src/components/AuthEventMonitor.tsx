@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from './ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
+
 import { Badge } from './badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
 import { ScrollArea } from './scroll-area';
+import { Button } from './ui/button';
 import { useAuthEvents, type AuthEventData } from '../lib/useAuthEvents';
 
 interface AuthEventMonitorProps {

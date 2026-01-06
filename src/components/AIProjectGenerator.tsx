@@ -1,5 +1,7 @@
 'use client';
 
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Check,
@@ -15,7 +17,9 @@ import {
   Wand2,
   Zap,
 } from 'lucide-react';
-import React, { useCallback, useEffect, useState } from 'react';
+
+import { cn } from '@/lib/utils';
+
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
@@ -24,7 +28,6 @@ import { Label } from './ui/label';
 import { Switch } from './ui/switch';
 import { Textarea } from './ui/textarea';
 
-import { cn } from '@/lib/utils';
 
 interface Model {
   id: string;
@@ -578,15 +581,15 @@ const AIProjectGenerator: React.FC = () => {
                     >
                       <div className="p-4 border-b border-slate-700">
                         <div className="animate-pulse">
-                          <div className="h-4 bg-slate-700 rounded w-1/3 mb-2"></div>
-                          <div className="h-3 bg-slate-700 rounded w-1/4"></div>
+                          <div className="h-4 bg-slate-700 rounded w-1/3 mb-2" />
+                          <div className="h-3 bg-slate-700 rounded w-1/4" />
                         </div>
                       </div>
                       <div className="p-4">
                         <div className="animate-pulse space-y-2">
-                          <div className="h-3 bg-slate-700 rounded"></div>
-                          <div className="h-3 bg-slate-700 rounded w-5/6"></div>
-                          <div className="h-3 bg-slate-700 rounded w-4/6"></div>
+                          <div className="h-3 bg-slate-700 rounded" />
+                          <div className="h-3 bg-slate-700 rounded w-5/6" />
+                          <div className="h-3 bg-slate-700 rounded w-4/6" />
                         </div>
                       </div>
                     </motion.div>

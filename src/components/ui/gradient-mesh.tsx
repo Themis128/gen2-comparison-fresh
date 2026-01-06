@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+
 import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
 
 const vert = `

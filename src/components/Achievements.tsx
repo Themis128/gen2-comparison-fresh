@@ -1,7 +1,8 @@
 "use client";
 import { motion } from 'framer-motion';
 import { Award, BookOpen, Calendar, CheckCircle, Github, Mic, Star, Target, TrendingUp, Trophy } from 'lucide-react';
-import { PersonalData } from '../lib/personal-data';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface AchievementsProps {
   data: PersonalData;

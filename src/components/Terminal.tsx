@@ -52,9 +52,9 @@ export default function Terminal({ commands = [], className = '' }: TerminalProp
     <div className={`bg-gray-900 rounded-lg shadow-2xl border border-gray-700 overflow-hidden ${className}`}>
       {/* Terminal Header */}
       <div className="bg-gray-800 px-4 py-3 flex items-center space-x-2">
-        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-        <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+        <div className="w-3 h-3 bg-red-500 rounded-full" />
+        <div className="w-3 h-3 bg-yellow-500 rounded-full" />
+        <div className="w-3 h-3 bg-green-500 rounded-full" />
         <span className="text-gray-400 text-sm ml-4 font-mono">themis@portfolio:~$</span>
       </div>
 

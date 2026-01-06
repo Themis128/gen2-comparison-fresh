@@ -1,17 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { useState } from "react";
-import { Slot } from "@radix-ui/react-slot";
-import * as LabelPrimitive from "@radix-ui/react-label";
-import { cva, type VariantProps } from "class-variance-authority";
-import { Eye, EyeOff, Mail, Lock, Github } from "lucide-react";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
-import { signInWithFlow, checkAuthStatus } from '@/lib/useAuth';
+import { useState, useEffect } from "react";
+
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+
+import * as LabelPrimitive from "@radix-ui/react-label";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+import { clsx, type ClassValue } from "clsx";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
+import { twMerge } from "tailwind-merge";
+
+import { signInWithRedirect } from 'aws-amplify/auth';
+import { signInWithFlow, checkAuthStatus } from '../../../lib/useAuth';
+import { AuthLogo } from '../../../components/Logo';
+import AdminAccountSetup from '../../../components/AdminAccountSetup';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -320,6 +326,16 @@ function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    const checkIfAlreadySignedIn = async () => {
+      const user = await checkAuthStatus();
+      if (user) {
+        router.replace('/');
+      }
+    };
+    checkIfAlreadySignedIn();
+  }, [router]);
+
   const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
@@ -332,7 +348,7 @@ function SignInPage() {
 
       if (result.nextStep.signInStep === 'DONE') {
         await checkAuthStatus();
-        router.push('/');
+        router.replace('/');
       }
     } catch (err) {
       console.error('Sign in error:', err);
@@ -343,26 +359,12 @@ function SignInPage() {
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
-
-    // AWS Amplify Social Sign In would go here
-    // Example: await signInWithRedirect({ provider: 'Google' });
-    console.log("Sign in with Google");
-
-    setTimeout(() => {
+    try {
+      await signInWithRedirect({ provider: { custom: 'Google' } });
+    } catch (error) {
+      console.error('Google sign in error:', error);
       setIsLoading(false);
-    }, 1000);
-  };
-
-  const handleGithubSignIn = async () => {
-    setIsLoading(true);
-
-    // AWS Amplify Social Sign In would go here
-    // Example: await signInWithRedirect({ provider: 'Github' });
-    console.log("Sign in with Github");
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -370,11 +372,7 @@ function SignInPage() {
       {/* Left side - Form */}
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
-          <Link href="/" aria-label="home" className="flex gap-2 items-center">
-            <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl">
-              A
-            </div>
-          </Link>
+          <AuthLogo href="/" />
         </div>
 
         <div className="flex flex-1 w-full items-center justify-center">
@@ -394,6 +392,7 @@ function SignInPage() {
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="email"
+                      name="email"
                       type="email"
                       placeholder="name@example.com"
                       value={email}
@@ -411,6 +410,7 @@ function SignInPage() {
                     <Link
                       href="/auth/forgot-password"
                       className="text-sm text-primary hover:underline underline-offset-4"
+                      data-testid="forgot-password-link"
                     >
                       Forgot password?
                     </Link>
@@ -419,6 +419,7 @@ function SignInPage() {
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
                     <PasswordInput
                       id="password"
+                      name="password"
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -473,17 +474,6 @@ function SignInPage() {
                   </svg>
                   Continue with Google
                 </Button>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleGithubSignIn}
-                  disabled={isLoading}
-                  className="w-full"
-                >
-                  <Github className="h-4 w-4" />
-                  Continue with GitHub
-                </Button>
               </div>
 
               <p className="text-center text-sm text-muted-foreground">
@@ -491,10 +481,16 @@ function SignInPage() {
                 <Link
                   href="/auth/signup"
                   className="text-primary hover:underline underline-offset-4 font-medium"
+                  data-testid="sign-up-link"
                 >
                   Sign up
                 </Link>
               </p>
+
+              {/* Temporary Admin Account Setup */}
+              <div className="mt-6 pt-6 border-t border-border">
+                <AdminAccountSetup />
+              </div>
             </form>
           </div>
         </div>

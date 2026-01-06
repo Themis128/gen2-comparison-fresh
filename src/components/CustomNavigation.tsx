@@ -1,8 +1,11 @@
 'use client';
 
-import { Menu } from 'lucide-react';
-import Image from 'next/image';
 import React from 'react';
+
+import Image from 'next/image';
+
+import { Menu } from 'lucide-react';
+
 import ThemeSwitcher from './ThemeSwitcher';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from './ui/sheet';
@@ -61,9 +64,9 @@ const Navigation: React.FC<NavigationProps> = ({
             <Image
               alt={logoAlt}
               loading="lazy"
-              width={32}
-              height={32}
-              className="h-8 w-8 dark:brightness-0 dark:invert transition-all duration-300 group-hover:scale-110"
+              width={64}
+              height={64}
+              className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-16 lg:w-16 dark:brightness-0 dark:invert transition-all duration-300 group-hover:scale-110"
               src={logoSrc}
             />
             <span className="sr-only">Home</span>
@@ -78,11 +81,11 @@ const Navigation: React.FC<NavigationProps> = ({
                 aria-label={item.label}
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
               </button>
             ))}
 
-            <div className="w-px h-8 bg-gray-200 dark:bg-gray-700"></div>
+            <div className="w-px h-8 bg-gray-200 dark:bg-gray-700" />
 
             <div className="flex items-center gap-4">
               <ThemeSwitcher />

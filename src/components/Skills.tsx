@@ -1,6 +1,7 @@
 "use client";
-import { PersonalData } from '../lib/personal-data';
 import ModernSkills from './ModernSkills';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface SkillsProps {
   data: PersonalData;

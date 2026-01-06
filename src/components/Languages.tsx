@@ -1,7 +1,8 @@
 "use client";
 import { motion } from 'framer-motion';
 import { CheckCircle, Globe, Languages as LanguagesIcon, MessageCircle, Star } from 'lucide-react';
-import { PersonalData } from '../lib/personal-data';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface LanguagesProps {
   data: PersonalData;

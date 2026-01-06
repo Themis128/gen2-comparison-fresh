@@ -6,15 +6,11 @@ test.describe('API E2E Tests', () => {
     await page.addInitScript(() => {
       (window as any).__NEXT_PUBLIC_TEST_MODE = 'true';
     });
-    // Navigate to a page to ensure window.location.origin is set
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    // No UI navigation needed for API tests
   });
 
   test('should test GraphQL API endpoints', async ({ page }) => {
-    // Navigate to a page that uses GraphQL
-    await page.goto('/app');
-    await page.waitForLoadState('networkidle');
+    // No UI navigation needed for API test
 
     // Mock GraphQL responses for testing
     await page.route('**/graphql', async route => {
@@ -52,15 +48,14 @@ test.describe('API E2E Tests', () => {
           }
         }
       `;
-
-      const result = await fetch(`${window.location.origin}/api/graphql`, {
+      const baseURL = 'http://localhost:3000';
+      const result = await fetch(`${baseURL}/api/graphql`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ query })
       });
-
       return await result.json();
     });
 
@@ -106,15 +101,14 @@ test.describe('API E2E Tests', () => {
         email: 'test@example.com',
         message: 'Test message'
       };
-
-      const result = await fetch(`${window.location.origin}/api/contact`, {
+      const baseURL = 'http://localhost:3000';
+      const result = await fetch(`${baseURL}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData)
       });
-
       return await result.json();
     });
 
@@ -137,7 +131,8 @@ test.describe('API E2E Tests', () => {
     // Test error handling
     const errorResponse = await page.evaluate(async () => {
       try {
-        const result = await fetch(`${window.location.origin}/api/contact`, {
+        const baseURL = 'http://localhost:3000';
+        const result = await fetch(`${baseURL}/api/contact`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -148,7 +143,6 @@ test.describe('API E2E Tests', () => {
             message: 'Test'
           })
         });
-
         return await result.json();
       } catch (error) {
         return { error: error instanceof Error ? error.message : 'Unknown error' };
@@ -191,13 +185,13 @@ test.describe('API E2E Tests', () => {
 
     // Test protected API with valid token
     const protectedResponse = await page.evaluate(async () => {
-      const result = await fetch(`${window.location.origin}/api/protected/data`, {
+      const baseURL = 'http://localhost:3000';
+      const result = await fetch(`${baseURL}/api/protected/data`, {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer test-token'
         }
       });
-
       return await result.json();
     });
 
@@ -232,15 +226,13 @@ test.describe('API E2E Tests', () => {
       const file = new File(['test content'], 'test-file.jpg', {
         type: 'image/jpeg'
       });
-
       const formData = new FormData();
       formData.append('file', file);
-
-      const result = await fetch(`${window.location.origin}/api/upload`, {
+      const baseURL = 'http://localhost:3000';
+      const result = await fetch(`${baseURL}/api/upload`, {
         method: 'POST',
         body: formData
       });
-
       return await result.json();
     });
 
@@ -273,17 +265,18 @@ test.describe('API E2E Tests', () => {
     });
 
     // Make multiple requests
+    const baseURL = 'http://localhost:3000';
     const responses = [];
     for (let i = 0; i < 7; i++) {
-      const response = await page.evaluate(async () => {
-        const result = await fetch(`${window.location.origin}/api/test`, {
+      const response = await page.evaluate(async (baseURL) => {
+        const result = await fetch(`${baseURL}/api/test`, {
           method: 'GET'
         });
         return {
           status: result.status,
           data: await result.json()
         };
-      });
+      }, baseURL);
       responses.push(response);
     }
 

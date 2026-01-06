@@ -3,12 +3,16 @@ import type { PreSignUpTriggerHandler } from 'aws-lambda';
 export const handler: PreSignUpTriggerHandler = async (event) => {
   const email = event.request.userAttributes.email;
 
-  // Auto-confirm users with @admin.com or @company.com emails
-  if (email && (email.endsWith('@admin.com') || email.endsWith('@company.com') || email.includes('admin'))) {
+  // Auto-verify admin emails - no 6-digit code needed
+  if (email && (
+    email.includes('admin') ||
+    email.endsWith('@admin.com') ||
+    email.endsWith('@company.com') ||
+    email.endsWith('@cloudless.com') ||
+    email === 'tbaltzakis@cloudless.com'
+  )) {
     event.response.autoConfirmUser = true;
     event.response.autoVerifyEmail = true;
-
-    console.log(`AUTO-CONFIRMED: User ${email} has been automatically verified.`);
   }
 
   return event;

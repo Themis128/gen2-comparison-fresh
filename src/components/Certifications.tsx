@@ -1,7 +1,8 @@
 "use client";
 import { motion } from 'framer-motion';
 import { Award, Calendar, CheckCircle, Clock, ExternalLink, Shield, Star, Trophy } from 'lucide-react';
-import { PersonalData } from '../lib/personal-data';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface CertificationsProps {
   data: PersonalData;

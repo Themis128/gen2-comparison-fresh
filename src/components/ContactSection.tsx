@@ -1,7 +1,8 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { PersonalData } from '../lib/personal-data';
+
+import type { PersonalData } from '../lib/personal-data';
 
 // Dynamically import Contact component with SSR disabled
 const Contact = dynamic(() => import('../components/Contact'), {

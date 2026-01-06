@@ -3,8 +3,9 @@
 // @ts-nocheck -- React Compiler has issues with motion.create in useMemo
 // react-compiler-ignore
 
-import { AnimatePresence, motion, MotionProps, Variants } from "framer-motion"
 import { memo } from "react"
+
+import { AnimatePresence, motion, type MotionProps, type Variants } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 

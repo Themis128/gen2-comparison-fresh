@@ -1,6 +1,7 @@
 "use client";
-import { PersonalData } from '../lib/personal-data';
 import ModernAboutNew from './ModernAboutNew';
+
+import type { PersonalData } from '../lib/personal-data';
 
 interface AboutProps {
   data: PersonalData;

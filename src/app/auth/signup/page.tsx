@@ -1,16 +1,24 @@
 'use client';
 
+import { useState, useRef } from 'react';
+
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+import { signInWithRedirect } from 'aws-amplify/auth';
+import { Lock, Mail, Shield } from 'lucide-react';
+import ReCAPTCHA from 'react-google-recaptcha';
+
 import { GradientMesh } from '@/components/gradient-mesh';
+import { AuthLogo } from '@/components/Logo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
 import { signUpWithAttributes } from '@/lib/useAuth';
-import { signInWithRedirect } from 'aws-amplify/auth';
-import { Lock, Mail } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+
+
+
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('');
@@ -19,11 +27,19 @@ export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+
+    if (!recaptchaToken) {
+      setError('Please complete the reCAPTCHA verification');
+      setLoading(false);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match');
@@ -67,11 +83,7 @@ export default function SignUpPage() {
       {/* Left side - Form */}
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
-          <Link href="/" aria-label="home" className="flex gap-2 items-center">
-            <div className="h-10 w-10 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xl">
-              A
-            </div>
-          </Link>
+          <AuthLogo href="/" />
         </div>
 
         <div className="flex flex-1 w-full items-center justify-center">
@@ -140,6 +152,22 @@ export default function SignUpPage() {
                       className="pl-10"
                     />
                   </div>
+                </div>
+
+                <div className="flex items-center gap-2 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <div>
+                    <Label className="text-sm font-medium text-blue-900 dark:text-blue-100">reCAPTCHA Protection</Label>
+                    <p className="text-xs text-blue-700 dark:text-blue-300">Verify you're not a robot</p>
+                  </div>
+                </div>
+                <div className="flex justify-center">
+                  <ReCAPTCHA
+                    ref={recaptchaRef}
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'}
+                    onChange={(token) => setRecaptchaToken(token)}
+                    onExpired={() => setRecaptchaToken(null)}
+                  />
                 </div>
 
                 <Button type="submit" disabled={loading} className="w-full">

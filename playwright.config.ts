@@ -27,10 +27,21 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:44827',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    /* Set test timeout */
+    actionTimeout: 10000,
+
+    /* Set navigation timeout */
+    navigationTimeout: 30000,
+
+    /* Add test mode header to bypass middleware auth */
+    extraHTTPHeaders: {
+      'x-test-mode': 'true',
+    },
   },
 
   /* Configure projects for major browsers */
@@ -57,11 +68,12 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:3000',
+    port: 3000, // Use the actual port where the dev server is running
     reuseExistingServer: !process.env.CI,
     /* Pass test mode environment variable to dev server */
     env: {
       NEXT_PUBLIC_TEST_MODE: 'true',
     },
+    timeout: 300 * 1000, // 5 minutes timeout for server startup
   },
 });

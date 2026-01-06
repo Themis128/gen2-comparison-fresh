@@ -1,11 +1,13 @@
 'use client';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
+
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useMobileMenu } from '../hooks/useMobileMenu';
-import { trackInteraction } from '../lib/analytics';
+
 import ThemeSwitcher from './ThemeSwitcher';
 import UserSession from './UserSession';
+import { useMobileMenu } from '../hooks/useMobileMenu';
+import { trackInteraction } from '../lib/analytics';
 
 export default function EnhancedNavigation() {
   const { isOpen, toggle, close, menuRef, buttonRef } = useMobileMenu();
@@ -93,7 +95,7 @@ export default function EnhancedNavigation() {
               alt="Themis Baltzakis Logo"
               width={32}
               height={32}
-              className="h-8 w-8 dark:brightness-0 dark:invert transition-all duration-300 group-hover:scale-110"
+              className="dark:brightness-0 dark:invert transition-all duration-300 group-hover:scale-110"
             />
             <span className="sr-only">Home</span>
           </a>
@@ -108,10 +110,10 @@ export default function EnhancedNavigation() {
                 aria-label={item.name}
               >
                 {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
               </button>
             ))}
-            <div className="w-px h-8 bg-gray-200 dark:bg-gray-700"></div>
+            <div className="w-px h-8 bg-gray-200 dark:bg-gray-700" />
             <div className="flex items-center gap-2">
               <UserSession />
               <ThemeSwitcher />
@@ -174,7 +176,7 @@ export default function EnhancedNavigation() {
                   aria-label={item.name}
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
                 </button>
               ))}
 
