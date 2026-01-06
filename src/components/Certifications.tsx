@@ -23,7 +23,7 @@ export default function Certifications({ data }: CertificationsProps) {
 
   // Get certification icon based on issuer
   const getCertificationIcon = (issuer: string) => {
-    const icons: Record<string, React.ReactElement> = {
+    const icons: Record<string, React.ReactElement<any>> = {
       'Amazon Web Services': <Shield className="w-6 h-6 text-orange-500" />,
       'Cisco': <Shield className="w-6 h-6 text-blue-600" />,
       'Microsoft': <Shield className="w-6 h-6 text-blue-700" />,

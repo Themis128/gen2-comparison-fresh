@@ -29,7 +29,7 @@ export default function Projects({ data }: ProjectsProps) {
 
   // Get project icon based on category
   const getProjectIcon = (category: string) => {
-    const icons: Record<string, React.ReactElement> = {
+    const icons: Record<string, React.ReactElement<any>> = {
       'Personal': <Star className="w-6 h-6 text-yellow-600" />,
       'Professional': <Briefcase className="w-6 h-6 text-blue-600" />,
       'Side Project': <Code className="w-6 h-6 text-green-600" />,
@@ -102,7 +102,6 @@ export default function Projects({ data }: ProjectsProps) {
         <div className="absolute top-20 right-32 w-64 h-64 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-20 left-32 w-48 h-48 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse animation-delay-2000" />
       </div>
-
       <div className="relative z-10 container mx-auto px-6">
         {/* Header */}
         <motion.div
@@ -151,7 +150,6 @@ export default function Projects({ data }: ProjectsProps) {
                   <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-primary/10" />
                   <div className="absolute bottom-4 left-4 w-12 h-12 rounded-full bg-primary/10" />
                 </div>
-
                 {/* Featured Badge */}
                 {project.featured && (
                   <div className="absolute top-4 right-4 z-10">
@@ -161,7 +159,6 @@ export default function Projects({ data }: ProjectsProps) {
                     </div>
                   </div>
                 )}
-
                 <div className="relative z-10">
                   {/* Project Image */}
                   <div className="relative h-48 mb-6 rounded-xl overflow-hidden bg-gradient-to-br from-muted to-muted/50">
@@ -292,7 +289,6 @@ export default function Projects({ data }: ProjectsProps) {
                     )}
                   </div>
                 </div>
-
                 {/* Hover Effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
               </motion.div>

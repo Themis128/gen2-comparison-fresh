@@ -31,7 +31,7 @@ export default function Languages({ data }: LanguagesProps) {
 
   // Get language icon based on language
   const getLanguageIcon = (name: string) => {
-    const icons: Record<string, React.ReactElement> = {
+    const icons: Record<string, React.ReactElement<any>> = {
       'Greek': <Globe className="w-6 h-6 text-blue-600" />,
       'English': <MessageCircle className="w-6 h-6 text-green-600" />,
     };

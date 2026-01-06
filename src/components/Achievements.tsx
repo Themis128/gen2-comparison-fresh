@@ -31,7 +31,7 @@ export default function Achievements({ data }: AchievementsProps) {
 
   // Get achievement icon based on type
   const getAchievementIcon = (type: string) => {
-    const icons: Record<string, React.ReactElement> = {
+    const icons: Record<string, React.ReactElement<any>> = {
       'Award': <Trophy className="w-6 h-6 text-yellow-600" />,
       'Publication': <BookOpen className="w-6 h-6 text-blue-600" />,
       'Speaking': <Mic className="w-6 h-6 text-green-600" />,
