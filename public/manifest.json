@@ -1,7 +1,7 @@
 {
-  "name": "Cloudless.gr - AWS Amplify Gen2 App",
-  "short_name": "Cloudless",
-  "description": "Modern, full-stack application built with AWS Amplify Gen2, Next.js 15, TypeScript, and Tailwind CSS",
+  "name": "Themistoklis Baltzakis - ML/LLM Engineer Portfolio",
+  "short_name": "Baltzakis Portfolio",
+  "description": "Modern portfolio showcasing ML/LLM engineering expertise, built with AWS Amplify Gen2, Next.js 15, TypeScript, and Tailwind CSS",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -9,7 +9,7 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en",
-  "categories": ["productivity", "utilities", "business"],
+  "categories": ["portfolio", "technology", "business"],
   "icons": [
     {
       "src": "/cloudless-favicon.ico",
@@ -18,30 +18,31 @@
       "purpose": "any"
     },
     {
-      "src": "/cloudless-logo.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/cloudless-logo.svg",
-      "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "/cloudless-logo.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
+      "src": "/cloudless-favicon.ico",
+      "sizes": "192x192 512x512",
+      "type": "image/x-icon",
       "purpose": "any maskable"
     }
   ],
   "shortcuts": [
     {
-      "name": "Dashboard",
-      "short_name": "Dashboard",
-      "description": "Go to main dashboard",
-      "url": "/dashboard",
+      "name": "About",
+      "short_name": "About",
+      "description": "Learn more about my experience",
+      "url": "/#about",
+      "icons": [
+        {
+          "src": "/cloudless-favicon.ico",
+          "sizes": "96x96",
+          "type": "image/x-icon"
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "short_name": "Projects",
+      "description": "View my latest projects",
+      "url": "/#projects",
       "icons": [
         {
           "src": "/cloudless-favicon.svg",
@@ -51,15 +52,15 @@
       ]
     },
     {
-      "name": "Sign In",
-      "short_name": "Login", 
-      "description": "Sign in to your account",
-      "url": "/auth/signin",
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Get in touch",
+      "url": "/#contact",
       "icons": [
         {
-          "src": "/cloudless-favicon.svg",
+          "src": "/cloudless-favicon.ico",
           "sizes": "96x96",
-          "type": "image/svg+xml"
+          "type": "image/x-icon"
         }
       ]
     }
@@ -70,5 +71,13 @@
   },
   "launch_handler": {
     "client_mode": "navigate-existing"
-  }
+  },
+  "screenshots": [
+    {
+      "src": "/cloudless-logo.svg",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ]
 }

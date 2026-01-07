@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
-import { submitContactForm } from '../app/contact/actions';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Checkbox } from './ui/checkbox';
@@ -25,6 +24,7 @@ import {
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Textarea } from './ui/textarea';
+// Server Actions removed for static export compatibility
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -39,7 +39,7 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export const ContactForm: React.FC = () => {
   const [isPending, startTransition] = useTransition();
-  const [serverErrors, setServerErrors] = useState<Record<string, string>>({});
+  const [_serverErrors, setServerErrors] = useState<Record<string, string>>({});
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [recaptchaToken, setRecaptchaToken] = React.useState<string | null>(null);
 
@@ -56,39 +56,9 @@ export const ContactForm: React.FC = () => {
   });
 
   const onSubmit = async (data: ContactFormValues) => {
-    if (!recaptchaToken) {
-      toast.error('Please complete the reCAPTCHA verification');
-      return;
-    }
-
-    startTransition(async () => {
-      try {
-        const formData = new FormData();
-        Object.entries(data).forEach(([key, value]) => {
-          formData.append(key, value.toString());
-        });
-        formData.append('recaptchaToken', recaptchaToken);
-
-        const result = await submitContactForm(formData);
-
-        if (result.success) {
-          toast.success(result.message || 'Message sent successfully!');
-          form.reset();
-          setRecaptchaToken(null);
-          recaptchaRef.current?.reset();
-          setServerErrors({});
-        } else if (result.errors) {
-          setServerErrors(result.errors);
-          Object.entries(result.errors).forEach(([field, message]) => {
-            form.setError(field as keyof ContactFormValues, { message });
-          });
-        } else {
-          toast.error(result.message || 'Failed to send message. Please try again.');
-        }
-      } catch {
-        toast.error('Failed to send message. Please try again.');
-      }
-    });
+    // For static export, show a message that contact form is disabled
+    toast.info('Contact form is disabled in static export mode. Please use the contact information below to reach out directly.');
+    console.log('Contact form submission (static mode):', data);
   };
 
   return (

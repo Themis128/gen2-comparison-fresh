@@ -1,7 +1,6 @@
-'use client';
-import { Button } from './ui/button';
+import type { PersonalData } from '@/lib/personal-data';
 
-import type { PersonalData } from '../lib/personal-data';
+import HeroActions from "./HeroActions";
 
 interface HeroProps {
   data: PersonalData;
@@ -9,46 +8,69 @@ interface HeroProps {
 
 export default function Hero({ data }: HeroProps) {
   return (
-    <section
-      id="hero"
-      className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800"
-    >
+    <section id="hero" className="relative overflow-hidden min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-background">
+      {/* Techy Background Elements */}
+      <div className="absolute inset-0">
+        {/* Circuit Grid Pattern */}
+        <div className="absolute inset-0 opacity-10 dark:opacity-5">
+          <div className="absolute inset-0 bg-muted/20" />
+        </div>
+        
+        {/* Floating Tech Elements */}
+        <div className="absolute left-10 top-20 h-16 w-16 animate-bounce">
+          <div className="w-full h-full border-2 border-cyan-400/50 rounded-lg bg-cyan-400/10 backdrop-blur-sm flex items-center justify-center">
+            <div className="w-6 h-6 border border-cyan-400/70 rounded" />
+          </div>
+        </div>
+        
+        <div className="absolute right-20 top-40 h-12 w-12 animate-pulse">
+          <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-sm flex items-center justify-center">
+            <div className="w-4 h-4 bg-purple-400 rounded-full animate-ping" />
+          </div>
+        </div>
+        
+        <div className="absolute bottom-32 left-1/4 h-20 w-20 animate-spin" style={{animationDuration: "6s"}}>
+          <div className="w-full h-full border border-green-400/50 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-green-400/70 rounded-full animate-pulse" />
+          </div>
+        </div>
+        
+        <div className="absolute top-1/3 right-1/3 h-14 w-14 animate-bounce">
+          <div className="w-full h-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-lg backdrop-blur-sm flex items-center justify-center">
+            <div className="text-xs font-mono text-blue-400/80">01</div>
+          </div>
+        </div>
+        
+        {/* Matrix-style falling elements */}
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-px h-20 bg-gradient-to-b from-transparent via-green-400/50 to-transparent animate-pulse" />
+        <div className="absolute bottom-20 right-1/4 w-px h-16 bg-gradient-to-t from-transparent via-cyan-400/50 to-transparent animate-pulse" style={{animationDelay: "1s"}} />
+        <div className="absolute bottom-20 right-1/4 w-px h-16 bg-gradient-to-t from-transparent via-cyan-400/50 to-transparent animate-pulse" style={{animationDelay: "1s"}} />
+        <div className="absolute top-4 left-4 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+        <div className="absolute top-4 right-4 w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: "0.5s"}} />
+</div>
       <div className="container mx-auto px-6 py-20">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-8">
-            <h1 className="mb-6 text-5xl font-bold text-gray-900 md:text-7xl dark:text-white">
               Hi, I&apos;m{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+<h1 className="mb-6 text-5xl font-bold text-foreground md:text-7xl">
+              <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                 {data.name}
               </span>
             </h1>
-            <p className="mb-8 text-xl text-gray-600 md:text-2xl dark:text-gray-300">
+            <p className="mb-8 text-xl text-muted-foreground md:text-2xl">
               {data.title}
             </p>
-            <p className="mx-auto mb-12 max-w-2xl text-lg text-gray-500 dark:text-gray-400">
+            <p className="mx-auto mb-12 max-w-2xl text-lg text-muted-foreground">
               {data.bio}
             </p>
           </div>
 
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button size="lg" className="bg-blue-600 px-8 py-3 text-white hover:bg-blue-700">
-              View My Work
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="px-8 py-3"
-              onClick={() => (window.location.href = `mailto:${data.email}`)}
-            >
-              Get In Touch
-            </Button>
-          </div>
-
+          <HeroActions email={data.email} />
           <div className="mt-8">
-            <div className="text-sm text-gray-600 dark:text-gray-400">
+            <div className="text-sm text-muted-foreground">
               {data.phone && (
                 <span className="mr-4">
-                  <a href={`tel:${data.phone}`} className="transition-colors hover:text-blue-600">
+                  <a href={`tel:${data.phone}`} className="transition-colors hover:text-primary">
                     {data.phone}
                   </a>
                 </span>
@@ -57,7 +79,7 @@ export default function Hero({ data }: HeroProps) {
                 <span className="mr-4">
                   <a
                     href={`mailto:${data.email}`}
-                    className="transition-colors hover:text-blue-600"
+                    className="transition-colors hover:text-primary"
                   >
                     {data.email}
                   </a>
@@ -72,7 +94,7 @@ export default function Hero({ data }: HeroProps) {
               {data.twitter && (
                 <a
                   href={data.twitter}
-                  className="text-gray-600 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                  className="text-muted-foreground transition-colors hover:text-primary"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -84,7 +106,7 @@ export default function Hero({ data }: HeroProps) {
               {data.linkedin && (
                 <a
                   href={data.linkedin}
-                  className="text-gray-600 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                  className="text-muted-foreground transition-colors hover:text-primary"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -96,7 +118,7 @@ export default function Hero({ data }: HeroProps) {
               {data.github && (
                 <a
                   href={data.github}
-                  className="text-gray-600 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                  className="text-muted-foreground transition-colors hover:text-primary"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -108,7 +130,7 @@ export default function Hero({ data }: HeroProps) {
               {data.website && (
                 <a
                   href={data.website}
-                  className="text-gray-600 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                  className="text-muted-foreground transition-colors hover:text-primary"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -129,7 +151,7 @@ export default function Hero({ data }: HeroProps) {
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 transform animate-bounce">
         <svg
-          className="h-6 w-6 text-gray-400"
+          className="h-6 w-6 text-muted-foreground"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

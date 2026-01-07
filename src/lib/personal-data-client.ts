@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { type PersonalData, getPersonalDataServer } from './personal-data';
+import { type PersonalData, personalData } from './personal-data';
 
 export function usePersonalData() {
   const [data, setData] = useState<PersonalData | null>(null);
@@ -11,7 +11,7 @@ export function usePersonalData() {
 
   useEffect(() => {
     try {
-      const personalData = getPersonalDataServer();
+      setData(personalData);
       setData(personalData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load data');

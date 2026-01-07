@@ -23,12 +23,7 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: [
-    '@typescript-eslint',
-    'react',
-    'jsx-a11y',
-    'import',
-  ],
+  plugins: ['@typescript-eslint', 'react', 'jsx-a11y', 'import'],
   settings: {
     react: {
       version: 'detect',
@@ -41,16 +36,22 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/no-empty-object-type': 'off',
-    '@typescript-eslint/no-unused-vars': ['warn', {
-      argsIgnorePattern: '^_',
-      varsIgnorePattern: '^_',
-      caughtErrorsIgnorePattern: '^_'
-    }],
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
     '@typescript-eslint/no-explicit-any': 'warn',
-    '@typescript-eslint/consistent-type-imports': ['warn', {
-      prefer: 'type-imports',
-      fixStyle: 'inline-type-imports'
-    }],
+    '@typescript-eslint/consistent-type-imports': [
+      'warn',
+      {
+        prefer: 'type-imports',
+        fixStyle: 'inline-type-imports',
+      },
+    ],
     '@typescript-eslint/no-import-type-side-effects': 'error',
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
@@ -67,45 +68,41 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 'warn',
     'jsx-a11y/aria-props': 'error',
     'jsx-a11y/aria-role': 'error',
-    'import/order': ['warn', {
-      'groups': [
-        'builtin',
-        'external',
-        'internal',
-        ['parent', 'sibling'],
-        'index',
-        'type'
-      ],
-      'pathGroups': [
-        {
-          'pattern': 'react',
-          'group': 'external',
-          'position': 'before'
+    'import/order': [
+      'warn',
+      {
+        groups: ['builtin', 'external', 'internal', ['parent', 'sibling'], 'index', 'type'],
+        pathGroups: [
+          {
+            pattern: 'react',
+            group: 'external',
+            position: 'before',
+          },
+          {
+            pattern: 'next/**',
+            group: 'external',
+            position: 'before',
+          },
+          {
+            pattern: '@/**',
+            group: 'internal',
+            position: 'before',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['react'],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
         },
-        {
-          'pattern': 'next/**',
-          'group': 'external',
-          'position': 'before'
-        },
-        {
-          'pattern': '@/**',
-          'group': 'internal',
-          'position': 'before'
-        }
-      ],
-      'pathGroupsExcludedImportTypes': ['react'],
-      'newlines-between': 'always',
-      'alphabetize': {
-        'order': 'asc',
-        'caseInsensitive': true
-      }
-    }],
+      },
+    ],
     'import/no-duplicates': 'error',
     'import/no-unresolved': 'off',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'prefer-const': 'warn',
     'no-var': 'error',
-    'eqeqeq': ['error', 'always', { null: 'ignore' }],
+    eqeqeq: ['error', 'always', { null: 'ignore' }],
   },
   overrides: [
     {
@@ -116,7 +113,12 @@ module.exports = {
       },
     },
     {
-      files: ['src/components/Contact.tsx', 'src/components/TodoList.tsx', 'src/app/test-page/page.tsx', 'src/components/label.tsx'],
+      files: [
+        'src/components/Contact.tsx',
+        'src/components/TodoList.tsx',
+        'app/test-page/page.tsx',
+        'src/components/label.tsx',
+      ],
       rules: {
         'jsx-a11y/label-has-associated-control': 'off',
         'jsx-a11y/no-noninteractive-element-interactions': 'off',

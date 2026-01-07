@@ -2,13 +2,13 @@
 import { motion } from 'framer-motion';
 import {
   Award,
-  Calendar,
-  CheckCircle,
-  Clock,
-  ExternalLink,
-  Shield,
   Star,
   Trophy,
+  Shield,
+  Calendar,
+  CheckCircle,
+  ExternalLink,
+  Clock,
 } from 'lucide-react';
 
 import type { PersonalData } from '../lib/personal-data';
@@ -18,18 +18,10 @@ interface CertificationsProps {
 }
 
 export default function Certifications({ data }: CertificationsProps) {
-  if (!data.certifications || data.certifications.length === 0) {
+  const certifications = data.certifications || [];
+  if (!certifications || certifications.length === 0) {
     return null;
   }
-
-  // Group certifications by issuer for better organization
-  // const groupedCertifications = data.certifications.reduce((acc, cert) => {
-  //   if (!acc[cert.issuer]) {
-  //     acc[cert.issuer] = [];
-  //   }
-  //   acc[cert.issuer].push(cert);
-  //   return acc;
-  // }, {} as Record<string, typeof data.certifications>);
 
   // Get certification icon based on issuer
   const getCertificationIcon = (issuer: string) => {
@@ -127,7 +119,7 @@ export default function Certifications({ data }: CertificationsProps) {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {data.certifications.map((cert) => {
+          {certifications?.map((cert) => {
             const colors = getCertificationColors(cert.issuer);
             const isRecent = isRecentCertification(cert.date);
 
@@ -232,21 +224,21 @@ export default function Certifications({ data }: CertificationsProps) {
           <div className="inline-flex items-center gap-4 rounded-2xl border border-border bg-card px-8 py-6 shadow-lg">
             <div className="text-center">
               <div className="mb-1 text-3xl font-bold text-primary">
-                {data.certifications.length}
+                {certifications.length}
               </div>
               <div className="text-sm text-muted-foreground">Total Certifications</div>
             </div>
             <div className="h-12 w-px bg-border" />
             <div className="text-center">
               <div className="mb-1 text-3xl font-bold text-green-500">
-                {data.certifications.filter((cert) => isRecentCertification(cert.date)).length}
+                {certifications.filter((cert) => isRecentCertification(cert.date)).length}
               </div>
               <div className="text-sm text-muted-foreground">Recently Earned</div>
             </div>
             <div className="h-12 w-px bg-border" />
             <div className="text-center">
               <div className="mb-1 text-3xl font-bold text-blue-500">
-                {new Set(data.certifications.map((cert) => cert.issuer)).size}
+                {new Set(certifications?.map((cert) => cert.issuer)).size}
               </div>
               <div className="text-sm text-muted-foreground">Issuing Organizations</div>
             </div>

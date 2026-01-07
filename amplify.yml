@@ -1,6 +1,6 @@
 version: 1
 compute:
-  type: BUILD_GENERAL1_SMALL
+  type: BUILD_GENERAL1_MEDIUM
 backend:
   phases:
     preBuild:
@@ -17,13 +17,12 @@ frontend:
       commands:
         - corepack enable
         - corepack prepare pnpm@latest --activate
-        - cp package.build.json package.json
-        - pnpm install
+        - pnpm install --frozen-lockfile
     build:
       commands:
-        - echo "Using static files"
+        - TURBOPACK=0 npm run build
   artifacts:
-    baseDirectory: static
+    baseDirectory: .next
     files:
       - '**/*'
   cache:
@@ -31,5 +30,3 @@ frontend:
       - .next/cache/**/*
       - node_modules/**/*
       - .pnpm-store/**/*
-      - .pnpm-store/**/*
-      - .next/cache/**/*

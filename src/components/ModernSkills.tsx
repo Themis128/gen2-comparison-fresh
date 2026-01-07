@@ -28,10 +28,49 @@ import {
 import type { PersonalData } from '../lib/personal-data';
 
 interface SkillsProps {
-  data: PersonalData;
+  data?: PersonalData;
 }
 
 export default function Skills({ data }: SkillsProps) {
+  // Provide default data if not provided
+  const defaultData: PersonalData = {
+    name: "Themistoklis Baltzakis",
+    title: "ML/LLM Engineer",
+    bio: "ML/LLM Engineer with over 15 years of experience in IT support, cloud solutions, and Cisco infrastructure management.",
+    email: "contact@baltzakis.com",
+    phone: "+30 XXX XXX XXXX",
+    location: "Greece",
+    skills: ["Machine Learning", "Large Language Models", "Python", "TensorFlow", "PyTorch", "AWS Cloud", "Cisco Networking", "Data Analytics", "TypeScript", "Next.js", "React", "Node.js"],
+    experience: [],
+    education: [],
+    languages: [],
+    projects: [],
+    certifications: [
+      {
+        id: "1",
+        name: "AWS Certified Solutions Architect",
+        issuer: "Amazon Web Services",
+        date: "2024",
+        url: "https://aws.amazon.com/certification/"
+      },
+      {
+        id: "2",
+        name: "Cisco Certified Network Associate",
+        issuer: "Cisco",
+        date: "2023",
+        url: "https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html"
+      },
+      {
+        id: "3",
+        name: "Microsoft Azure Fundamentals",
+        issuer: "Microsoft",
+        date: "2023",
+        url: "https://learn.microsoft.com/en-us/certifications/azure-fundamentals/"
+      }
+    ]
+  };
+
+  const safeData = data || defaultData;
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
 
   // Enhanced skill categories based on CV analysis
@@ -390,7 +429,7 @@ export default function Skills({ data }: SkillsProps) {
               Industry Certifications
             </motion.h3>
             <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-4">
-              {data.certifications?.slice(0, 6).map((cert, index) => {
+              {safeData.certifications?.slice(0, 6).map((cert, index) => {
                 const isRecent = new Date().getFullYear() - parseInt(cert.date) <= 2;
                 const colors =
                   {
@@ -451,7 +490,7 @@ export default function Skills({ data }: SkillsProps) {
           <div className="mb-16 text-center">
             <h3 className="mb-8 text-2xl font-bold text-foreground">Technologies & Tools</h3>
             <div className="flex flex-wrap justify-center gap-3">
-              {data.skills.map((skill) => (
+              {safeData.skills?.map((skill) => (
                 <div
                   key={skill}
                   className="group relative cursor-pointer overflow-hidden rounded-full border border-border/50 bg-background/60 px-4 py-2 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"

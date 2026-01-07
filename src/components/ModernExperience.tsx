@@ -2,10 +2,11 @@
 import { motion } from 'framer-motion';
 import { Building, Calendar, Circle } from 'lucide-react';
 
+import type { PersonalData } from '@/lib/personal-data';
+
 import { Badge } from './badge';
 import { Card, CardContent } from './card';
 
-import type { PersonalData } from '../lib/personal-data';
 
 interface ExperienceProps {
   data: PersonalData;
@@ -31,7 +32,8 @@ const getStatusConfig = (status: string) => {
 
 export default function ModernExperience({ data }: ExperienceProps) {
   // Transform experience data to match the timeline format
-  const timelineItems = data.experience.map((exp, index) => ({
+  const experience = data.experience || [];
+  const timelineItems = experience.map((exp, index) => ({
     ...exp,
     status: index === 0 ? 'current' : ('past' as 'current' | 'past'),
     category: exp.company,

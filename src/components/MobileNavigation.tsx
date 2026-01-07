@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { Menu, X, User, LogOut } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 import { useMobileMenu } from '@/hooks/useMobileMenu';
-import { signOutUser } from '@/lib/useAuth';
+// import { signOutUser } from '@/lib/useAuth';
 
 import { ResponsiveLogo } from './Logo';
 
@@ -14,19 +14,16 @@ export function MobileNavigation() {
   const { isOpen, toggle, close, menuRef, buttonRef } = useMobileMenu();
   const router = useRouter();
 
-  const navItems = [
-    { href: '/dashboard', label: 'Dashboard' },
-    { href: '/contact', label: 'Contact' },
-  ];
+  const navItems = [{ href: '/contact', label: 'Contact' }];
 
-  const handleSignOut = async () => {
-    try {
-      await signOutUser();
-      router.push('/auth/signin');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
+  //   const handleSignOut = async () => {
+  //     try {
+  //       await signOutUser();
+  //       router.push('/auth/signin');
+  //     } catch (error) {
+  //       console.error('Error signing out:', error);
+  //     }
+  //   };
 
   return (
     <>
@@ -85,7 +82,7 @@ export function MobileNavigation() {
                 ))}
 
                 {/* User Actions */}
-                <div className="mt-4 border-t pt-4">
+                {/* <div className="mt-4 border-t pt-4">
                   <button
                     onClick={() => {
                       close();
@@ -107,7 +104,7 @@ export function MobileNavigation() {
                     <LogOut className="mr-3 h-5 w-5" />
                     Sign Out
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </nav>

@@ -15,7 +15,7 @@ const schema = a.schema({
       category: a.string(),
       dueDate: a.datetime(),
     })
-    .authorization((allow) => [allow.publicApiKey(), allow.authenticated()]),
+    .authorization((allow) => [allow.publicApiKey()]),
   ContactMessage: a
     .model({
       name: a.string(),

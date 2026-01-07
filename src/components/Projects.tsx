@@ -4,15 +4,58 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Briefcase, Code, Cpu, ExternalLink, Eye, FolderOpen, Github, Star } from 'lucide-react';
 
+import type { PersonalData } from '@/lib/personal-data';
+
 import IconImage from './IconImage';
 
-import type { PersonalData } from '../lib/personal-data';
 
 interface ProjectsProps {
-  data: PersonalData;
+  data?: PersonalData;
 }
 
 export default function Projects({ data }: ProjectsProps) {
+  // Provide default data if not provided
+  const defaultData: PersonalData = {
+    name: "Themistoklis Baltzakis",
+    title: "ML/LLM Engineer",
+    bio: "ML/LLM Engineer with over 15 years of experience in IT support, cloud solutions, and Cisco infrastructure management.",
+    email: "contact@baltzakis.com",
+    phone: "+30 XXX XXX XXXX",
+    location: "Greece",
+    twitter: "https://twitter.com/your-handle",
+    linkedin: "https://www.linkedin.com/in/baltzakis-themis",
+    github: "https://github.com/Themis128",
+    website: "https://baltzakisthemis.com",
+    skills: ["Machine Learning", "Large Language Models", "Python", "TensorFlow", "PyTorch", "AWS Cloud", "Cisco Networking", "Data Analytics", "TypeScript", "Next.js", "React", "Node.js"],
+    projects: [
+      {
+        id: "1",
+        title: "Portfolio Website",
+        description: "Modern portfolio website built with Next.js and TailwindCSS.",
+        category: "Web Development",
+        featured: true,
+        url: "https://baltzakisthemis.com",
+        github: "https://github.com/Themis128/portfolio",
+        technologies: ["Next.js", "TypeScript", "TailwindCSS"]
+      },
+      {
+        id: "2",
+        title: "ML Model Trainer",
+        description: "Tool for training and deploying ML models on AWS.",
+        category: "Machine Learning",
+        featured: true,
+        github: "https://github.com/Themis128/ml-trainer",
+        technologies: ["Python", "AWS SageMaker", "Docker"]
+      }
+    ],
+    experience: [],
+    education: [],
+    languages: [],
+    certifications: [],
+    achievements: []
+  };
+
+  const safeData = data || defaultData;
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -95,7 +138,7 @@ export default function Projects({ data }: ProjectsProps) {
   };
 
   // Filter featured projects
-  const featuredProjects = data.projects.filter((project) => project.featured);
+  const featuredProjects = safeData.projects.filter((project) => project.featured);
 
   return (
     <section id="projects" className="relative overflow-hidden py-24">
@@ -248,7 +291,7 @@ export default function Projects({ data }: ProjectsProps) {
 
                   {/* Technologies */}
                   <div className="mb-4 flex flex-wrap gap-2">
-                    {project.technologies.slice(0, 4).map((tech) => {
+                    {project.technologies.slice(0, 4).map((tech: string) => {
                       const slug = tech.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                       return (
                         <span

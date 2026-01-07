@@ -254,6 +254,10 @@ export default function ModernAbout({ data }: ModernAboutProps) {
     },
   };
 
+  if (!data || !data.skills) {
+    return null;
+  }
+
   const skills = data.skills.slice(0, 8).map((skill) => ({
     name: skill,
     icon: <Terminal className="h-4 w-4" />,
@@ -362,7 +366,7 @@ export default function ModernAbout({ data }: ModernAboutProps) {
                         <div className="h-full w-full overflow-hidden rounded-full bg-gradient-to-br from-blue-50/80 to-purple-50/60 shadow-inner backdrop-blur-sm dark:from-gray-800/80 dark:to-gray-900/60">
                           {data.profilePicture ? (
                             <div className="group relative h-full w-full">
-                              <Image
+                              <Image loading="eager" priority
                                 src={data.profilePicture}
                                 alt={data.name}
                                 width={384}

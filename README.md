@@ -1,24 +1,112 @@
-# Baltzakis Themis Portfolio
+# Themistoklis Baltzakis - Portfolio Website
 
-A modern, full-stack todo application built with AWS Amplify Gen2, Next.js 15, TypeScript, and Tailwind CSS.
+A modern portfolio website showcasing AWS Amplify Gen2 capabilities through an integrated todo application. Built with Next.js 15, TypeScript, Tailwind CSS, and featuring real-time GraphQL subscriptions, authentication, and a comprehensive demonstration of full-stack development skills.
 
-## Development Setup
+## 🚀 Live Demo
+
+Visit the live portfolio at: [https://your-portfolio-domain.com](https://your-portfolio-domain.com)
+
+## 📋 Overview
+
+This project serves dual purposes:
+
+1. **Professional Portfolio** - Showcasing skills, experience, and projects of Themistoklis Baltzakis, ML/LLM Engineer
+2. **Technical Demonstration** - Interactive todo application demonstrating AWS Amplify Gen2, GraphQL, real-time subscriptions, and modern web development practices
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- **Next.js 15** - App Router with Server Components
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first styling
+- **shadcn/ui** - Modern component library
+- **Radix UI** - Accessible primitives
+- **WebGL Shaders** - Custom gradient animations
+
+### Backend
+
+- **AWS Amplify Gen2** - Full-stack backend-as-a-service
+- **GraphQL API** - Type-safe data operations
+- **Amazon Cognito** - Authentication & user management
+- **DynamoDB** - NoSQL database
+- **Real-time Subscriptions** - WebSocket connections
+
+### Development & Testing
+
+- **Jest** - Unit testing
+- **ESLint** - Code linting
+- **TypeScript** - Type checking
+- **PWA** - Progressive Web App features
+
+## ✨ Features
+
+### Portfolio Sections
+
+- **Hero Section** - Professional introduction with animated background
+- **About** - Personal background and career summary
+- **Skills** - Technical expertise and competencies
+- **Projects** - Featured work and GitHub repositories
+- **Experience** - Professional work history
+- **Certifications** - Professional credentials and achievements
+- **Contact** - Contact form and social links
+
+### Todo Application Demo
+
+- **User Authentication** - Email/password and social login (Google, GitHub)
+- **Email Verification** - Secure account activation
+- **Password Reset** - Secure password recovery
+- **Real-time Updates** - Live synchronization across devices
+- **Advanced Filtering** - By status, priority, category, and search
+- **Bulk Operations** - Multi-select actions for efficiency
+- **Priority Management** - Low, medium, high priority levels
+- **Due Dates** - Task scheduling and deadlines
+- **Categories** - Task organization and grouping
+
+### Technical Features
+
+- **Responsive Design** - Mobile-first approach
+- **Dark/Light Theme** - User preference switching
+- **PWA Support** - Installable web app
+- **Offline Capability** - Service worker caching
+- **Performance Optimized** - Code splitting and lazy loading
+- **Accessibility** - WCAG compliant components
+- **SEO Optimized** - Meta tags and structured data
+
+## 🚀 Development Setup
 
 ### Prerequisites
 
-- Node.js 18+
-- pnpm
-- AWS CLI configured with appropriate permissions
+- **Node.js 18+**
+- **pnpm** package manager
+- **AWS CLI** configured with appropriate permissions
+- **Git**
 
 ### Installation
 
-```bash
-pnpm install
-```
+1. **Clone the repository:**
 
-### Running in Development Mode
+   ```bash
+   git clone https://github.com/Themis128/gen2-comparison-fresh.git
+   cd gen2-comparison-fresh
+   ```
 
-To run both the Next.js dev server and Amplify sandbox concurrently (recommended for backend changes):
+2. **Install dependencies:**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Configure AWS (optional for full functionality):**
+   ```bash
+   npx ampx configure
+   ```
+
+### Running the Application
+
+#### Development with Sandbox (Recommended)
+
+Run both frontend and backend locally for full development experience:
 
 ```bash
 npm run dev:sandbox
@@ -26,320 +114,173 @@ npm run dev:sandbox
 
 This starts:
 
-- Next.js dev server on http://localhost:50000
-- Amplify sandbox backend (local GraphQL API, auth, etc.)
+- **Next.js dev server** on `http://localhost:50000`
+- **Amplify sandbox** with local GraphQL API and authentication
 
-The frontend automatically detects the running sandbox and uses local backend services instead of cloud endpoints.
+#### Development Only
 
-### Alternative: Run Separately
-
-If you prefer to run them separately:
+Run frontend only (requires deployed backend):
 
 ```bash
-# Terminal 1: Start dev server
 npm run dev
-
-# Terminal 2: Start sandbox
-AWS_REGION=us-east-1 npx ampx sandbox
 ```
 
-### Backend Changes
-
-The sandbox watches for changes in the `amplify/` directory and automatically restarts when you modify backend code (models, auth rules, functions, etc.).
-
-## Features
-
-### ✅ Core Functionality
-
-- **User Authentication** (Email/Password + Social Login)
-- **Email Verification** flow
-- **Password Reset** with secure token handling
-- **Real-time GraphQL** subscriptions
-- **Advanced Filtering** (status, priority, category, search)
-- **Bulk Operations** (select, update, delete multiple todos)
-- **Responsive Design** for all screen sizes
-
-### ✅ Authentication Features
-
-- **Email/Password** authentication
-- **Social Authentication** (Google & GitHub OAuth)
-- **Email Verification** workflow
-- **Password Reset** flow
-- **Route Protection** with automatic redirects
-- **Session Management** with JWT tokens
-
-### ✅ Advanced Features
-
-- **Real-time Updates** via GraphQL subscriptions
-- **Type-safe API** with TypeScript throughout
-- **Modern UI** with shadcn/ui components
-- **Comprehensive Testing** (10 E2E tests)
-- **Production-ready** deployment configuration
-
-## Quick Start
-
-### Prerequisites
-
-- Node.js 18+ and npm/pnpm
-- AWS CLI configured
-- Git
-
-### Installation
-
-1. **Clone and install:**
-
-   ```bash
-   git clone <repository-url>
-   cd baltzakis-themis-portfolio
-   pnpm install
-   ```
-
-2. **Set up environment variables:**
-
-   ```bash
-   cp .env.example .env.local
-   ```
-
-   Edit `.env.local` with your OAuth credentials (see Social Authentication section below).
-
-3. **Configure Amplify:**
-
-   ```bash
-   npx ampx configure
-   npx ampx sandbox
-   ```
-
-4. **Start development:**
-
-   ```bash
-   pnpm dev
-   ```
-
-5. **Run tests:**
-   ```bash
-   npx playwright test
-   ```
-
-## Social Authentication Setup
-
-### Google OAuth Setup
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select existing one
-3. Enable Google+ API
-4. Create OAuth 2.0 credentials:
-   - Application type: Web application
-   - Authorized redirect URIs:
-     - `http://localhost:3000/auth/signin`
-     - `https://yourdomain.com/auth/signin`
-
-5. Add to `.env.local`:
-   ```
-   GOOGLE_CLIENT_ID=your_google_client_id
-   GOOGLE_CLIENT_SECRET=your_google_client_secret
-   ```
-
-### GitHub OAuth Setup
-
-1. Go to GitHub Settings → Developer settings → OAuth Apps
-2. Create a new OAuth App:
-   - Homepage URL: `http://localhost:3000` or your domain
-   - Authorization callback URL:
-     - `http://localhost:3000/auth/signin`
-     - `https://yourdomain.com/auth/signin`
-
-3. Add to `.env.local`:
-   ```
-   GITHUB_CLIENT_ID=your_github_client_id
-   GITHUB_CLIENT_SECRET=your_github_client_secret
-   ```
-
-### Deploy Social Auth Configuration
-
-After setting up OAuth credentials, deploy the updated configuration:
+#### Production Build
 
 ```bash
-npx ampx sandbox --outputs-format json
+npm run build
+npm start
 ```
 
-The social authentication buttons will now work for both sign-in and sign-up flows.
+## 🔐 Authentication Setup
 
-## Authentication Flow
+### Social Authentication (Optional)
 
-```
-User Registration:
-1. Sign up with email/password or social provider
-2. Receive email verification code
-3. Verify email to complete registration
-4. Access granted to protected routes
+#### Google OAuth
 
-Password Reset:
-1. Request password reset with email
-2. Receive reset email with secure link
-3. Enter new password with verification code
-4. Password updated successfully
-
-Social Authentication:
-1. Click Google/GitHub button
-2. Redirect to OAuth provider
-3. Grant permissions
-4. Automatic account creation/login
-5. Access granted to application
-```
-
-## Testing Authentication
-
-### Automated Tests
-
-```bash
-# Run all authentication tests
-npx playwright test tests/e2e/auth.spec.ts
-
-# Run with visual browser
-npx playwright test tests/e2e/auth.spec.ts --headed
-
-# Run specific test
-npx playwright test tests/e2e/auth.spec.ts -g "should redirect to sign-in"
-```
-
-### Manual Testing
-
-1. **Email Authentication:**
-
+1. Create OAuth 2.0 credentials in [Google Cloud Console](https://console.cloud.google.com/)
+2. Add authorized redirect URIs:
+   - `http://localhost:50000/auth/signin`
+   - `https://yourdomain.com/auth/signin`
+3. Set environment variables:
    ```bash
-   # Start dev server
-   pnpm dev
-
-   # Visit http://localhost:3000
-   # Should redirect to /auth/signin
-
-   # Test signup flow:
-   # 1. Go to /auth/signup
-   # 2. Create account with real email
-   # 3. Check email for verification code
-   # 4. Verify email at /auth/verify-email
-   # 5. Sign in at /auth/signin
-   # 6. Access protected dashboard
+   GOOGLE_CLIENT_ID=your_client_id
+   GOOGLE_CLIENT_SECRET=your_client_secret
    ```
 
-2. **Password Reset:**
+#### GitHub OAuth
 
+1. Create OAuth App in GitHub Settings → Developer settings
+2. Set authorization callback URL:
+   - `http://localhost:50000/auth/signin`
+   - `https://yourdomain.com/auth/signin`
+3. Set environment variables:
    ```bash
-   # From sign-in page, click "Forgot password?"
-   # Enter email and submit
-   # Check email for reset link
-   # Follow link to reset password
-   # Sign in with new password
+   GITHUB_CLIENT_ID=your_client_id
+   GITHUB_CLIENT_SECRET=your_client_secret
    ```
 
-3. **Social Authentication:**
-   ```bash
-   # From sign-in or signup page
-   # Click "Continue with Google" or "Continue with GitHub"
-   # Complete OAuth flow
-   # Should be automatically signed in
-   ```
-
-## Architecture
-
-### Frontend (Next.js 15 + TypeScript)
-
-- **App Router** for modern routing
-- **Server Components** with client components where needed
-- **Type-safe** API calls with Amplify client
-- **Real-time subscriptions** for live updates
-
-### Backend (AWS Amplify Gen2)
-
-- **GraphQL API** with automatic type generation
-- **Cognito User Pools** for authentication
-- **DynamoDB** for data storage
-- **Real-time subscriptions** via WebSocket
-- **Social OAuth** providers (Google, GitHub)
-
-### Authentication
-
-- **Route Protection** with AuthWrapper component
-- **Session Management** with JWT tokens
-- **Social OAuth** integration
-- **Email verification** workflow
-- **Password reset** with secure tokens
-
-## Deployment
-
-### Development
-
-```bash
-npx ampx sandbox
-pnpm dev
-```
-
-### Production
-
-```bash
-npx ampx deploy
-```
-
-### Environment Variables for Production
-
-Set these in your Amplify console:
-
-- `GOOGLE_CLIENT_ID`
-- `GOOGLE_CLIENT_SECRET`
-- `GITHUB_CLIENT_ID`
-- `GITHUB_CLIENT_SECRET`
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-├── amplify/                 # Amplify backend configuration
-│   ├── auth/               # Authentication setup
+├── amplify/                 # AWS Amplify Gen2 backend
+│   ├── auth/               # Authentication configuration
 │   ├── data/               # GraphQL schema and resolvers
-│   └── storage/            # File storage configuration
+│   └── backend.ts          # Backend configuration
 ├── src/
-│   ├── app/                # Next.js app router pages
+│   ├── app/                # Next.js App Router
 │   │   ├── auth/          # Authentication pages
-│   │   ├── api/           # API routes
+│   │   ├── contact/       # Contact page
+│   │   ├── projects/      # Projects showcase
 │   │   └── layout.tsx     # Root layout
 │   ├── components/        # React components
 │   │   ├── ui/           # Reusable UI components
-│   │   └── TodoList.tsx  # Main todo component
-│   └── lib/               # Utility functions
+│   │   ├── Hero.tsx      # Portfolio hero section
+│   │   ├── TodoList.tsx  # Todo application demo
+│   │   └── ...           # Other portfolio components
+│   └── lib/               # Utilities and configurations
+│       ├── personal-data.ts # Portfolio content
+│       └── amplify-client-config.ts # AWS configuration
 ├── tests/                  # Test files
-│   └── e2e/              # End-to-end tests
-├── .env.example          # Environment variables template
-└── amplify_outputs.json  # Generated Amplify configuration
+│   └── e2e/              # Playwright E2E tests
+├── public/                # Static assets
+└── docs/                  # Documentation
 ```
 
-## API Reference
+## 🎨 Customization
 
-### Authentication
+### Portfolio Content
 
-- `signUp()` - Register new user
-- `signIn()` - Sign in existing user
-- `signInWithRedirect()` - Social authentication
-- `confirmSignUp()` - Email verification
-- `resetPassword()` - Initiate password reset
-- `confirmResetPassword()` - Complete password reset
-- `signOut()` - Sign out user
+Edit `src/lib/personal-data.ts` to customize:
 
-### Todo Operations
+- Personal information
+- Skills and technologies
+- Work experience
+- Projects and achievements
+- Contact information
 
-- `client.models.Todo.create()` - Create todo
-- `client.models.Todo.list()` - List todos
-- `client.models.Todo.update()` - Update todo
-- `client.models.Todo.delete()` - Delete todo
-- `client.models.Todo.observeQuery()` - Real-time subscriptions
+### Styling
 
-## Contributing
+The design uses Tailwind CSS with custom components. Key files:
+
+- `src/styles/app.css` - Custom styles
+- `tailwind.config.js` - Tailwind configuration
+- `src/components/ui/` - Reusable components
+
+### Theme Configuration
+
+Dark/light theme switching is handled by `src/lib/theme-context.tsx`.
+
+## 🚀 Deployment
+
+### AWS Amplify Hosting
+
+1. **Connect repository** to AWS Amplify Console
+2. **Set build settings:**
+
+   ```yaml
+   version: 1
+   frontend:
+     phases:
+       preBuild:
+         commands:
+           - npm ci
+       build:
+         commands:
+           - npm run build
+     artifacts:
+       baseDirectory: .next
+       files:
+         - '**/*'
+   ```
+
+3. **Environment variables** (for social auth):
+   - `GOOGLE_CLIENT_ID`
+   - `GOOGLE_CLIENT_SECRET`
+   - `GITHUB_CLIENT_ID`
+   - `GITHUB_CLIENT_SECRET`
+
+### Manual Deployment
+
+```bash
+# Deploy backend
+npx ampx deploy
+
+# Build and deploy frontend
+npm run build
+# Deploy to your hosting provider
+```
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch: `git checkout -b feature/your-feature`
 3. Make your changes
 4. Add tests for new functionality
-5. Run tests: `npx playwright test`
-6. Submit a pull request
+5. Run tests: `npm run test:e2e`
+6. Commit your changes: `git commit -am 'Add new feature'`
+7. Push to the branch: `git push origin feature/your-feature`
+8. Submit a pull request
 
-## License
+## 📄 License
 
-MIT License - see LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Themistoklis Baltzakis**
+
+- **Title:** ML/LLM Engineer
+- **Experience:** 15+ years in IT support, cloud solutions, and Cisco infrastructure
+- **Location:** [Your Location]
+- **Email:** [your.email@example.com]
+- **LinkedIn:** [Your LinkedIn]
+- **GitHub:** [Your GitHub]
+
+## 🙏 Acknowledgments
+
+- **AWS Amplify** team for the excellent Gen2 platform
+- **shadcn/ui** for the beautiful component library
+- **Tailwind CSS** for the utility-first framework
+- **Next.js** team for the amazing React framework
+- **Playwright** for comprehensive testing capabilities

@@ -19,6 +19,7 @@ export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
 
   useEffect(() => {
     // Check if app is already installed
@@ -39,10 +40,21 @@ export default function InstallPrompt() {
 
     checkInstalled();
 
+    const handleUserInteraction = () => {
+      setUserInteracted(true);
+      // If we have a deferred prompt and user has interacted, show it
+      if (deferredPrompt && !showPrompt) {
+        setShowPrompt(true);
+      }
+    };
+
     const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault();
+      // Removed preventDefault to allow browser native prompt
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setShowPrompt(true);
+      // Only show prompt after user has interacted with the page
+      if (userInteracted) {
+        setShowPrompt(true);
+      }
     };
 
     const handleAppInstalled = () => {
@@ -54,11 +66,17 @@ export default function InstallPrompt() {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
 
+    // Listen for user interactions to show install prompt later
+    window.addEventListener('click', handleUserInteraction, { once: true });
+    window.addEventListener('touchstart', handleUserInteraction, { once: true });
+
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
+      window.removeEventListener('click', handleUserInteraction);
+      window.removeEventListener('touchstart', handleUserInteraction);
     };
-  }, []);
+  }, [deferredPrompt, showPrompt, userInteracted]);
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
@@ -98,8 +116,7 @@ export default function InstallPrompt() {
               Install Portfolio App
             </h3>
             <p className="mb-3 text-sm text-gray-600 dark:text-gray-300">
-              Get the full experience! Install our portfolio app for offline access and native app
-              features.
+              Get the full experience! Install our portfolio app for offline access and native app features.
             </p>
             <div className="flex gap-2">
               <Button onClick={handleInstallClick} className="flex items-center gap-2" size="sm">
