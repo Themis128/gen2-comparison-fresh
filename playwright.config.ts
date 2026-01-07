@@ -119,7 +119,6 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         extraHTTPHeaders: {
-          ...devices['Desktop Chrome'].extraHTTPHeaders,
           'x-test-role': 'admin',
           'x-test-user-email': 'admin@cloudless.com',
         },
@@ -131,7 +130,6 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         extraHTTPHeaders: {
-          ...devices['Desktop Chrome'].extraHTTPHeaders,
           'x-test-role': 'user',
           'x-test-user-email': 'user@example.com',
         },
@@ -143,7 +141,6 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         extraHTTPHeaders: {
-          ...devices['Desktop Chrome'].extraHTTPHeaders,
           'x-test-role': 'guest',
         },
       },

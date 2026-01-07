@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
@@ -340,6 +340,8 @@ function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [redirectPath, setRedirectPath] = useState<string | null>(null);
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
@@ -351,7 +353,7 @@ function SignInPage() {
       }
     };
     checkIfAlreadySignedIn();
-  }, [router]);
+  }, [router, redirectPath]);
 
   const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

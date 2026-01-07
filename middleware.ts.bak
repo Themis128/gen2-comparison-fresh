@@ -51,8 +51,6 @@ export function middleware(request: NextRequest) {
   );
 
   if (isTestMode) {
-    response.cookies.set("test-mode", "true", { path: "/" });
-  console.log("Setting test-mode cookie for path:", pathname);
     return response;
   }
 

@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export const revalidate = false;
 
@@ -12,9 +12,9 @@ interface UserData {
   createdAt: string;
 }
 
-export async function PUT(request: Request, { params }: { params: { userId: string } }) {
+export async function PUT(request: NextRequest, context: { params: Promise<{ userId: string }> }) {
   try {
-    const { userId } = params;
+    const { userId } = await context.params;
     const body = await request.json();
     const { _action, ...updateData } = body;
 
@@ -40,9 +40,9 @@ export async function PUT(request: Request, { params }: { params: { userId: stri
   }
 }
 
-export async function DELETE(_request: Request, { params }: { params: { userId: string } }) {
+export async function DELETE(_request: NextRequest, context: { params: Promise<{ userId: string }> }) {
   try {
-    const { userId } = params;
+    const { userId } = await context.params;
 
     // Mock user deletion logic
     return NextResponse.json({

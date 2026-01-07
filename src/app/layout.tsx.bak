@@ -5,6 +5,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import { Toaster } from 'sonner';
 
 import AmplifyInitializer from '../components/AmplifyInitializer';
+import ClientAuthGuard from '../components/ClientAuthGuard';
 import DevConsoleFilter from '../components/DevConsoleFilter';
 import DevListenerPatch from '../components/DevListenerPatch';
 import InstallPrompt from '../components/InstallPrompt';
@@ -79,7 +80,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const testMode = (await headers()).get('x-test-mode') === 'true';
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <head>
@@ -96,7 +96,6 @@ export default async function RootLayout({
         <meta name="format-detection" content="telephone=no" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/cloudless-favicon.ico" />
-        <script dangerouslySetInnerHTML={{ __html: `window.testMode = ${testMode};` }} />
 
         {/* Structured Data for SEO */}
         <script
@@ -223,22 +222,32 @@ export default async function RootLayout({
         )}
       </head>
       <body
+    const testMode = headers().get('x-test-mode') === 'true';
+    return (
+      <>
+        <script dangerouslySetInnerHTML={{ __html: `window.testMode = ${testMode};` }} />
+        <html lang="en" data-scroll-behavior="smooth">
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
         <AmplifyInitializer />
+        <ClientAuthGuard testModeHeader={headers().get('x-test-mode')} />
         <ThemeProvider>
           <div
             className="site-tech-overlay pointer-events-none fixed inset-0 z-0"
             aria-hidden="true"
           />
-          <Toaster />
-          <DevConsoleFilter />
-          <DevListenerPatch />
-          <InstallPrompt />
           <NavigationWrapper />
           {children}
+          <InstallPrompt />
+          <Toaster />
         </ThemeProvider>
+        {process.env.NODE_ENV === 'development' && <DevListenerPatch />}
+        {process.env.NODE_ENV === 'development' && <DevConsoleFilter />}
+        {/*
+          Dev-only patches for console noise and passive listener violations.
+        */}
+        {/* <ToolbarMountController /> */}
       </body>
     </html>
   );

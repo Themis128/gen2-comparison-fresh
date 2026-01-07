@@ -3,8 +3,10 @@
 import React from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 
-import { Menu } from 'lucide-react';
+import { Menu, Lock } from 'lucide-react';
 
 import ThemeSwitcher from './ThemeSwitcher';
 import { Button } from './ui/button';
@@ -20,6 +22,9 @@ const Navigation: React.FC<NavigationProps> = ({
   logoSrc = '/cloudless-logo.svg',
   logoAlt = 'Themis Baltzakis Logo',
 }) => {
+  const pathname = usePathname();
+  const router = useRouter();
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -34,17 +39,66 @@ const Navigation: React.FC<NavigationProps> = ({
     }
   };
 
-  const navItems = [
-    { label: 'Home', href: '#about' },
-    { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Certifications', href: '#certifications' },
-    { label: 'Languages', href: '#languages' },
-    { label: 'Achievements', href: '#achievements' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Contact', href: '#contact' },
-  ];
+  const handleNavigation = (item: NavItem) => {
+    if (item.type === 'scroll' && item.sectionId) {
+      scrollToSection(item.sectionId);
+    } else if (item.type === 'route' && item.href) {
+      router.push(item.href);
+    }
+  };
+
+  // Context-aware navigation items based on current route
+  const getNavigationItems = (): NavItem[] => {
+    // Portfolio/Home page - use scrolling navigation
+    if (pathname === '/') {
+      return [
+        { label: 'Home', type: 'scroll', sectionId: 'about', protected: false },
+        { label: 'About', type: 'scroll', sectionId: 'about', protected: false },
+        { label: 'Skills', type: 'scroll', sectionId: 'skills', protected: false },
+        { label: 'Experience', type: 'scroll', sectionId: 'experience', protected: false },
+        { label: 'Certifications', type: 'scroll', sectionId: 'certifications', protected: false },
+        { label: 'Languages', type: 'scroll', sectionId: 'languages', protected: false },
+        { label: 'Achievements', type: 'scroll', sectionId: 'achievements', protected: false },
+        { label: 'Projects', type: 'route', href: '/projects', protected: false },
+        { label: 'Contact', type: 'scroll', sectionId: 'contact', protected: false },
+      ];
+    }
+
+    // Protected app pages - show app navigation
+    if (pathname.startsWith('/app') || pathname.startsWith('/admin')) {
+      return [
+        { label: 'Dashboard', type: 'route', href: '/app', protected: true },
+        { label: 'Projects', type: 'route', href: '/projects', protected: false },
+        { label: 'Portfolio', type: 'route', href: '/', protected: false },
+      ];
+    }
+
+    // Projects page
+    if (pathname === '/projects') {
+      return [
+        { label: 'Portfolio', type: 'route', href: '/', protected: false },
+        { label: 'Dashboard', type: 'route', href: '/app', protected: true },
+        { label: 'All Projects', type: 'scroll', sectionId: 'projects', protected: false },
+      ];
+    }
+
+    // Default navigation for other pages
+    return [
+      { label: 'Portfolio', type: 'route', href: '/', protected: false },
+      { label: 'Projects', type: 'route', href: '/projects', protected: false },
+      { label: 'Dashboard', type: 'route', href: '/app', protected: true },
+    ];
+  };
+
+  const navItems = getNavigationItems();
+
+  interface NavItem {
+    label: string;
+    type: 'scroll' | 'route';
+    sectionId?: string;
+    href?: string;
+    protected: boolean;
+  }
 
   return (
     <nav
@@ -75,11 +129,16 @@ const Navigation: React.FC<NavigationProps> = ({
             {navItems.map((item) => (
               <button
                 key={item.label}
-                onClick={() => scrollToSection(item.href.substring(1))}
+                onClick={() => handleNavigation(item)}
                 className="nav-accent group relative font-mono font-medium text-gray-600 transition-all duration-300 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:text-gray-300 dark:hover:text-white"
-                aria-label={item.label}
+                aria-label={`${item.label}${item.protected ? ' (requires authentication)' : ''}`}
               >
-                {item.label}
+                <div className="flex items-center gap-1">
+                  {item.label}
+                  {item.protected && (
+                    <Lock className="h-3 w-3 opacity-60" aria-hidden="true" />
+                  )}
+                </div>
                 <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
               </button>
             ))}
@@ -105,10 +164,15 @@ const Navigation: React.FC<NavigationProps> = ({
                   <Button
                     key={item.label}
                     variant="ghost"
-                    onClick={() => scrollToSection(item.href.substring(1))}
+                    onClick={() => handleNavigation(item)}
                     className="justify-start font-medium"
                   >
-                    {item.label}
+                    <div className="flex items-center gap-2">
+                      {item.label}
+                      {item.protected && (
+                        <Lock className="h-3 w-3 opacity-60" aria-hidden="true" />
+                      )}
+                    </div>
                   </Button>
                 ))}
 

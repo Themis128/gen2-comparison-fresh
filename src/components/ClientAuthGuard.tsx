@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { useRouter, usePathname } from 'next/navigation';
 
-export default function ClientAuthGuard() {
+export default function ClientAuthGuard({ testModeHeader }: { testModeHeader?: string | null }) {
   console.warn('ClientAuthGuard component rendered');
 
   const router = useRouter();
