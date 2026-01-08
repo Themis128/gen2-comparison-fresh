@@ -8,7 +8,6 @@ import type { PersonalData } from '@/lib/personal-data';
 
 import IconImage from './IconImage';
 
-
 interface ProjectsProps {
   data?: PersonalData;
 }
@@ -16,43 +15,56 @@ interface ProjectsProps {
 export default function Projects({ data }: ProjectsProps) {
   // Provide default data if not provided
   const defaultData: PersonalData = {
-    name: "Themistoklis Baltzakis",
-    title: "ML/LLM Engineer",
-    bio: "ML/LLM Engineer with over 15 years of experience in IT support, cloud solutions, and Cisco infrastructure management.",
-    email: "contact@baltzakis.com",
-    phone: "+30 XXX XXX XXXX",
-    location: "Greece",
-    twitter: "https://twitter.com/your-handle",
-    linkedin: "https://www.linkedin.com/in/baltzakis-themis",
-    github: "https://github.com/Themis128",
-    website: "https://baltzakisthemis.com",
-    skills: ["Machine Learning", "Large Language Models", "Python", "TensorFlow", "PyTorch", "AWS Cloud", "Cisco Networking", "Data Analytics", "TypeScript", "Next.js", "React", "Node.js"],
+    name: 'Themistoklis Baltzakis',
+    title: 'ML/LLM Engineer',
+    bio: 'ML/LLM Engineer with over 15 years of experience in IT support, cloud solutions, and Cisco infrastructure management.',
+    email: 'contact@baltzakis.com',
+    phone: '+30 XXX XXX XXXX',
+    location: 'Greece',
+    twitter: 'https://twitter.com/your-handle',
+    linkedin: 'https://www.linkedin.com/in/baltzakis-themis',
+    github: 'https://github.com/Themis128',
+    website: 'https://baltzakisthemis.com',
+    skills: [
+      'Machine Learning',
+      'Large Language Models',
+      'Python',
+      'TensorFlow',
+      'PyTorch',
+      'AWS Cloud',
+      'Cisco Networking',
+      'Data Analytics',
+      'TypeScript',
+      'Next.js',
+      'React',
+      'Node.js',
+    ],
     projects: [
       {
-        id: "1",
-        title: "Portfolio Website",
-        description: "Modern portfolio website built with Next.js and TailwindCSS.",
-        category: "Web Development",
+        id: '1',
+        title: 'Portfolio Website',
+        description: 'Modern portfolio website built with Next.js and TailwindCSS.',
+        category: 'Web Development',
         featured: true,
-        url: "https://baltzakisthemis.com",
-        github: "https://github.com/Themis128/portfolio",
-        technologies: ["Next.js", "TypeScript", "TailwindCSS"]
+        url: 'https://baltzakisthemis.com',
+        github: 'https://github.com/Themis128/portfolio',
+        technologies: ['Next.js', 'TypeScript', 'TailwindCSS'],
       },
       {
-        id: "2",
-        title: "ML Model Trainer",
-        description: "Tool for training and deploying ML models on AWS.",
-        category: "Machine Learning",
+        id: '2',
+        title: 'ML Model Trainer',
+        description: 'Tool for training and deploying ML models on AWS.',
+        category: 'Machine Learning',
         featured: true,
-        github: "https://github.com/Themis128/ml-trainer",
-        technologies: ["Python", "AWS SageMaker", "Docker"]
-      }
+        github: 'https://github.com/Themis128/ml-trainer',
+        technologies: ['Python', 'AWS SageMaker', 'Docker'],
+      },
     ],
     experience: [],
     education: [],
     languages: [],
     certifications: [],
-    achievements: []
+    achievements: [],
   };
 
   const safeData = data || defaultData;
@@ -216,6 +228,8 @@ export default function Projects({ data }: ProjectsProps) {
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">

@@ -4,10 +4,12 @@ import React, { useRef, useState, useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Send, Mail, User, MessageSquare, Shield } from 'lucide-react';
+import { useFormState } from 'react-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import * as z from 'zod';
+
+import { contactFormSchema, submitContactForm, type ContactFormState } from '@/app/actions';
 
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
@@ -24,24 +26,17 @@ import {
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Textarea } from './ui/textarea';
-// Server Actions removed for static export compatibility
 
-const contactFormSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  subject: z.string().min(5, 'Subject must be at least 5 characters'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-  priority: z.enum(['low', 'medium', 'high']),
-  newsletter: z.boolean(),
-});
+import type * as z from 'zod';
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export const ContactForm: React.FC = () => {
   const [isPending, startTransition] = useTransition();
-  const [_serverErrors, setServerErrors] = useState<Record<string, string>>({});
   const recaptchaRef = useRef<ReCAPTCHA>(null);
-  const [recaptchaToken, setRecaptchaToken] = React.useState<string | null>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+
+  const [state, formAction] = useFormState<ContactFormState, FormData>(submitContactForm, {});
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -55,10 +50,38 @@ export const ContactForm: React.FC = () => {
     },
   });
 
+  // Handle server action response
+  React.useEffect(() => {
+    if (state.message) {
+      if (state.success) {
+        toast.success(state.message);
+        form.reset();
+        recaptchaRef.current?.reset();
+        setRecaptchaToken(null);
+      } else {
+        toast.error(state.message);
+      }
+    }
+  }, [state, form]);
+
   const onSubmit = async (data: ContactFormValues) => {
-    // For static export, show a message that contact form is disabled
-    toast.info('Contact form is disabled in static export mode. Please use the contact information below to reach out directly.');
-    console.log('Contact form submission (static mode):', data);
+    if (!recaptchaToken) {
+      toast.error('Please complete the reCAPTCHA verification.');
+      return;
+    }
+
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      formData.append('subject', data.subject);
+      formData.append('message', data.message);
+      formData.append('priority', data.priority);
+      formData.append('newsletter', data.newsletter.toString());
+      formData.append('recaptchaToken', recaptchaToken);
+
+      formAction(formData);
+    });
   };
 
   return (
@@ -74,12 +97,7 @@ export const ContactForm: React.FC = () => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-6"
-            data-testid="contact-form"
-            role="form"
-          >
+          <form action={formAction} className="space-y-6" data-testid="contact-form" role="form">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -94,6 +112,9 @@ export const ContactForm: React.FC = () => {
                       <Input id="name" placeholder="Your full name" {...field} />
                     </FormControl>
                     <FormMessage />
+                    {state.errors?.name && (
+                      <p className="text-sm text-destructive">{state.errors.name[0]}</p>
+                    )}
                   </FormItem>
                 )}
               />
@@ -116,6 +137,9 @@ export const ContactForm: React.FC = () => {
                       />
                     </FormControl>
                     <FormMessage />
+                    {state.errors?.email && (
+                      <p className="text-sm text-destructive">{state.errors.email[0]}</p>
+                    )}
                   </FormItem>
                 )}
               />
@@ -131,6 +155,9 @@ export const ContactForm: React.FC = () => {
                     <Input placeholder="What's this about?" {...field} />
                   </FormControl>
                   <FormMessage />
+                  {state.errors?.subject && (
+                    <p className="text-sm text-destructive">{state.errors.subject[0]}</p>
+                  )}
                 </FormItem>
               )}
             />
@@ -154,6 +181,9 @@ export const ContactForm: React.FC = () => {
                     </SelectContent>
                   </Select>
                   <FormMessage />
+                  {state.errors?.priority && (
+                    <p className="text-sm text-destructive">{state.errors.priority[0]}</p>
+                  )}
                 </FormItem>
               )}
             />
@@ -179,6 +209,9 @@ export const ContactForm: React.FC = () => {
                     Please provide as much detail as possible so we can assist you better.
                   </FormDescription>
                   <FormMessage />
+                  {state.errors?.message && (
+                    <p className="text-sm text-destructive">{state.errors.message[0]}</p>
+                  )}
                 </FormItem>
               )}
             />
@@ -197,6 +230,9 @@ export const ContactForm: React.FC = () => {
                       Get updates about new features and announcements.
                     </FormDescription>
                   </div>
+                  {state.errors?.newsletter && (
+                    <p className="text-sm text-destructive">{state.errors.newsletter[0]}</p>
+                  )}
                 </FormItem>
               )}
             />
@@ -223,9 +259,22 @@ export const ContactForm: React.FC = () => {
                 onExpired={() => setRecaptchaToken(null)}
               />
             </div>
+            {state.errors?.recaptchaToken && (
+              <p className="text-center text-sm text-destructive">
+                {state.errors.recaptchaToken[0]}
+              </p>
+            )}
+
+            {/* Hidden input for reCAPTCHA token */}
+            <input type="hidden" name="recaptchaToken" value={recaptchaToken || ''} />
 
             <div className="flex gap-4">
-              <Button type="submit" disabled={isPending} className="flex-1" tabIndex={0}>
+              <Button
+                type="submit"
+                disabled={isPending || !recaptchaToken}
+                className="flex-1"
+                tabIndex={0}
+              >
                 {isPending ? (
                   'Sending...'
                 ) : (
@@ -238,7 +287,11 @@ export const ContactForm: React.FC = () => {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => form.reset()}
+                onClick={() => {
+                  form.reset();
+                  recaptchaRef.current?.reset();
+                  setRecaptchaToken(null);
+                }}
                 disabled={isPending}
               >
                 Reset

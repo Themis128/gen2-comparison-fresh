@@ -4,10 +4,10 @@
     {
       "label": "dev:sandbox",
       "type": "shell",
-      "command": "npm",
+      "command": "npx",
       "args": [
-        "run",
-        "dev:sandbox"
+        "ampx",
+        "sandbox"
       ],
       "group": {
         "kind": "build",
@@ -24,7 +24,12 @@
       "isBackground": true,
       "problemMatcher": [],
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "AWS_REGION": "us-east-1",
+          "AMPLIFY_PORT_RANGE_START": "6000",
+          "AMPLIFY_PORT_RANGE_END": "6100"
+        }
       }
     },
     {

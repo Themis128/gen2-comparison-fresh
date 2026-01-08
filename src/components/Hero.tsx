@@ -1,68 +1,84 @@
+import { getTranslations } from 'next-intl/server';
 import type { PersonalData } from '@/lib/personal-data';
 
-import HeroActions from "./HeroActions";
+import HeroActions from './HeroActions';
 
 interface HeroProps {
   data: PersonalData;
 }
 
-export default function Hero({ data }: HeroProps) {
+export default async function Hero({ data }: HeroProps) {
+  const t = await getTranslations('hero');
+
   return (
-    <section id="hero" className="relative overflow-hidden min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-background">
+    <section
+      id="hero"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-background"
+    >
       {/* Techy Background Elements */}
       <div className="absolute inset-0">
         {/* Circuit Grid Pattern */}
         <div className="absolute inset-0 opacity-10 dark:opacity-5">
           <div className="absolute inset-0 bg-muted/20" />
         </div>
-        
+
         {/* Floating Tech Elements */}
         <div className="absolute left-10 top-20 h-16 w-16 animate-bounce">
-          <div className="w-full h-full border-2 border-cyan-400/50 rounded-lg bg-cyan-400/10 backdrop-blur-sm flex items-center justify-center">
-            <div className="w-6 h-6 border border-cyan-400/70 rounded" />
+          <div className="flex h-full w-full items-center justify-center rounded-lg border-2 border-cyan-400/50 bg-cyan-400/10 backdrop-blur-sm">
+            <div className="h-6 w-6 rounded border border-cyan-400/70" />
           </div>
         </div>
-        
+
         <div className="absolute right-20 top-40 h-12 w-12 animate-pulse">
-          <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-sm flex items-center justify-center">
-            <div className="w-4 h-4 bg-purple-400 rounded-full animate-ping" />
+          <div className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 blur-sm">
+            <div className="h-4 w-4 animate-ping rounded-full bg-purple-400" />
           </div>
         </div>
-        
-        <div className="absolute bottom-32 left-1/4 h-20 w-20 animate-spin" style={{animationDuration: "6s"}}>
-          <div className="w-full h-full border border-green-400/50 rounded-full flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-green-400/70 rounded-full animate-pulse" />
+
+        <div
+          className="absolute bottom-32 left-1/4 h-20 w-20 animate-spin"
+          style={{ animationDuration: '6s' }}
+        >
+          <div className="flex h-full w-full items-center justify-center rounded-full border border-green-400/50">
+            <div className="h-8 w-8 animate-pulse rounded-full border-2 border-green-400/70" />
           </div>
         </div>
-        
-        <div className="absolute top-1/3 right-1/3 h-14 w-14 animate-bounce">
-          <div className="w-full h-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-lg backdrop-blur-sm flex items-center justify-center">
-            <div className="text-xs font-mono text-blue-400/80">01</div>
+
+        <div className="absolute right-1/3 top-1/3 h-14 w-14 animate-bounce">
+          <div className="flex h-full w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm">
+            <div className="font-mono text-xs text-blue-400/80">01</div>
           </div>
         </div>
-        
+
         {/* Matrix-style falling elements */}
-        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-px h-20 bg-gradient-to-b from-transparent via-green-400/50 to-transparent animate-pulse" />
-        <div className="absolute bottom-20 right-1/4 w-px h-16 bg-gradient-to-t from-transparent via-cyan-400/50 to-transparent animate-pulse" style={{animationDelay: "1s"}} />
-        <div className="absolute bottom-20 right-1/4 w-px h-16 bg-gradient-to-t from-transparent via-cyan-400/50 to-transparent animate-pulse" style={{animationDelay: "1s"}} />
-        <div className="absolute top-4 left-4 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-        <div className="absolute top-4 right-4 w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: "0.5s"}} />
-</div>
+        <div className="absolute left-1/2 top-10 h-20 w-px -translate-x-1/2 transform animate-pulse bg-gradient-to-b from-transparent via-green-400/50 to-transparent" />
+        <div
+          className="absolute bottom-20 right-1/4 h-16 w-px animate-pulse bg-gradient-to-t from-transparent via-cyan-400/50 to-transparent"
+          style={{ animationDelay: '1s' }}
+        />
+        <div
+          className="absolute bottom-20 right-1/4 h-16 w-px animate-pulse bg-gradient-to-t from-transparent via-cyan-400/50 to-transparent"
+          style={{ animationDelay: '1s' }}
+        />
+        <div className="absolute left-4 top-4 h-2 w-2 animate-pulse rounded-full bg-green-400" />
+        <div
+          className="absolute right-4 top-4 h-2 w-2 animate-pulse rounded-full bg-blue-400"
+          style={{ animationDelay: '0.5s' }}
+        />
+      </div>
+
+      {/* Main content */}
       <div className="container mx-auto px-6 py-20">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-8">
-              Hi, I&apos;m{' '}
-<h1 className="mb-6 text-5xl font-bold text-foreground md:text-7xl">
+            {t('greeting')}{' '}
+            <h1 className="mb-6 text-5xl font-bold text-foreground md:text-7xl">
               <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                 {data.name}
               </span>
             </h1>
-            <p className="mb-8 text-xl text-muted-foreground md:text-2xl">
-              {data.title}
-            </p>
-            <p className="mx-auto mb-12 max-w-2xl text-lg text-muted-foreground">
-              {data.bio}
-            </p>
+            <p className="mb-8 text-xl text-muted-foreground md:text-2xl">{data.title}</p>
+            <p className="mx-auto mb-12 max-w-2xl text-lg text-muted-foreground">{t('subtitle')}</p>
           </div>
 
           <HeroActions email={data.email} />
@@ -77,10 +93,7 @@ export default function Hero({ data }: HeroProps) {
               )}
               {data.email && (
                 <span className="mr-4">
-                  <a
-                    href={`mailto:${data.email}`}
-                    className="transition-colors hover:text-primary"
-                  >
+                  <a href={`mailto:${data.email}`} className="transition-colors hover:text-primary">
                     {data.email}
                   </a>
                 </span>

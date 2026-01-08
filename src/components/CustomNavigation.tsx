@@ -4,10 +4,12 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { Menu, Lock } from 'lucide-react';
 
 import ThemeSwitcher from './ThemeSwitcher';
+import LocaleSwitcher from './LocaleSwitcher';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from './ui/sheet';
 // import UserSession from './UserSession';
@@ -21,6 +23,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(
   ({ logoSrc = '/cloudless-logo.svg', logoAlt = 'Themis Baltzakis Logo' }) => {
     const pathname = usePathname();
     const router = useRouter();
+    const t = useTranslations('navigation');
     const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Optimized scroll function with throttling
@@ -61,23 +64,23 @@ const Navigation: React.FC<NavigationProps> = React.memo(
       // Portfolio/Home page - use scrolling navigation
       if (pathname === '/') {
         return [
-          { label: 'Home', type: 'route', href: '/app', protected: false },
-          { label: 'About', type: 'route', href: '/app#about', protected: false },
+          { label: t('home'), type: 'route', href: '/app', protected: false },
+          { label: t('about'), type: 'route', href: '/app#about', protected: false },
           { label: 'Skills', type: 'route', href: '/app#skills', protected: false },
-          { label: 'Experience', type: 'route', href: '/app#experience', protected: false },
+          { label: t('experience'), type: 'route', href: '/app#experience', protected: false },
           { label: 'Certifications', type: 'route', href: '/app#certifications', protected: false },
           { label: 'Languages', type: 'route', href: '/app#languages', protected: false },
           { label: 'Achievements', type: 'route', href: '/app#achievements', protected: false },
-          { label: 'Contact', type: 'route', href: '/app#contact', protected: false },
+          { label: t('contact'), type: 'route', href: '/app#contact', protected: false },
         ];
       }
 
       // Protected app pages - show scrolling navigation for portfolio sections
       if (pathname === '/app') {
         return [
-          { label: 'About', type: 'scroll', sectionId: 'about', protected: false },
+          { label: t('about'), type: 'scroll', sectionId: 'about', protected: false },
           { label: 'Skills', type: 'scroll', sectionId: 'skills', protected: false },
-          { label: 'Experience', type: 'scroll', sectionId: 'experience', protected: false },
+          { label: t('experience'), type: 'scroll', sectionId: 'experience', protected: false },
           {
             label: 'Certifications',
             type: 'scroll',
@@ -86,7 +89,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(
           },
           { label: 'Languages', type: 'scroll', sectionId: 'languages', protected: false },
           { label: 'Achievements', type: 'scroll', sectionId: 'achievements', protected: false },
-          { label: 'Contact', type: 'scroll', sectionId: 'contact', protected: false },
+          { label: t('contact'), type: 'scroll', sectionId: 'contact', protected: false },
         ];
       }
 
@@ -185,6 +188,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(
               <div className="h-8 w-px bg-gray-200 dark:bg-gray-700" />
 
               <div className="flex items-center gap-4">
+                <LocaleSwitcher />
                 <ThemeSwitcher />
                 {/* <UserSession /> */}
               </div>
