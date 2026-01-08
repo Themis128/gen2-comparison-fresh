@@ -1,6 +1,9 @@
 // import { withSentryConfig } from '@sentry/nextjs';
+import createNextIntlPlugin from 'next-intl/plugin';
 
 /** @type {import('next').NextConfig} */
+const withNextIntl = createNextIntlPlugin();
+
 const nextConfig = {
   // Transpile AWS Amplify packages for compatibility
   transpilePackages: [
@@ -80,4 +83,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
