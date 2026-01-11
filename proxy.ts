@@ -7,7 +7,7 @@ const i18nMiddleware = createMiddleware({
   defaultLocale: 'en',
 });
 
-export default function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   // First, handle i18n routing
   const i18nResponse = i18nMiddleware(request);
   if (i18nResponse) {

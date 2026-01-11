@@ -1,6 +1,6 @@
 # Themistoklis Baltzakis - Portfolio Website
 
-A modern portfolio website showcasing AWS Amplify Gen2 capabilities through an integrated todo application. Built with Next.js 15, TypeScript, Tailwind CSS, and featuring real-time GraphQL subscriptions, authentication, and a comprehensive demonstration of full-stack development skills.
+A modern portfolio website showcasing AWS Amplify Gen2 capabilities. Built with Next.js 15, TypeScript, Tailwind CSS, and featuring real-time GraphQL subscriptions, authentication, and a comprehensive demonstration of full-stack development skills.
 
 ## 🚀 Live Demo
 
@@ -11,7 +11,7 @@ Visit the live portfolio at: [https://your-portfolio-domain.com](https://your-po
 This project serves dual purposes:
 
 1. **Professional Portfolio** - Showcasing skills, experience, and projects of Themistoklis Baltzakis, ML/LLM Engineer
-2. **Technical Demonstration** - Interactive todo application demonstrating AWS Amplify Gen2, GraphQL, real-time subscriptions, and modern web development practices
+2. **Technical Demonstration** - Interactive contact form demonstrating AWS Amplify Gen2, GraphQL, real-time subscriptions, and modern web development practices
 
 ## 🛠️ Tech Stack
 
@@ -50,8 +50,6 @@ This project serves dual purposes:
 - **Experience** - Professional work history
 - **Certifications** - Professional credentials and achievements
 - **Contact** - Contact form and social links
-
-### Todo Application Demo
 
 - **User Authentication** - Email/password and social login (Google, GitHub)
 - **Email Verification** - Secure account activation
@@ -176,7 +174,7 @@ npm start
 │   ├── components/        # React components
 │   │   ├── ui/           # Reusable UI components
 │   │   ├── Hero.tsx      # Portfolio hero section
-│   │   ├── TodoList.tsx  # Todo application demo
+│   │   ├── ContactForm.tsx  # Contact form component
 │   │   └── ...           # Other portfolio components
 │   └── lib/               # Utilities and configurations
 │       ├── personal-data.ts # Portfolio content

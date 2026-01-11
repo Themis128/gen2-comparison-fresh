@@ -1,21 +1,11 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 /*== STEP 1 ===============================================================
-The section below creates a Todo database table with a "content" field. Try
-adding a new "isDone" field as a boolean. The authorization rule below
+The section below creates a ContactMessage database table. The authorization rule below
 specifies that any unauthenticated user can "create", "read", "update",
-and "delete" any "Todo" records.
+and "delete" any "ContactMessage" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
-    .model({
-      content: a.string(),
-      isDone: a.boolean().default(false),
-      priority: a.string().default('medium'),
-      category: a.string(),
-      dueDate: a.datetime(),
-    })
-    .authorization((allow) => [allow.publicApiKey()]),
   ContactMessage: a
     .model({
       name: a.string(),
@@ -26,7 +16,11 @@ const schema = a.schema({
       newsletter: a.boolean().default(false),
       recaptchaToken: a.string(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [
+      allow.groups(["ADMIN"]).to(["create", "read", "update", "delete"]),
+      allow.groups(["USER"]).to(["read"]),
+      allow.publicApiKey().to(["create", "read", "update", "delete"]),
+    ]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -66,6 +60,6 @@ Fetch records from the database and use them in your frontend component.
 
 /* For example, in a React component, you can use this snippet in your
   function's RETURN statement */
-// const { data: todos } = await client.models.Todo.list()
+// const { data: contactMessages } = await client.models.ContactMessage.list()
 
-// return <ul>{todos.map(todo => <li key={todo.id}>{todo.content}</li>)}</ul>
+// return <ul>{contactMessages.map(message => <li key={message.id}>{message.subject}</li>)}</ul>

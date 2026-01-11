@@ -115,7 +115,6 @@ module.exports = {
     {
       files: [
         'src/components/Contact.tsx',
-        'src/components/TodoList.tsx',
         'app/test-page/page.tsx',
         'src/components/label.tsx',
       ],
@@ -129,7 +128,6 @@ module.exports = {
     '.next/**',
     '.amplify/**',
     'node_modules/**',
-    'playwright-report/**',
     'test-results/**',
     'amplify/**',
     'coverage/**',

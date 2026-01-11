@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# WSL Setup & Optimization Script for Fresh Gen2 Amplify Todo App
+# WSL Setup WSL Setup & Optimization Script for Fresh Gen2 Amplify Portfolio App Optimization Script for Fresh Gen2 Amplify Portfolio App
 
 echo "🔍 Checking WSL Environment..."
 

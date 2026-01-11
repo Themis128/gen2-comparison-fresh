@@ -14,7 +14,6 @@ amplify_outputs.json
 
 # Test outputs
 coverage/
-playwright-report/
 test-results/
 
 # Package files

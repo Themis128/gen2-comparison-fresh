@@ -1,37 +1,24 @@
 import dynamic from 'next/dynamic';
-import About from '@/components/About';
-import Experience from '@/components/Experience';
-import Hero from '@/components/Hero';
-import Projects from '@/components/Projects';
-import Skills from '@/components/Skills';
-import { personalData } from '@/lib/personal-data';
+import { Metadata } from 'next';
 
-// Dynamically import components that are below the fold for better performance
-const Achievements = dynamic(() => import('@/components/Achievements'), {
+// Dynamic imports for client components
+const Hero = dynamic(() => import('@/components/Hero'), {
   loading: () => <div className="h-32 animate-pulse rounded-lg bg-muted" />,
 });
-const Certifications = dynamic(() => import('@/components/Certifications'), {
+const About = dynamic(() => import('@/components/About'), {
   loading: () => <div className="h-32 animate-pulse rounded-lg bg-muted" />,
 });
-const Contact = dynamic(() => import('@/components/Contact'), {
+const Skills = dynamic(() => import('@/components/Skills'), {
   loading: () => <div className="h-32 animate-pulse rounded-lg bg-muted" />,
 });
-const ContactMessagesManager = dynamic(
-  () =>
-    import('@/components/ContactMessages').then((mod) => ({ default: mod.ContactMessagesManager })),
-  {
-    loading: () => <div className="h-16 animate-pulse rounded bg-muted" />,
-  }
-);
-const TodoManager = dynamic(
-  () => import('@/components/TodoManager').then((mod) => ({ default: mod.TodoManager })),
-  {
-    loading: () => <div className="h-16 animate-pulse rounded bg-muted" />,
-  }
-);
-
+const ContactMessages = dynamic(() => import('@/components/ContactMessages'), {
+  loading: () => <div className="h-32 animate-pulse rounded-lg bg-muted" />,
+});
 // Generate metadata for SEO
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
+  // Dynamic import to get personalData as plain object
+  const { personalData } = await import('@/lib/personal-data');
+  
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -50,11 +37,10 @@ export async function generateMetadata() {
     hasOccupation: {
       '@type': 'Occupation',
       name: personalData.title,
-      skills: personalData.skills,
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': personalData.website,
+      occupationLocation: {
+        '@type': 'City',
+        name: personalData.location,
+      },
     },
   };
 
@@ -84,29 +70,45 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
+  // Dynamic import to get personalData as plain object that can be serialized
+  const { personalData } = await import('@/lib/personal-data');
+  
   console.log('HomePage: personalData loaded:', personalData?.name);
-
+  console.log("About to return JSX");
+  
+  // Create plain objects from personalData properties to avoid module serialization issues
+  const heroData = {
+    name: personalData.name,
+    title: personalData.title,
+    bio: personalData.bio,
+    location: personalData.location,
+    email: personalData.email,
+    phone: personalData.phone,
+    website: personalData.website,
+    twitter: personalData.twitter,
+    linkedin: personalData.linkedin,
+    github: personalData.github,
+  };
+  
+  const aboutData = {
+    bio: personalData.bio,
+    experience: personalData.experience,
+    education: personalData.education,
+    certifications: personalData.certifications,
+  };
+  
+  const skillsData = {
+    skills: personalData.skills,
+    technologies: personalData.technologies,
+  };
+  
   return (
     <main className="min-h-screen">
-      <Hero data={personalData} />
-      <About data={personalData} />
-      <Skills data={personalData} />
-      <Projects data={personalData} />
-      <Experience data={personalData} />
-      <Certifications data={personalData} />
-      <Achievements data={personalData} />
-      <Contact data={personalData} />
-
+      <Hero data={heroData} />
+      <About data={aboutData} />
+      <Skills data={skillsData} />
       {/* Portfolio Management Tools */}
-      <section className="px-4 py-16">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="mb-12 text-center text-3xl font-bold">Portfolio Management</h2>
-          <div className="grid gap-8 md:grid-cols-2">
-            <ContactMessagesManager />
-            <TodoManager />
-          </div>
-        </div>
-      </section>
+      <ContactMessages />
     </main>
   );
 }

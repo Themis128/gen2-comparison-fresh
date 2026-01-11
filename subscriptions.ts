@@ -8,54 +8,66 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
-export const onCreateTodo = /* GraphQL */ `subscription OnCreateTodo($filter: ModelSubscriptionTodoFilterInput) {
-  onCreateTodo(filter: $filter) {
-    category
-    content
+export const onCreateContactMessage = /* GraphQL */ `subscription OnCreateContactMessage(
+  $filter: ModelSubscriptionContactMessageFilterInput
+) {
+  onCreateContactMessage(filter: $filter) {
     createdAt
-    dueDate
+    email
     id
-    isDone
+    message
+    name
+    newsletter
     priority
+    recaptchaToken
+    subject
     updatedAt
     __typename
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateTodoSubscriptionVariables,
-  APITypes.OnCreateTodoSubscription
+  APITypes.OnCreateContactMessageSubscriptionVariables,
+  APITypes.OnCreateContactMessageSubscription
 >;
-export const onDeleteTodo = /* GraphQL */ `subscription OnDeleteTodo($filter: ModelSubscriptionTodoFilterInput) {
-  onDeleteTodo(filter: $filter) {
-    category
-    content
+export const onDeleteContactMessage = /* GraphQL */ `subscription OnDeleteContactMessage(
+  $filter: ModelSubscriptionContactMessageFilterInput
+) {
+  onDeleteContactMessage(filter: $filter) {
     createdAt
-    dueDate
+    email
     id
-    isDone
+    message
+    name
+    newsletter
     priority
+    recaptchaToken
+    subject
     updatedAt
     __typename
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteTodoSubscriptionVariables,
-  APITypes.OnDeleteTodoSubscription
+  APITypes.OnDeleteContactMessageSubscriptionVariables,
+  APITypes.OnDeleteContactMessageSubscription
 >;
-export const onUpdateTodo = /* GraphQL */ `subscription OnUpdateTodo($filter: ModelSubscriptionTodoFilterInput) {
-  onUpdateTodo(filter: $filter) {
-    category
-    content
+export const onUpdateContactMessage = /* GraphQL */ `subscription OnUpdateContactMessage(
+  $filter: ModelSubscriptionContactMessageFilterInput
+) {
+  onUpdateContactMessage(filter: $filter) {
     createdAt
-    dueDate
+    email
     id
-    isDone
+    message
+    name
+    newsletter
     priority
+    recaptchaToken
+    subject
     updatedAt
     __typename
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateTodoSubscriptionVariables,
-  APITypes.OnUpdateTodoSubscription
+  APITypes.OnUpdateContactMessageSubscriptionVariables,
+  APITypes.OnUpdateContactMessageSubscription
 >;

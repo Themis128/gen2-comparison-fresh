@@ -1,4 +1,6 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import type { PersonalData } from '@/lib/personal-data';
 
 import HeroActions from './HeroActions';
@@ -7,12 +9,15 @@ interface HeroProps {
   data: PersonalData;
 }
 
-export default async function Hero({ data }: HeroProps) {
-  const t = await getTranslations('hero');
+export default function Hero({ data }: HeroProps) {
+  console.log("Hero component rendering with data:", data?.name);
+  const t = useTranslations('hero');
 
+  console.log("Hero component about to return JSX");
   return (
     <section
       id="hero"
+      data-testid="hero-section"
       className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-background"
     >
       {/* Techy Background Elements */}
@@ -56,10 +61,6 @@ export default async function Hero({ data }: HeroProps) {
           className="absolute bottom-20 right-1/4 h-16 w-px animate-pulse bg-gradient-to-t from-transparent via-cyan-400/50 to-transparent"
           style={{ animationDelay: '1s' }}
         />
-        <div
-          className="absolute bottom-20 right-1/4 h-16 w-px animate-pulse bg-gradient-to-t from-transparent via-cyan-400/50 to-transparent"
-          style={{ animationDelay: '1s' }}
-        />
         <div className="absolute left-4 top-4 h-2 w-2 animate-pulse rounded-full bg-green-400" />
         <div
           className="absolute right-4 top-4 h-2 w-2 animate-pulse rounded-full bg-blue-400"
@@ -71,7 +72,7 @@ export default async function Hero({ data }: HeroProps) {
       <div className="container mx-auto px-6 py-20">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-8">
-            {t('greeting')}{' '}
+            {t('greeting')} {' '}
             <h1 className="mb-6 text-5xl font-bold text-foreground md:text-7xl">
               <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                 {data.name}

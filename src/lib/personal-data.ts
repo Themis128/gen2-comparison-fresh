@@ -2,18 +2,17 @@ export interface Project {
   id: string;
   title: string;
   description: string;
-  image?: string;
-  github?: string;
+  longDescription?: string;
+  category: string;
+  featured: boolean;
   url?: string;
-  credentialId?: string;
-  featured?: boolean;
-  category?: string;
+  github?: string;
   technologies: string[];
   date?: string;
-  longDescription?: string;
+  image?: string;
   challenges?: string[];
   outcomes?: string[];
-  stats?: string;
+  stats?: any;
 }
 
 export interface PersonalData {
@@ -21,50 +20,12 @@ export interface PersonalData {
   title: string;
   bio: string;
   email: string;
-  phone?: string;
-  location?: string;
-  twitter?: string;
-  linkedin?: string;
-  github?: string;
-  website?: string;
-  skills: string[];
-  experience: {
-    id: string;
-    title: string;
-    company: string;
-    period: string;
-    description: string;
-    location?: string;
-    technologies?: string[];
-  }[];
-  education: {
-    id: string;
-    degree: string;
-    school: string;
-    year: string;
-    description?: string;
-  }[];
-  languages: {
-    id: string;
-    name: string;
-    proficiency: string;
-  }[];
-  projects: Project[];
-  certifications?: {
-    id: string;
-    name: string;
-    issuer: string;
-    date: string;
-    url?: string;
-    credentialId?: string;
-  }[];
-  achievements?: {
-    id: string;
-    title: string;
-    type: string;
-    description: string;
-    date: string;
-  }[];
+  phone: string;
+  location: string;
+  twitter: string;
+  linkedin: string;
+  github: string;
+  website: string;
   profilePicture?: string;
   company?: {
     name: string;
@@ -76,6 +37,13 @@ export interface PersonalData {
     services: string[];
     website: string;
   };
+  skills: string[];
+  projects: Project[];
+  experience: any[];
+  education: any[];
+  languages: any[];
+  certifications: { id: string; name: string; issuer: string; date: string; url: string; credentialId?: string; }[]; // TODO: Define proper type
+  achievements: any[];
 }
 
 export const personalData: PersonalData = {
@@ -103,54 +71,6 @@ export const personalData: PersonalData = {
     'React',
     'Node.js',
   ],
-  experience: [
-    {
-      id: '1',
-      title: 'ML/LLM Engineer',
-      company: 'Tech Company',
-      period: '2023 - Present',
-      description: 'Developing machine learning models and LLM applications.',
-      location: 'Greece',
-      technologies: ['Python', 'TensorFlow', 'AWS'],
-    },
-    {
-      id: '2',
-      title: 'Cloud Solutions Architect',
-      company: 'Cloud Corp',
-      period: '2020 - 2023',
-      description: 'Designing and implementing cloud infrastructure solutions.',
-      location: 'Greece',
-      technologies: ['AWS', 'Terraform', 'Docker'],
-    },
-  ],
-  education: [
-    {
-      id: '1',
-      degree: "Master's in Computer Science",
-      school: 'University of Athens',
-      year: '2015 - 2017',
-      description: 'Specialized in machine learning and data science.',
-    },
-    {
-      id: '2',
-      degree: "Bachelor's in Computer Engineering",
-      school: 'National Technical University',
-      year: '2011 - 2015',
-      description: 'Focus on software engineering and networking.',
-    },
-  ],
-  languages: [
-    {
-      id: '1',
-      name: 'English',
-      proficiency: 'Professional',
-    },
-    {
-      id: '2',
-      name: 'Greek',
-      proficiency: 'Native',
-    },
-  ],
   projects: [
     {
       id: '1',
@@ -172,58 +92,9 @@ export const personalData: PersonalData = {
       technologies: ['Python', 'AWS SageMaker', 'Docker'],
     },
   ],
-  certifications: [
-    {
-      id: '1',
-      name: 'AWS Certified Solutions Architect',
-      issuer: 'Amazon Web Services',
-      date: '2024',
-      url: 'https://aws.amazon.com/certification/',
-      credentialId: 'AWS-123456',
-    },
-    {
-      id: '2',
-      name: 'Cisco Certified Network Associate',
-      issuer: 'Cisco',
-      date: '2023',
-      url: 'https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html',
-      credentialId: 'CCNA-789012',
-    },
-    {
-      id: '3',
-      name: 'Microsoft Azure Fundamentals',
-      issuer: 'Microsoft',
-      date: '2023',
-      url: 'https://learn.microsoft.com/en-us/certifications/azure-fundamentals/',
-      credentialId: 'AZ-900-345678',
-    },
-  ],
-  achievements: [
-    {
-      id: '1',
-      title: 'AWS Community Builder',
-      type: 'Award',
-      description:
-        'Received recognition for outstanding research contribution in machine learning applications',
-      date: '2024',
-    },
-    {
-      id: '2',
-      title: 'Open Source Contributor',
-      type: 'Open Source',
-      description: 'Contributed to major open source projects in the AI/ML ecosystem',
-      date: '2023',
-    },
-    {
-      id: '3',
-      title: 'Tech Conference Speaker',
-      type: 'Speaking',
-      description: 'Presented on advanced cloud architecture and DevOps practices',
-      date: '2023',
-    },
-  ],
+  experience: [],
+  education: [],
+  languages: [],
+  certifications: [],
+  achievements: [],
 };
-
-export function getPersonalDataServer(): PersonalData {
-  return personalData;
-}

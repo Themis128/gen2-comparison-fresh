@@ -9,7 +9,8 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { contactFormSchema, submitContactForm, type ContactFormState } from '@/app/actions';
+import { contactFormSchema, type ContactFormState } from '@/lib/schemas';
+import { submitContactForm } from '@/app/actions';
 
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';

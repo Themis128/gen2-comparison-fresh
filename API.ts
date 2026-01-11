@@ -1,30 +1,34 @@
 /* tslint:disable */
- 
+/* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type Todo = {
-  __typename: "Todo",
-  category?: string | null,
-  content?: string | null,
+export type ContactMessage = {
+  __typename: "ContactMessage",
   createdAt: string,
-  dueDate?: string | null,
+  email?: string | null,
   id: string,
-  isDone?: boolean | null,
+  message?: string | null,
+  name?: string | null,
+  newsletter?: boolean | null,
   priority?: string | null,
+  recaptchaToken?: string | null,
+  subject?: string | null,
   updatedAt: string,
 };
 
-export type ModelTodoFilterInput = {
-  and?: Array< ModelTodoFilterInput | null > | null,
-  category?: ModelStringInput | null,
-  content?: ModelStringInput | null,
+export type ModelContactMessageFilterInput = {
+  and?: Array< ModelContactMessageFilterInput | null > | null,
   createdAt?: ModelStringInput | null,
-  dueDate?: ModelStringInput | null,
+  email?: ModelStringInput | null,
   id?: ModelIDInput | null,
-  isDone?: ModelBooleanInput | null,
-  not?: ModelTodoFilterInput | null,
-  or?: Array< ModelTodoFilterInput | null > | null,
+  message?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  newsletter?: ModelBooleanInput | null,
+  not?: ModelContactMessageFilterInput | null,
+  or?: Array< ModelContactMessageFilterInput | null > | null,
   priority?: ModelStringInput | null,
+  recaptchaToken?: ModelStringInput | null,
+  subject?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
@@ -91,57 +95,65 @@ export type ModelBooleanInput = {
   ne?: boolean | null,
 };
 
-export type ModelTodoConnection = {
-  __typename: "ModelTodoConnection",
-  items:  Array<Todo | null >,
+export type ModelContactMessageConnection = {
+  __typename: "ModelContactMessageConnection",
+  items:  Array<ContactMessage | null >,
   nextToken?: string | null,
 };
 
-export type ModelTodoConditionInput = {
-  and?: Array< ModelTodoConditionInput | null > | null,
-  category?: ModelStringInput | null,
-  content?: ModelStringInput | null,
+export type ModelContactMessageConditionInput = {
+  and?: Array< ModelContactMessageConditionInput | null > | null,
   createdAt?: ModelStringInput | null,
-  dueDate?: ModelStringInput | null,
-  isDone?: ModelBooleanInput | null,
-  not?: ModelTodoConditionInput | null,
-  or?: Array< ModelTodoConditionInput | null > | null,
+  email?: ModelStringInput | null,
+  message?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  newsletter?: ModelBooleanInput | null,
+  not?: ModelContactMessageConditionInput | null,
+  or?: Array< ModelContactMessageConditionInput | null > | null,
   priority?: ModelStringInput | null,
+  recaptchaToken?: ModelStringInput | null,
+  subject?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
-export type CreateTodoInput = {
-  category?: string | null,
-  content?: string | null,
-  dueDate?: string | null,
+export type CreateContactMessageInput = {
+  email?: string | null,
   id?: string | null,
-  isDone?: boolean | null,
+  message?: string | null,
+  name?: string | null,
+  newsletter?: boolean | null,
   priority?: string | null,
+  recaptchaToken?: string | null,
+  subject?: string | null,
 };
 
-export type DeleteTodoInput = {
+export type DeleteContactMessageInput = {
   id: string,
 };
 
-export type UpdateTodoInput = {
-  category?: string | null,
-  content?: string | null,
-  dueDate?: string | null,
+export type UpdateContactMessageInput = {
+  email?: string | null,
   id: string,
-  isDone?: boolean | null,
+  message?: string | null,
+  name?: string | null,
+  newsletter?: boolean | null,
   priority?: string | null,
+  recaptchaToken?: string | null,
+  subject?: string | null,
 };
 
-export type ModelSubscriptionTodoFilterInput = {
-  and?: Array< ModelSubscriptionTodoFilterInput | null > | null,
-  category?: ModelSubscriptionStringInput | null,
-  content?: ModelSubscriptionStringInput | null,
+export type ModelSubscriptionContactMessageFilterInput = {
+  and?: Array< ModelSubscriptionContactMessageFilterInput | null > | null,
   createdAt?: ModelSubscriptionStringInput | null,
-  dueDate?: ModelSubscriptionStringInput | null,
+  email?: ModelSubscriptionStringInput | null,
   id?: ModelSubscriptionIDInput | null,
-  isDone?: ModelSubscriptionBooleanInput | null,
-  or?: Array< ModelSubscriptionTodoFilterInput | null > | null,
+  message?: ModelSubscriptionStringInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  newsletter?: ModelSubscriptionBooleanInput | null,
+  or?: Array< ModelSubscriptionContactMessageFilterInput | null > | null,
   priority?: ModelSubscriptionStringInput | null,
+  recaptchaToken?: ModelSubscriptionStringInput | null,
+  subject?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
 };
 
@@ -180,155 +192,171 @@ export type ModelSubscriptionBooleanInput = {
   ne?: boolean | null,
 };
 
-export type GetTodoQueryVariables = {
+export type GetContactMessageQueryVariables = {
   id: string,
 };
 
-export type GetTodoQuery = {
-  getTodo?:  {
-    __typename: "Todo",
-    category?: string | null,
-    content?: string | null,
+export type GetContactMessageQuery = {
+  getContactMessage?:  {
+    __typename: "ContactMessage",
     createdAt: string,
-    dueDate?: string | null,
+    email?: string | null,
     id: string,
-    isDone?: boolean | null,
+    message?: string | null,
+    name?: string | null,
+    newsletter?: boolean | null,
     priority?: string | null,
+    recaptchaToken?: string | null,
+    subject?: string | null,
     updatedAt: string,
   } | null,
 };
 
-export type ListTodosQueryVariables = {
-  filter?: ModelTodoFilterInput | null,
+export type ListContactMessagesQueryVariables = {
+  filter?: ModelContactMessageFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListTodosQuery = {
-  listTodos?:  {
-    __typename: "ModelTodoConnection",
+export type ListContactMessagesQuery = {
+  listContactMessages?:  {
+    __typename: "ModelContactMessageConnection",
     items:  Array< {
-      __typename: "Todo",
-      category?: string | null,
-      content?: string | null,
+      __typename: "ContactMessage",
       createdAt: string,
-      dueDate?: string | null,
+      email?: string | null,
       id: string,
-      isDone?: boolean | null,
+      message?: string | null,
+      name?: string | null,
+      newsletter?: boolean | null,
       priority?: string | null,
+      recaptchaToken?: string | null,
+      subject?: string | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
   } | null,
 };
 
-export type CreateTodoMutationVariables = {
-  condition?: ModelTodoConditionInput | null,
-  input: CreateTodoInput,
+export type CreateContactMessageMutationVariables = {
+  condition?: ModelContactMessageConditionInput | null,
+  input: CreateContactMessageInput,
 };
 
-export type CreateTodoMutation = {
-  createTodo?:  {
-    __typename: "Todo",
-    category?: string | null,
-    content?: string | null,
+export type CreateContactMessageMutation = {
+  createContactMessage?:  {
+    __typename: "ContactMessage",
     createdAt: string,
-    dueDate?: string | null,
+    email?: string | null,
     id: string,
-    isDone?: boolean | null,
+    message?: string | null,
+    name?: string | null,
+    newsletter?: boolean | null,
     priority?: string | null,
+    recaptchaToken?: string | null,
+    subject?: string | null,
     updatedAt: string,
   } | null,
 };
 
-export type DeleteTodoMutationVariables = {
-  condition?: ModelTodoConditionInput | null,
-  input: DeleteTodoInput,
+export type DeleteContactMessageMutationVariables = {
+  condition?: ModelContactMessageConditionInput | null,
+  input: DeleteContactMessageInput,
 };
 
-export type DeleteTodoMutation = {
-  deleteTodo?:  {
-    __typename: "Todo",
-    category?: string | null,
-    content?: string | null,
+export type DeleteContactMessageMutation = {
+  deleteContactMessage?:  {
+    __typename: "ContactMessage",
     createdAt: string,
-    dueDate?: string | null,
+    email?: string | null,
     id: string,
-    isDone?: boolean | null,
+    message?: string | null,
+    name?: string | null,
+    newsletter?: boolean | null,
     priority?: string | null,
+    recaptchaToken?: string | null,
+    subject?: string | null,
     updatedAt: string,
   } | null,
 };
 
-export type UpdateTodoMutationVariables = {
-  condition?: ModelTodoConditionInput | null,
-  input: UpdateTodoInput,
+export type UpdateContactMessageMutationVariables = {
+  condition?: ModelContactMessageConditionInput | null,
+  input: UpdateContactMessageInput,
 };
 
-export type UpdateTodoMutation = {
-  updateTodo?:  {
-    __typename: "Todo",
-    category?: string | null,
-    content?: string | null,
+export type UpdateContactMessageMutation = {
+  updateContactMessage?:  {
+    __typename: "ContactMessage",
     createdAt: string,
-    dueDate?: string | null,
+    email?: string | null,
     id: string,
-    isDone?: boolean | null,
+    message?: string | null,
+    name?: string | null,
+    newsletter?: boolean | null,
     priority?: string | null,
+    recaptchaToken?: string | null,
+    subject?: string | null,
     updatedAt: string,
   } | null,
 };
 
-export type OnCreateTodoSubscriptionVariables = {
-  filter?: ModelSubscriptionTodoFilterInput | null,
+export type OnCreateContactMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionContactMessageFilterInput | null,
 };
 
-export type OnCreateTodoSubscription = {
-  onCreateTodo?:  {
-    __typename: "Todo",
-    category?: string | null,
-    content?: string | null,
+export type OnCreateContactMessageSubscription = {
+  onCreateContactMessage?:  {
+    __typename: "ContactMessage",
     createdAt: string,
-    dueDate?: string | null,
+    email?: string | null,
     id: string,
-    isDone?: boolean | null,
+    message?: string | null,
+    name?: string | null,
+    newsletter?: boolean | null,
     priority?: string | null,
+    recaptchaToken?: string | null,
+    subject?: string | null,
     updatedAt: string,
   } | null,
 };
 
-export type OnDeleteTodoSubscriptionVariables = {
-  filter?: ModelSubscriptionTodoFilterInput | null,
+export type OnDeleteContactMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionContactMessageFilterInput | null,
 };
 
-export type OnDeleteTodoSubscription = {
-  onDeleteTodo?:  {
-    __typename: "Todo",
-    category?: string | null,
-    content?: string | null,
+export type OnDeleteContactMessageSubscription = {
+  onDeleteContactMessage?:  {
+    __typename: "ContactMessage",
     createdAt: string,
-    dueDate?: string | null,
+    email?: string | null,
     id: string,
-    isDone?: boolean | null,
+    message?: string | null,
+    name?: string | null,
+    newsletter?: boolean | null,
     priority?: string | null,
+    recaptchaToken?: string | null,
+    subject?: string | null,
     updatedAt: string,
   } | null,
 };
 
-export type OnUpdateTodoSubscriptionVariables = {
-  filter?: ModelSubscriptionTodoFilterInput | null,
+export type OnUpdateContactMessageSubscriptionVariables = {
+  filter?: ModelSubscriptionContactMessageFilterInput | null,
 };
 
-export type OnUpdateTodoSubscription = {
-  onUpdateTodo?:  {
-    __typename: "Todo",
-    category?: string | null,
-    content?: string | null,
+export type OnUpdateContactMessageSubscription = {
+  onUpdateContactMessage?:  {
+    __typename: "ContactMessage",
     createdAt: string,
-    dueDate?: string | null,
+    email?: string | null,
     id: string,
-    isDone?: boolean | null,
+    message?: string | null,
+    name?: string | null,
+    newsletter?: boolean | null,
     priority?: string | null,
+    recaptchaToken?: string | null,
+    subject?: string | null,
     updatedAt: string,
   } | null,
 };

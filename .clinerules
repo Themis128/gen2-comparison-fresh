@@ -1,9 +1,9 @@
-# Cline Project Rules - Fresh Gen2 Amplify Todo App
+# Cline Project Rules - Fresh Gen2 Amplify Portfolio App
 
 This file provides context for the Cline extension to work effectively with this project.
 
 ## Project Overview
-- **Name**: Fresh Gen2 Amplify Todo App
+- **Name**: Fresh Gen2 Amplify Portfolio App
 - **Root Directory**: `/home/tbaltzakis/gen2-comparison-fresh`
 - **Environment**: WSL2 (Linux/Ubuntu)
 - **Framework**: Next.js 15 (App Router)

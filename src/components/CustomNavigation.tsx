@@ -62,16 +62,16 @@ const Navigation: React.FC<NavigationProps> = React.memo(
     // Memoized navigation items to prevent unnecessary recalculations
     const navItems = useMemo((): NavItem[] => {
       // Portfolio/Home page - use scrolling navigation
-      if (pathname === '/') {
+      if (pathname === '/' || pathname === '/en' || pathname === '/el') {
         return [
-          { label: t('home'), type: 'route', href: '/app', protected: false },
-          { label: t('about'), type: 'route', href: '/app#about', protected: false },
-          { label: 'Skills', type: 'route', href: '/app#skills', protected: false },
-          { label: t('experience'), type: 'route', href: '/app#experience', protected: false },
-          { label: 'Certifications', type: 'route', href: '/app#certifications', protected: false },
-          { label: 'Languages', type: 'route', href: '/app#languages', protected: false },
-          { label: 'Achievements', type: 'route', href: '/app#achievements', protected: false },
-          { label: t('contact'), type: 'route', href: '/app#contact', protected: false },
+          { label: t('home'), type: 'scroll', sectionId: 'hero', protected: false },
+          { label: t('about'), type: 'scroll', sectionId: 'about', protected: false },
+          { label: 'Skills', type: 'scroll', sectionId: 'skills', protected: false },
+          { label: t('experience'), type: 'scroll', sectionId: 'experience', protected: false },
+          { label: 'Certifications', type: 'scroll', sectionId: 'certifications', protected: false },
+          { label: 'Languages', type: 'scroll', sectionId: 'languages', protected: false },
+          { label: 'Achievements', type: 'scroll', sectionId: 'achievements', protected: false },
+          { label: t('contact'), type: 'scroll', sectionId: 'contact', protected: false },
         ];
       }
 
@@ -95,24 +95,24 @@ const Navigation: React.FC<NavigationProps> = React.memo(
 
       // Admin pages - show admin navigation
       if (pathname.startsWith('/admin')) {
-        return [{ label: 'Portfolio', type: 'route', href: '/app', protected: false }];
+        return [{ label: 'Portfolio', type: 'route', href: pathname.startsWith('/en') ? '/en' : pathname.startsWith('/el') ? '/el' : '/en', protected: false }];
       }
 
       // Projects page
       if (pathname === '/projects') {
         return [
-          { label: 'Portfolio', type: 'route', href: '/app', protected: false },
+          { label: 'Portfolio', type: 'route', href: pathname.startsWith('/en') ? '/en' : pathname.startsWith('/el') ? '/el' : '/en', protected: false },
           { label: 'All Projects', type: 'scroll', sectionId: 'projects', protected: false },
         ];
       }
 
       // Default navigation for other pages
-      return [{ label: 'Portfolio', type: 'route', href: '/app', protected: false }];
+      return [{ label: 'Portfolio', type: 'route', href: pathname.startsWith('/en') ? '/en' : pathname.startsWith('/el') ? '/el' : '/en', protected: false }];
     }, [pathname]);
 
     // Optimized logo click handler
     const handleLogoClick = useCallback(() => {
-      router.push('/app');
+      router.push(pathname.startsWith('/en') ? '/en' : pathname.startsWith('/el') ? '/el' : '/en');
     }, [router]);
 
     // Handle hash-based navigation on page load - optimized

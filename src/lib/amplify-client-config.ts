@@ -14,13 +14,9 @@ const configureAmplify = (): void => {
   if (isConfigured) return;
 
   try {
-    // Remove auth from outputs for client-side config since we removed auth
-    const clientOutputs = { ...outputs };
-    delete (clientOutputs as any).auth;
-
-    Amplify.configure(clientOutputs, { ssr: true });
+    Amplify.configure(outputs, { ssr: true });
     isConfigured = true;
-    console.warn(`✅ Amplify configured successfully for runtime (without auth)`);
+    console.warn(`✅ Amplify configured successfully`);
   } catch (error) {
     console.error('❌ Failed to configure Amplify:', error);
     // Don't throw here as this might be expected during build time
@@ -43,13 +39,9 @@ export const ensureAmplifyConfigured = async (): Promise<void> => {
   if (isConfigured) return;
 
   try {
-    // Remove auth from outputs for client-side config since we removed auth from backend
-    const clientOutputs = { ...outputs };
-    delete (clientOutputs as any).auth;
-
-    Amplify.configure(clientOutputs, { ssr: true });
+    Amplify.configure(outputs, { ssr: true });
     isConfigured = true;
-    console.warn(`✅ Amplify configured successfully (without auth)`);
+    console.warn(`✅ Amplify configured successfully`);
   } catch (error) {
     console.error('❌ Failed to configure Amplify:', error);
     // Don't throw - allow component to render even if config fails

@@ -21,7 +21,7 @@ interface ContactMessage {
   updatedAt?: string;
 }
 
-export function ContactMessagesManager() {
+export default function ContactMessages() {
   const queryClient = useQueryClient();
   const [selectedMessage, setSelectedMessage] = React.useState<ContactMessage | null>(null);
 

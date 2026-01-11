@@ -1,8 +1,11 @@
-// import { withSentryConfig } from '@sentry/nextjs';
 import createNextIntlPlugin from 'next-intl/plugin';
 
+const withNextIntl = createNextIntlPlugin('./i18n.ts');
+// import { withSentryConfig } from '@sentry/nextjs';
+
+
 /** @type {import('next').NextConfig} */
-const withNextIntl = createNextIntlPlugin();
+
 
 const nextConfig = {
   // Transpile AWS Amplify packages for compatibility
@@ -72,10 +75,10 @@ const nextConfig = {
     },
   }),
 
-  // Turbopack configuration - disabled due to build issues
-  // turbopack: {
-  //   root: '/home/tbaltzakis/gen2-comparison-fresh',
-  // },
+  // Turbopack configuration
+turbopack: {
+  root: '/home/tbaltzakis/gen2-comparison-fresh',
+},
 
   // Experimental features
   experimental: {

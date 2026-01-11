@@ -1,7 +1,7 @@
 {
-  "name": "Cloudless.gr - AWS Amplify Gen2 Todo App",
+  "name": "Cloudless.gr - AWS Amplify Gen2 Portfolio",
   "short_name": "Cloudless",
-  "description": "Modern, full-stack todo application built with AWS Amplify Gen2, Next.js 15, TypeScript, and Tailwind CSS",
+  "description": "Modern portfolio website built with AWS Amplify Gen2, Next.js 15, TypeScript, and Tailwind CSS",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -38,9 +38,6 @@
   ],
   "shortcuts": [
     {
-      "name": "Add Todo",
-      "short_name": "Add",
-      "description": "Quickly add a new todo item",
       "url": "/?action=add",
       "icons": [
         {
